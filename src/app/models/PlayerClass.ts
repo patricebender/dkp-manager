@@ -1,11 +1,11 @@
-enum PlayerClass {
-    Rogue = 1,
-    Shaman = 2,
-    Warlock = 3,
-    Warrior = 4,
-    Druid = 5,
-    Mage = 6,
-    Hunter = 7,
-    Priest = 8,
-    Paladin = 9,
+export enum PlayerClass {
+    Rogue = "Rogue" ,
+    Shaman = "Shaman",
+    Warlock = "Warlock",
+    Warrior = "Warrior" ,
+    Druid = "Druid",
+    Mage = "Mage",
+    Hunter = "Hunter" ,
+    Priest = "Priest",
+    Paladin = "Paladin",
 };

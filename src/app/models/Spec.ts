@@ -1,5 +1,5 @@
-export enum Specc {
-    DD ,
-    Heal ,
-    Tank ,
+export enum Spec {
+    DD = 'DD',
+    Heal = 'Heal',
+    Tank = 'Tank',
 }

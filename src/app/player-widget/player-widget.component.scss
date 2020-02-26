@@ -1,0 +1,17 @@
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.content {
+  flex: 0 0 120px;
+}
+
+.vertical-align-content > *
+{
+  display: flex!important;
+  align-content: center!important;
+  align-items: center!important;
+}
+

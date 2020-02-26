@@ -24,3 +24,85 @@
 @import "~@ionic/angular/css/text-alignment.css";
 @import "~@ionic/angular/css/text-transformation.css";
 @import "~@ionic/angular/css/flex-utils.css";
+
+
+
+.rogueBackground {
+  background-color: #FFF569;
+}
+
+.druidBackground {
+  background-color: #FF7D0A;
+}
+
+.hunterBackground {
+  background-color: #ABD473;
+}
+
+.mageBackground  {
+  background-color: #69CCF0;
+}
+
+.paladinBackground {
+  background-color: #F58CBA;
+}
+
+.priestBackground {
+  background-color: #FFFFFf;
+}
+
+.shamanBackground {
+  background-color: #0070DE;
+}
+
+
+.warlockBackground  {
+  background-color: #9482C9;
+}
+
+.warriorBackground  {
+  background-color: #C79C6E;
+}
+
+.rogue {
+  color: #FFF569;
+}
+
+.druid {
+  color: #FF7D0A;
+}
+
+.hunter {
+  color: #ABD473;
+}
+
+.mage {
+  color: #69CCF0;
+}
+
+.paladin{
+  color: #F58CBA;
+}
+
+.priest{
+  color: #FFFFFf;
+}
+
+.shaman{
+  color: #0070DE;
+}
+
+
+.warlock {
+  color: #9482C9;
+}
+
+.warrior {
+  color: #C79C6E;
+}
+
+
+
+.classButton {
+  background: var(--background-color);
+}
