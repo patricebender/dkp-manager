@@ -15,6 +15,7 @@ import {ChangeUserComponent} from '../change-user/change-user.component';
     styleUrls: ['./player-widget.component.scss'],
 })
 export class PlayerWidgetComponent implements OnInit {
+    private isModalPresent: boolean;
     get player(): Player {
         return Settings.Instance.player;
     }
@@ -64,20 +65,25 @@ export class PlayerWidgetComponent implements OnInit {
     }
 
     async showCreateProfileModal() {
+        if(this.isModalPresent) return;
         const modal = await this.modalController.create({
             component: CreateUserComponent,
             componentProps: {
                 'player': await this.oktaAuth.getUser()
             }
         });
-        await modal.present;
+        await modal.present();
+        this.isModalPresent = true;
         modal.onDidDismiss().then(() => {
             this.updatePlayer();
+            this.isModalPresent = false;
         });
     }
 
 
     async showChangeUserModal() {
+        if(this.isModalPresent) return;
+        this.isModalPresent = true;
         const modal = await this.modalController.create({
             component: ChangeUserComponent,
             componentProps: {
@@ -87,6 +93,7 @@ export class PlayerWidgetComponent implements OnInit {
         await modal.present();
         modal.onDidDismiss().then(() => {
             this.updatePlayer();
+            this.isModalPresent = false;
         });
     }
 }
