@@ -1,26 +1,33 @@
 <ion-content>
-  <ion-grid *ngIf="player">
+    <ion-grid *ngIf="player">
         <ion-row>
-          <ion-col>
-            <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="player.isAdmin" color="{{player.playerClass.toString().toLowerCase()}}" expand="block">
-              <strong>
-                Neuen Raid erstellen
-              </strong>
-            </ion-button>
-          </ion-col>
-
+            <ion-col>
+                <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="player.isAdmin"
+                            color="{{player.playerClass.toString().toLowerCase()}}" expand="block">
+                    <strong>
+                        Neuen Raid erstellen
+                    </strong>
+                </ion-button>
+            </ion-col>
         </ion-row>
-        <ion-row *ngFor="let raid of raids">
-          <ion-col>
-            {{raid.dungeonName}}
-          </ion-col>
-          <ion-col>
-            {{raid.registrations.length || 0}} / 40 Anmeldungen
-          </ion-col>
-          <ion-col>
+        <ion-card class="vertical-align-content"   *ngFor="let raid of raids">
+            <ion-row>
+                <ion-col>
+                    {{raid.dungeonName}}
+                </ion-col>
+                <ion-col>
+                    {{raid.registrations.length || 0}} / 40 Anmeldungen
+                </ion-col>
+                <ion-col>
+                    <ion-datetime style="color: red" disabled="true" displayFormat="HH:mm DDDD, MMM D" value="{{raid.date}}">
 
-            {{raid.registrationDeadline.getDate()}}
-          </ion-col>
-        </ion-row>
-      </ion-grid>
+                    </ion-datetime>
+
+                </ion-col>
+            </ion-row>
+
+        </ion-card>
+
+
+    </ion-grid>
 </ion-content>
