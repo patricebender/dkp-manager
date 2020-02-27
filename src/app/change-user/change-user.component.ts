@@ -1,20 +1,23 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {ModalController, ToastController} from '@ionic/angular';
-import {PlayerClass} from '../models/PlayerClass';
 import {Spec} from '../models/Spec';
-
-import {OktaAuthService} from '@okta/okta-angular';
+import {PlayerClass} from '../models/PlayerClass';
+import {ModalController, ToastController, NavController} from '@ionic/angular';
 import {Player} from '../models/Player';
-
+import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {Backend} from '../Backend';
+import {Settings} from '../Settings';
+import {Observable} from 'rxjs';
+import {PlayerWidgetComponent} from '../player-widget/player-widget.component';
+
 
 @Component({
-    selector: 'app-create-user',
-    templateUrl: './create-user.component.html',
-    styleUrls: ['./create-user.component.scss'],
+    selector: 'app-change-user',
+    templateUrl: './change-user.component.html',
+    styleUrls: ['./change-user.component.scss'],
 })
-export class CreateUserComponent implements OnInit {
+export class ChangeUserComponent implements OnInit {
+
     get spec(): Spec {
         return this._spec;
     }
@@ -50,14 +53,15 @@ export class CreateUserComponent implements OnInit {
     }
 
 
-    @Input() modalController: ModalController;
     @Input() player: Player;
+    @Input() parent: PlayerWidgetComponent;
 
     private _playerClass: PlayerClass;
     private _spec: Spec;
 
     constructor(private oktaAuth: OktaAuthService, private http: HttpClient
-    ,private toastController: ToastController
+        , private toastController: ToastController,
+                private modalController: ModalController
     ) {
     }
 
@@ -65,9 +69,8 @@ export class CreateUserComponent implements OnInit {
     }
 
     dismiss() {
-        this.modalController.dismiss({
-            'dismissed': true
-        });
+        this.parent.updatePlayer();
+        this.modalController.dismiss();
     }
 
     async presentToast(msg) {
@@ -87,25 +90,26 @@ export class CreateUserComponent implements OnInit {
         this.spec = <Spec> Spec[e.detail.value];
     }
 
-    logout(){
-        this.oktaAuth.logout("/tabs")
+    logout() {
+        this.oktaAuth.logout('/tabs');
     }
 
 
-    async postUser() {
+    async patchUser() {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
         this.player.spec = this.spec;
         this.player.playerClass = this.playerClass;
-
-        this.http.post(Backend.address + '/player', this.player, options)
+        this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
-                console.log("user creation successful!", data);
-                this.presentToast("Yeah "+ this.player.ingameName  +", dein Charakter wurde erstellt!")
+                console.log('user update successful!', data);
+                this.presentToast('Yeah ' + this.player.ingameName + ', dein Charakter wurde aktualisiert!');
+                this.dismiss();
             }, (e) => {
                 console.log(e);
-                this.presentToast("Da ist wohl was schiefgegangen 🤮")
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
     }
+
 }

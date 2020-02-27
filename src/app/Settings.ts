@@ -2,6 +2,10 @@ import {Player} from './models/Player';
 import {HttpHeaders} from '@angular/common/http';
 
 import {OktaAuthService} from '@okta/okta-angular';
+import {Observable} from 'rxjs';
+import {Backend} from './Backend';
+import {CreateUserComponent} from './create-user/create-user.component';
+import {ModalController} from '@ionic/angular';
 
 export class Settings {
 
@@ -19,10 +23,9 @@ export class Settings {
 
     player: Player;
     private _isAuthenticated: boolean;
+    private oktaAuth: OktaAuthService;
 
-    private constructor() {
-
-    }
+    private constructor() {}
 
 
 

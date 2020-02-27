@@ -25,7 +25,7 @@ export class TabsPage {
             (isAuthenticated: boolean) => {
                 this.isAuthenticated = isAuthenticated;
                 if (!this.isAuthenticated) {
-                    this.oktaAuth.loginRedirect('/tabs');
+                    this.oktaAuth.loginRedirect('/tabs/raids');
                 }
             }
         );
@@ -37,7 +37,7 @@ export class TabsPage {
 
     logout() {
         Settings.Instance.player = null;
-        this.oktaAuth.logout('/tabs');
+        this.oktaAuth.logout('/tabs/raids');
     }
 
 

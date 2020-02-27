@@ -1,5 +1,12 @@
 <ion-grid class="vertical-align-content">
     <ion-row *ngIf="player" class="ion-justify-content-center ion-align-items-center">
+        <ion-col>
+            <ion-button (click)="this.showChangeUserModal()" color="{{player.playerClass.toString().toLowerCase()}}">
+                <ion-icon type="round" name="hammer-outline" >
+
+                </ion-icon>
+            </ion-button>
+        </ion-col>
         <ion-col size="3">
             <ion-text style="font-size: 1.8em">
                 {{player.ingameName}}
@@ -11,7 +18,7 @@
                 </ion-text>
             </ion-text>
         </ion-col>
-        <ion-col size="4">
+        <ion-col size="3">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                     {{player.playerClass}}

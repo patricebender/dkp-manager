@@ -7,6 +7,7 @@ import {Backend} from '../Backend';
 import {ModalController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
+import {ChangeUserComponent} from '../change-user/change-user.component';
 
 @Component({
     selector: 'app-player-widget',
@@ -26,6 +27,10 @@ export class PlayerWidgetComponent implements OnInit {
     }
 
     async ngOnInit() {
+        await this.updatePlayer();
+    }
+
+    public async updatePlayer() {
         const token = await this.oktaAuth.getAccessToken();
         const user = await this.oktaAuth.getUser();
 
@@ -52,7 +57,10 @@ export class PlayerWidgetComponent implements OnInit {
                     }
                 );
         }
+    }
 
+    private async getPlayerRequest(user, token): Promise<Observable<any>> {
+        return this.http.get<Player>(Backend.address + '/player' + user.mail, await Backend.getHttpOptions(token));
     }
 
     async showCreateProfileModal() {
@@ -63,14 +71,26 @@ export class PlayerWidgetComponent implements OnInit {
                 'player': await this.oktaAuth.getUser()
             }
         });
+
+        modal.onDidDismiss().then(() => {
+            console.log('The result:');
+        });
         return await modal.present();
     }
 
-    private async getPlayerRequest(user, token): Promise<Observable<any>> {
-        return this.http.get<Player>(Backend.address + '/player' + user.mail, await Backend.getHttpOptions(token));
+
+    async showChangeUserModal() {
+        const modal = await this.modalController.create({
+            component: ChangeUserComponent,
+            componentProps: {
+                'modalController': this.modalController,
+                'player': await this.oktaAuth.getUser(),
+                // used to call updatePlayer after closing modal
+                'parent': this
+            }
+        });
 
 
+        return await modal.present();
     }
-
-
 }

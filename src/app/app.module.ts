@@ -17,6 +17,7 @@ import {
     OktaCallbackComponent,
 } from '@okta/okta-angular';
 import {CreateUserComponent} from './create-user/create-user.component';
+import {ChangeUserComponent} from './change-user/change-user.component';
 
 const config = {
     issuer: 'https://dev-181790.okta.com/oauth2/default',
@@ -35,8 +36,8 @@ const appRoutes: Routes = [
 
 
 @NgModule({
-    declarations: [AppComponent, CreateUserComponent],
-    entryComponents: [
+    declarations: [AppComponent, CreateUserComponent, ChangeUserComponent],
+    entryComponents: [ChangeUserComponent,
 CreateUserComponent
     ],
     imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(),
