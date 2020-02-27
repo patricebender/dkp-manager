@@ -20,6 +20,22 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'tabs',
+    component: TabsPage,
+    children: [
+      {
+        path: 'guild',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+                import('../guild/guild.module').then(m => m.GuildPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '',
     redirectTo: '/tabs/raids',
     pathMatch: 'full'

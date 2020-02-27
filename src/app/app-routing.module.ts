@@ -9,6 +9,10 @@ const routes: Routes = [
   {
     path: 'raids',
     loadChildren: () => import('./raids/raids.module').then( m => m.RaidsPageModule)
+  },
+  {
+    path: 'guild',
+    loadChildren: () => import('./guild/guild.module').then( m => m.GuildPageModule)
   }
 ];
 @NgModule({

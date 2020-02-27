@@ -23,11 +23,8 @@ export class Settings {
 
     player: Player;
     private _isAuthenticated: boolean;
-    private oktaAuth: OktaAuthService;
 
     private constructor() {}
-
-
 
 
     public static get Instance() {

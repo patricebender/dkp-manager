@@ -1,5 +1,6 @@
 import {HttpHeaders, HttpParams} from '@angular/common/http';
 import {OktaAuthService} from '@okta/okta-angular';
+import {environment} from '../environments/environment';
 
 export class Backend {
 
@@ -12,7 +13,7 @@ export class Backend {
     }
 
     private static PORT = '3000';
-    private static _address = 'http://localhost:' + Backend.PORT;
+    private static _address =  environment.production ? 'https://dkp-api.herokuapp.com' : 'http://localhost:' + Backend.PORT;
 
 
     static async getHttpOptions(token: any) {

@@ -67,15 +67,13 @@ export class PlayerWidgetComponent implements OnInit {
         const modal = await this.modalController.create({
             component: CreateUserComponent,
             componentProps: {
-                'modalController': this.modalController,
                 'player': await this.oktaAuth.getUser()
             }
         });
-
+        await modal.present;
         modal.onDidDismiss().then(() => {
-            console.log('The result:');
+            this.updatePlayer();
         });
-        return await modal.present();
     }
 
 
@@ -83,14 +81,12 @@ export class PlayerWidgetComponent implements OnInit {
         const modal = await this.modalController.create({
             component: ChangeUserComponent,
             componentProps: {
-                'modalController': this.modalController,
                 'player': await this.oktaAuth.getUser(),
-                // used to call updatePlayer after closing modal
-                'parent': this
             }
         });
-
-
-        return await modal.present();
+        await modal.present();
+        modal.onDidDismiss().then(() => {
+            this.updatePlayer();
+        });
     }
 }

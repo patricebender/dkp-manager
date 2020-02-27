@@ -11,9 +11,9 @@
 
 
                 <ion-col
-                        *ngIf="isAuthenticated && player" (click)="logout()"
+                        *ngIf="isAuthenticated" (click)="logout()"
                         class="ion-float-right">
-                    <ion-button class="ion-float-right" color="{{player.playerClass.toString().toLowerCase()}}">
+                    <ion-button class="ion-float-right" color="blue">
                         <strong>Logout</strong>
                     </ion-button>
                 </ion-col>
@@ -35,7 +35,11 @@
         <ion-tab-bar slot="top">
             <ion-tab-button [ngClass]="player.playerClass.toString().toLowerCase()"  tab="raids">
                 <ion-icon name="person-circle-outline"></ion-icon>
-                <ion-label>Raids</ion-label>
+                <ion-label>Raid Planer</ion-label>
+            </ion-tab-button>
+            <ion-tab-button [ngClass]="player.playerClass.toString().toLowerCase()"  tab="guild">
+                <ion-icon name="person-circle-outline"></ion-icon>
+                <ion-label>Gildenübersicht</ion-label>
             </ion-tab-button>
         </ion-tab-bar>
     </ion-tabs>

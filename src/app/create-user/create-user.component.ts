@@ -8,6 +8,7 @@ import {Player} from '../models/Player';
 
 import {HttpClient} from '@angular/common/http';
 import {Backend} from '../Backend';
+import {PlayerWidgetComponent} from '../player-widget/player-widget.component';
 
 @Component({
     selector: 'app-create-user',
@@ -50,14 +51,14 @@ export class CreateUserComponent implements OnInit {
     }
 
 
-    @Input() modalController: ModalController;
     @Input() player: Player;
 
     private _playerClass: PlayerClass;
     private _spec: Spec;
 
     constructor(private oktaAuth: OktaAuthService, private http: HttpClient
-    ,private toastController: ToastController
+    ,private toastController: ToastController,
+                private modalController: ModalController
     ) {
     }
 
@@ -65,9 +66,7 @@ export class CreateUserComponent implements OnInit {
     }
 
     dismiss() {
-        this.modalController.dismiss({
-            'dismissed': true
-        });
+        this.modalController.dismiss();
     }
 
     async presentToast(msg) {
@@ -99,9 +98,11 @@ export class CreateUserComponent implements OnInit {
         this.player.spec = this.spec;
         this.player.playerClass = this.playerClass;
 
+        console.log(Backend.address + '/player')
         this.http.post(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log("user creation successful!", data);
+                this.dismiss();
                 this.presentToast("Yeah "+ this.player.ingameName  +", dein Charakter wurde erstellt!")
             }, (e) => {
                 console.log(e);

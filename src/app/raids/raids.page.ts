@@ -22,11 +22,12 @@ export class RaidsPage implements OnInit {
   constructor(private http: HttpClient, private oktaAuth: OktaAuthService) { }
 
   ngOnInit() {
-
+      console.log("RAIDS ENTERED")
   }
 
 
   async ionViewDidEnter() {
+
     let raidObs = await this.getRaids();
     raidObs
         .subscribe(

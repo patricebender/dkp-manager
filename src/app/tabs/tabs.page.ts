@@ -13,7 +13,14 @@ import {Backend} from '../Backend';
     styleUrls: ['tabs.page.scss']
 })
 export class TabsPage {
-    private isAuthenticated: boolean;
+    get isAuthenticated(): boolean {
+        return this._isAuthenticated;
+    }
+
+    set isAuthenticated(value: boolean) {
+        this._isAuthenticated = value;
+    }
+    private _isAuthenticated: boolean;
     get player(){
         return Settings.Instance.player;
     }
@@ -23,8 +30,8 @@ export class TabsPage {
         private oktaAuth: OktaAuthService) {
         this.oktaAuth.$authenticationState.subscribe(
             (isAuthenticated: boolean) => {
-                this.isAuthenticated = isAuthenticated;
-                if (!this.isAuthenticated) {
+                this._isAuthenticated = isAuthenticated;
+                if (!this._isAuthenticated) {
                     this.oktaAuth.loginRedirect('/tabs/raids');
                 }
             }
@@ -32,7 +39,7 @@ export class TabsPage {
     }
 
     async ngOnInit() {
-        this.isAuthenticated = await this.oktaAuth.isAuthenticated();
+        this._isAuthenticated = await this.oktaAuth.isAuthenticated();
     }
 
     logout() {
