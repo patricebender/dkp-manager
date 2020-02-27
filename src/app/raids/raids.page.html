@@ -2,7 +2,7 @@
   <ion-grid *ngIf="player">
         <ion-row>
           <ion-col>
-            <ion-button type="round" *ngIf="player.isAdmin" color="{{player.playerClass.toString().toLowerCase()}}" expand="block">
+            <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="player.isAdmin" color="{{player.playerClass.toString().toLowerCase()}}" expand="block">
               <strong>
                 Neuen Raid erstellen
               </strong>

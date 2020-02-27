@@ -1,14 +1,27 @@
 <ion-header>
-    <ion-searchbar [(ngModel)]="searchTerm"
-                   (ionChange)="setFilteredItems()" placeholder="Suche nach Namen, Klasse oder Spec" animated="true"></ion-searchbar>
+    <ion-row>
+        <ion-col size="11">
+            <ion-searchbar [(ngModel)]="searchTerm"
+                           (ionChange)="setFilteredItems()" placeholder="Suche nach Namen, Klasse oder Spec"
+                           animated="true"></ion-searchbar>
+        </ion-col>
+        <ion-col size="1" class="ion-float-right">
+            <ion-button color="{{MyChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
+                <ion-icon name="refresh"></ion-icon>
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-header>
 
 <ion-content>
     <ion-grid class="vertical-align-content">
         <ion-card *ngFor="let player of filteredPlayers">
-            <ion-row class="ion-justify-content-center ion-align-items-center">
+            <ion-row *ngIf="MyChar.ingameName !== player.ingameName"
+                     class="ion-justify-content-center ion-align-items-center">
                 <ion-col>
-                    <ion-button *ngIf="MyChar.isAdmin"
+                    <ion-button
+                            (click)="showEditUserModal(player)"
+                            *ngIf="MyChar.isAdmin"
                                 color="{{MyChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
@@ -44,6 +57,50 @@
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
                         <img src="../assets/class/{{player.playerClass.toString().toLowerCase()}}.png">
+                    </ion-avatar>
+                </ion-col>
+            </ion-row>
+
+            <!--     Row if this char is my char     -->
+            <ion-row *ngIf="MyChar.ingameName === player.ingameName"
+                     class="ion-justify-content-center ion-align-items-center">
+                <ion-col>
+                <ion-button disabled="true" *ngIf="MyChar.isAdmin"
+                            color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                    <ion-icon type="round" name="pencil-outline">
+
+                    </ion-icon>
+                </ion-button>
+            </ion-col>
+                <ion-col *ngIf="MyChar.ingameName !== player.ingameName" size="3">
+                    <ion-text style="font-size: 1.8em">
+                        {{MyChar.ingameName}}
+                    </ion-text>
+                </ion-col>
+                <ion-col *ngIf="MyChar.ingameName === player.ingameName" size="3">
+                    <ion-text [ngClass]="MyChar.playerClass.toString().toLowerCase()" style="font-size: 1.8em">
+                        <strong> DU ({{MyChar.ingameName}}) </strong>
+                    </ion-text>
+                </ion-col>
+                <ion-col size="3">
+                    <ion-text>
+                        <ion-text style="font-size: 1.5em">DKP: {{MyChar.dkp}}
+                        </ion-text>
+                    </ion-text>
+                </ion-col>
+                <ion-col size="3">
+                    <ion-row>
+                        <ion-text style="font-size: 1.5em" [ngClass]="MyChar.playerClass.toString().toLowerCase()">
+                            {{MyChar.playerClass}}
+                        </ion-text>
+                    </ion-row>
+                    <ion-row class="ion-margin-top">
+                        <ion-text style="font-size: 1.5em"> {{MyChar.spec}} </ion-text>
+                    </ion-row>
+                </ion-col>
+                <ion-col size="2">
+                    <ion-avatar class="ion-float-right">
+                        <img src="../assets/class/{{MyChar.playerClass.toString().toLowerCase()}}.png">
                     </ion-avatar>
                 </ion-col>
             </ion-row>

@@ -6,6 +6,8 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Player} from '../models/Player';
 import {Backend} from '../Backend';
+import {CreateRaidComponent} from '../create-raid/create-raid.component';
+import {EditUserComponent} from '../edit-user/edit-user.component';
 
 @Component({
     selector: 'app-guild',
@@ -13,7 +15,16 @@ import {Backend} from '../Backend';
     styleUrls: ['./guild.page.scss'],
 })
 export class GuildPage implements OnInit {
-    private filteredPlayers: any;
+    private isModalPresent: boolean;
+    get filteredPlayers(): Player[] {
+        return this._filteredPlayers;
+    }
+
+    set filteredPlayers(value: Player[]) {
+        this._filteredPlayers = value;
+    }
+
+    private _filteredPlayers: Player[];
 
     constructor(
         private modalController: ModalController,
@@ -41,12 +52,12 @@ export class GuildPage implements OnInit {
             this.oktaAuth.loginRedirect('/tabs');
 
         } else {
-            let playerObservable = await this.getPlayerRequest(token);
+            let playerObservable = await this.getPlayersRequest(token);
             playerObservable
                 .subscribe(
                     (res) => {
                         this.players = res.data;
-                        this.filteredPlayers = this.players;
+                        this._filteredPlayers = this.players;
                         console.log(this.players);
                     },
                     (error) => {
@@ -57,13 +68,12 @@ export class GuildPage implements OnInit {
         }
     }
 
-    private async getPlayerRequest(token): Promise<Observable<any>> {
+    private async getPlayersRequest(token): Promise<Observable<any>> {
         return this.http.get<Player>(Backend.address + '/players', await Backend.getHttpOptions(token));
     }
 
     setFilteredItems() {
-        console.log(this.searchTerm);
-        this.filteredPlayers = this.players.filter((player) => {
+        this._filteredPlayers = this.players.filter((player) => {
             const filter = this.searchTerm.toLowerCase();
             return player.ingameName.toLowerCase().startsWith(filter)
                 || player.playerClass.toString().toLowerCase().startsWith(filter)
@@ -71,4 +81,22 @@ export class GuildPage implements OnInit {
         });
     }
 
+    async showEditUserModal(player) {
+
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: EditUserComponent,
+            componentProps: {
+                player
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then((callback) => {
+            this.updatePlayers();
+            this.isModalPresent = false;
+        });
+    }
 }

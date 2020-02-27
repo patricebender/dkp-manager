@@ -7,11 +7,14 @@ export class Raid {
     date: Date;
     registrationDeadline: Date;
     registrations: Player[];
+    description: string;
 
 
-    constructor(dungeonName: string, date: Date) {
+    constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string) {
         this.dungeonName = dungeonName;
         this.date = date;
+        this.description = description;
+        this.registrationDeadline = registrationDeadline;
     }
 
 

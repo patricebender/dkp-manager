@@ -18,9 +18,10 @@ import {
 } from '@okta/okta-angular';
 import {CreateUserComponent} from './create-user/create-user.component';
 import {ChangeUserComponent} from './change-user/change-user.component';
-import { ServiceWorkerModule } from '@angular/service-worker';
-import { environment } from '../environments/environment';
+import {ServiceWorkerModule} from '@angular/service-worker';
+import {environment} from '../environments/environment';
 import {CreateRaidComponent} from './create-raid/create-raid.component';
+import {EditUserComponent} from './edit-user/edit-user.component';
 
 const config = {
     issuer: 'https://dev-181790.okta.com/oauth2/default',
@@ -46,15 +47,15 @@ const appRoutes: Routes = [
 
 
 @NgModule({
-    declarations: [AppComponent, CreateUserComponent, ChangeUserComponent, CreateRaidComponent],
+    declarations: [AppComponent, CreateUserComponent, ChangeUserComponent, CreateRaidComponent, EditUserComponent],
     entryComponents: [ChangeUserComponent,
-CreateUserComponent, CreateRaidComponent
+        CreateUserComponent, CreateRaidComponent, EditUserComponent
     ],
     imports: [BrowserModule, HttpClientModule, IonicModule.forRoot(),
         AppRoutingModule,
         OktaAuthModule.initAuth(environment.production ? config : devconfig),
         RouterModule.forRoot(appRoutes),
-        ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })],
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})],
     providers: [
         StatusBar,
         SplashScreen,

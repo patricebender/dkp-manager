@@ -3,6 +3,7 @@
         <ion-title>
             Bitte vervollständige dein Profil!
         </ion-title>
+        <ion-button  (click)="logout()"><strong> LOGOUT </strong></ion-button>
     </ion-toolbar>
 </ion-header>
 
@@ -35,7 +36,7 @@
 
         <ion-row class="ion-justify-content-center">
             <ion-button disabled="{{(!playerClass || !spec)}}" (click)="postUser()"><strong> SPEICHERN </strong></ion-button>
-            <ion-button  (click)="logout()"><strong> LOGOUT </strong></ion-button>
+
         </ion-row>
     </ion-list>
 </ion-content>
