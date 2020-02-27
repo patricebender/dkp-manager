@@ -69,7 +69,9 @@ export class RaidsPage implements OnInit {
         });
         await modal.present();
         modal.onDidDismiss().then((callback) => {
-            console.log(callback.data.raid)
+            if(callback.data){
+                console.log(callback.data.raid)
+            }
             this.updateRaids();
             this.isModalPresent = false;
         });
