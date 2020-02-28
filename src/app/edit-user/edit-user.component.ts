@@ -57,7 +57,7 @@ export class EditUserComponent implements OnInit {
         const token = await this.token;
         const options = await Backend.getHttpOptions(token);
 
-        this.http.patch(Backend.address + '/player/dkp' + this.player.ingameName, dkpEntry, options)
+        this.http.patch(Backend.address + '/player/dkp' + this.player.mail, dkpEntry, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
                 this.presentToast( "DKP Update Erfolgreich!");

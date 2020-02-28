@@ -7,6 +7,7 @@ export class Player {
     spec: Spec;
     dkp: number;
     isAdmin: boolean;
+    mail: String;
 
     constructor(name: string, playerClass: PlayerClass, spec: Spec) {
         this.ingameName = name;
