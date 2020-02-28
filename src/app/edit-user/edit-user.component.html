@@ -10,83 +10,97 @@
 <ion-content>
     <ion-grid>
         <ion-row class="ion-text-center">
-            <ion-header>
-                <strong>Bonus DKP</strong>
+            <ion-header class="ion-margin">
+                <h2>Bonus DKP</h2>
             </ion-header>
-            <ion-col size="5">
-
-                <ion-button expand="block" color="warning">
+            <ion-col size="3">
+                <ion-header>
                     <strong>
-                        -5 DKP
+                       Gildenspende
                     </strong>
-                </ion-button>
-            </ion-col>
-            <ion-col class="ion-text-center" size="2">
-                <ion-input type="number"  value="{{0}}"></ion-input>
-            </ion-col>
-            <ion-col size="5">
-                <ion-button expand="block" color="warning">
+                </ion-header>
+                <ion-button (click)="createAndPostDkpEntry(5 , 'Gildenspende')" expand="block" color="warning">
                     <strong>
                         +5 DKP
                     </strong>
                 </ion-button>
             </ion-col>
-            <ion-footer>
+            <ion-col size="3">
                 <strong>
-                    Grund:
+                   Antritt, pünktlich
                 </strong>
-                <ion-textarea color="warning">
-
-                </ion-textarea>
-                <ion-input>
-                </ion-input>
-            </ion-footer>
+                <ion-button (click)="createAndPostDkpEntry(5 , 'Antritt, pünktlich')"  expand="block" color="warning">
+                    <strong>
+                        +5 DKP
+                    </strong>
+                </ion-button>
+            </ion-col>
+            <ion-col size="3">
+                <ion-header>
+                    <strong>
+                        Material Spende
+                    </strong>
+                </ion-header>
+                <ion-button  (click)="createAndPostDkpEntry(10 , 'Material Spende')"  expand="block" color="warning">
+                    <strong>
+                        +10 DKP
+                    </strong>
+                </ion-button>
+            </ion-col>
+            <ion-col size="3">
+                <ion-header>
+                    <strong>
+                        Bosskill
+                    </strong>
+                </ion-header>
+                <ion-button  (click)="createAndPostDkpEntry(10 , 'Bosskill')" expand="block" color="warning">
+                    <strong>
+                        +10 DKP
+                    </strong>
+                </ion-button>
+            </ion-col>
         </ion-row>
         <ion-row class="ion-text-center">
-            <ion-header>
-                <strong>Straf DKP</strong>
+            <ion-header class="ion-margin">
+                <h2>Straf DKP</h2>
             </ion-header>
-            <ion-col size="5">
-
-                <ion-button expand="block" color="warning">
+            <ion-col size="4">
+                <ion-header>
+                    <strong>
+                        Raidzusage, kein Antritt
+                    </strong>
+                </ion-header>
+                <ion-button  (click)="createAndPostDkpEntry(-20 , 'Raidzusage, kein Antritt')" expand="block" color="danger">
+                    <strong>
+                        -20 DKP
+                    </strong>
+                </ion-button>
+            </ion-col>
+            <ion-col size="4">
+                <strong>
+                    Antritt, zu spät
+                </strong>
+                <ion-button (click)="createAndPostDkpEntry(-5 , 'Antritt, zu spät')" expand="block" color="danger">
                     <strong>
                         -5 DKP
                     </strong>
                 </ion-button>
             </ion-col>
-            <ion-col class="ion-text-center" size="2">
-                <ion-input type="number"  value="{{0}}"></ion-input>
-            </ion-col>
-            <ion-col size="5">
-                <ion-button expand="block" color="warning">
+            <ion-col size="4">
+                <ion-header >
                     <strong>
-                        +5 DKP
+                        Keine Consumables
                     </strong>
-                </ion-button>
-            </ion-col>
-            <ion-footer>
-                <strong>
-                    Grund:
-                </strong>
-                <ion-textarea color="warning">
-
-                </ion-textarea>
-                <ion-input>
-                </ion-input>
-            </ion-footer>
-        </ion-row>
-
-        <ion-row>
-            <ion-col>
-                <ion-button expand="block" color="success">
+                </ion-header>
+                <ion-button (click)="createAndPostDkpEntry(-15 , 'Keine Consumables')" expand="block" color="danger">
                     <strong>
-                        Speichern
+                        -15 DKP
                     </strong>
                 </ion-button>
             </ion-col>
         </ion-row>
 
-        <ion-row *ngIf="!player.isAdmin">
+        <ion-row class="ion-padding-top" *ngIf="!player.isAdmin">
             <ion-col>
                 <ion-button disabled="{{player.isAdmin}}" (click)="promoteToAdmin()" expand="block" color="danger">
                     <strong>
@@ -97,7 +111,7 @@
         </ion-row>
 
 
-        <ion-row *ngIf="myChar.isAdmin && myChar.ingameName.toLowerCase() === 'malfoy' && player.isAdmin">
+        <ion-row class="ion-padding-top" *ngIf="myChar.isAdmin && myChar.ingameName.toLowerCase() === 'malfoy' && player.isAdmin">
             <ion-col>
                 <ion-button (click)="demoteAdmin()" expand="block" color="danger">
                     <strong>

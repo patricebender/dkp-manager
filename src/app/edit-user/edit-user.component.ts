@@ -1,10 +1,12 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Player} from '../models/Player';
 import {Backend} from '../Backend';
-import {ModalController, ToastController} from '@ionic/angular';
+import {ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {Settings} from '../Settings';
+import {DkpLogType} from '../models/DkpLogType';
+import {DkpEntry} from '../models/DkpEntry';
 
 @Component({
     selector: 'app-edit-user',
@@ -21,15 +23,7 @@ export class EditUserComponent implements OnInit {
 
     @Input() player: Player;
 
-    penaltyDKP: {
-        'reason': undefined,
-        'dkp': 0
-    };
 
-    bonusDKP: {
-        'reason': undefined,
-        'dkp': 0
-    };
 
     get myChar() {
       return Settings.Instance.player;
@@ -49,8 +43,32 @@ export class EditUserComponent implements OnInit {
         console.log(this.player);
     }
 
-    async promoteToAdmin() {
-        const token = await this.oktaAuth.getAccessToken();
+    async createAndPostDkpEntry(dkp: number, reason: string){
+        const dkpLogType = dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
+        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp);
+        this.postDkpEntry(dkpEntry);
+    }
+
+     get token() {
+        return this.oktaAuth.getAccessToken();
+    }
+
+    async postDkpEntry(dkpEntry: DkpEntry) {
+        const token = await this.token;
+        const options = await Backend.getHttpOptions(token);
+
+        this.http.patch(Backend.address + '/player/dkp' + this.player.ingameName, dkpEntry, options)
+            .subscribe((data) => {
+                console.log('user update successful!', data);
+                this.presentToast( "DKP Update Erfolgreich!");
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
+        async promoteToAdmin() {
+        const token = await this.token
         const options = await Backend.getHttpOptions(token);
         this.player.isAdmin = true;
 

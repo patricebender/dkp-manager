@@ -17,12 +17,19 @@ import {ToastController} from '@ionic/angular';
 })
 export class RaidsPage implements OnInit {
     private isModalPresent: any;
+    raids: Raid[];
+    status: string[] = [
+
+    ];
+
+
+
+
 
     get player(): Player {
         return Settings.Instance.player;
     }
 
-    raids: Raid[];
 
     constructor(
         private modalController: ModalController,
