@@ -22,7 +22,7 @@
                     <ion-button
                             (click)="showEditUserModal(player)"
                             *ngIf="MyChar.isAdmin"
-                                color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                            color="{{MyChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
                         </ion-icon>
@@ -56,6 +56,9 @@
                 </ion-col>
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
+                        <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
+                    </ion-avatar>
+                    <ion-avatar class="ion-float-right">
                         <img src="../assets/class/{{player.playerClass.toString().toLowerCase()}}.png">
                     </ion-avatar>
                 </ion-col>
@@ -65,13 +68,13 @@
             <ion-row *ngIf="MyChar.ingameName === player.ingameName"
                      class="ion-justify-content-center ion-align-items-center">
                 <ion-col>
-                <ion-button disabled="true" *ngIf="MyChar.isAdmin"
-                            color="{{MyChar.playerClass.toString().toLowerCase()}}">
-                    <ion-icon type="round" name="pencil-outline">
+                    <ion-button disabled="true" *ngIf="MyChar.isAdmin"
+                                color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                        <ion-icon type="round" name="pencil-outline">
 
-                    </ion-icon>
-                </ion-button>
-            </ion-col>
+                        </ion-icon>
+                    </ion-button>
+                </ion-col>
                 <ion-col *ngIf="MyChar.ingameName !== player.ingameName" size="3">
                     <ion-text style="font-size: 1.8em">
                         {{MyChar.ingameName}}
@@ -99,6 +102,9 @@
                     </ion-row>
                 </ion-col>
                 <ion-col size="2">
+                    <ion-avatar class="ion-float-right">
+                        <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
+                    </ion-avatar>
                     <ion-avatar class="ion-float-right">
                         <img src="../assets/class/{{MyChar.playerClass.toString().toLowerCase()}}.png">
                     </ion-avatar>
