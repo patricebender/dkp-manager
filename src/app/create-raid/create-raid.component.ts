@@ -17,7 +17,6 @@ export class CreateRaidComponent implements OnInit {
     dungeonName: string;
     date: Date = new Date();
     registrationDeadline: Date;
-    registrations: Player[];
     description: string;
     playerLimit: number = 40;
 

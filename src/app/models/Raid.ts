@@ -11,7 +11,7 @@ export class Raid {
     bench: Player[];
     attend: Player[];
     declined: Player[];
-    late: Player[];
+    late: Player[] ;
 
     get registrationCount(){
         return this.attend.length + this.bench.length + this.declined.length + this.late.length

@@ -1,28 +1,53 @@
 <ion-content>
-    <ion-grid *ngIf="player">
+    <ion-grid *ngIf="myChar">
         <ion-row>
             <ion-col>
-                <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="player.isAdmin"
-                            color="{{player.playerClass.toString().toLowerCase()}}" expand="block">
+                <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="myChar.isAdmin"
+                            color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
                     <strong>
                         Neuen Raid erstellen
                     </strong>
                 </ion-button>
             </ion-col>
         </ion-row>
-        <ion-card class="vertical-align-content"   *ngFor="let raid of raids">
+        <ion-card class="ion-padding vertical-align-content" *ngFor="let raid of raids">
             <ion-row>
-                <ion-col>
-                    {{raid.dungeonName}}
+                <ion-col size="1" class="ion-float-left">
+                    <ion-avatar class="ion-float-right">
+                        <img src="../assets/dungeons/{{raid.dungeonName}}.png">
+                    </ion-avatar>
                 </ion-col>
-                <ion-col>
-                    {{raid.registrationCount}} / 40 Anmeldungen
+                <ion-col class="ion-padding-top" size="3">
+                    <ion-row>
+                        <ion-text style="font-size: 1.5em">
+                            {{raid.dungeonName}}
+                        </ion-text>
+                    </ion-row>
+                    <ion-row>
+                        <ion-text style="font-size: 1.2em">
+                            <strong>
+                                <ion-datetime class="ion-no-padding" disabled="true" displayFormat="HH:mm DDDD, MMM D"
+                                              value="{{raid.date}}">
+                                </ion-datetime>
+                            </strong>
+                        </ion-text>
+                    </ion-row>
+
                 </ion-col>
-                <ion-col>
-                    <ion-datetime style="color: red" disabled="true" displayFormat="HH:mm DDDD, MMM D" value="{{raid.date}}">
+                <ion-col class="ion-padding-top">
+                    <ion-text style="font-size: 1.5em">
+                        {{raid.registrationCount || 0}} / 40 Anmeldungen
+                    </ion-text>
+                </ion-col>
 
-                    </ion-datetime>
+                <ion-col size="3">
+                    <ion-button
+                            color="{{myChar.playerClass.toString().toLowerCase()}}">
+                        <ion-icon type="round" name="pencil-outline">
 
+                        </ion-icon>
+                        An / Abmelden
+                    </ion-button>
                 </ion-col>
             </ion-row>
 

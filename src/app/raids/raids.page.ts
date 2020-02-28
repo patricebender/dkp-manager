@@ -26,7 +26,7 @@ export class RaidsPage implements OnInit {
 
 
 
-    get player(): Player {
+    get myChar(): Player {
         return Settings.Instance.player;
     }
 
@@ -80,7 +80,6 @@ export class RaidsPage implements OnInit {
         await modal.present();
         modal.onDidDismiss().then((callback) => {
             if (callback.data) {
-
                 const raid: Raid = callback.data.raid;
                 this.postRaid(raid);
             }
@@ -105,7 +104,7 @@ export class RaidsPage implements OnInit {
 
         this.http.post(Backend.address + '/raid', raid, options)
             .subscribe((data) => {
-                console.log('user creation successful!', data);
+                console.log('raid creation successful!', data);
                 this.presentToast('Yeah der Raid wurde erstellt!');
             }, (e) => {
                 console.log(e);
