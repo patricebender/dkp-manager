@@ -11,9 +11,9 @@
 
 
                 <ion-col
-                        *ngIf="isAuthenticated" (click)="logout()"
+                        *ngIf="isAuthenticated"
                         class="ion-float-right">
-                    <ion-button class="ion-float-right" color="blue">
+                    <ion-button (click)="logout()" class="ion-float-right" color="blue">
                         <strong>Logout</strong>
                     </ion-button>
                 </ion-col>
