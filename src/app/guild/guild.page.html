@@ -15,7 +15,7 @@
 
 <ion-content>
     <ion-grid class="vertical-align-content">
-        <ion-card *ngFor="let player of filteredPlayers">
+        <ion-card class="ion-padding" *ngFor="let player of filteredPlayers">
             <ion-row *ngIf="MyChar.ingameName !== player.ingameName"
                      class="ion-justify-content-center ion-align-items-center">
                 <ion-col>
@@ -29,9 +29,17 @@
                     </ion-button>
                 </ion-col>
                 <ion-col *ngIf="MyChar.ingameName !== player.ingameName" size="3">
-                    <ion-text style="font-size: 1.8em">
-                        {{player.ingameName}}
-                    </ion-text>
+                    <ion-row>
+                        <ion-text style="font-size: 1.8em">
+                            {{player.ingameName}}
+                        </ion-text>
+                    </ion-row>
+                    <ion-row *ngIf="player.isAdmin" class="ion-margin-top">
+                        <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                            ADMIN
+                        </ion-badge>
+                    </ion-row>
+
                 </ion-col>
                 <ion-col *ngIf="MyChar.ingameName === player.ingameName" size="3">
                     <ion-text [ngClass]="MyChar.playerClass.toString().toLowerCase()" style="font-size: 1.8em">
@@ -75,15 +83,20 @@
                         </ion-icon>
                     </ion-button>
                 </ion-col>
-                <ion-col *ngIf="MyChar.ingameName !== player.ingameName" size="3">
-                    <ion-text style="font-size: 1.8em">
-                        {{MyChar.ingameName}}
-                    </ion-text>
-                </ion-col>
+
                 <ion-col *ngIf="MyChar.ingameName === player.ingameName" size="3">
-                    <ion-text [ngClass]="MyChar.playerClass.toString().toLowerCase()" style="font-size: 1.8em">
-                        <strong> DU ({{MyChar.ingameName}}) </strong>
-                    </ion-text>
+                    <ion-row>
+                        <ion-text color="{{MyChar.playerClass.toString().toLowerCase()}}" style="font-size: 1.8em">
+                            <strong>
+                                DU ({{MyChar.ingameName}})
+                            </strong>
+                        </ion-text>
+                    </ion-row>
+                    <ion-row *ngIf="MyChar.isAdmin" class="ion-margin-top">
+                        <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                            ADMIN
+                        </ion-badge>
+                    </ion-row>
                 </ion-col>
                 <ion-col size="3">
                     <ion-text>
