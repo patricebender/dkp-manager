@@ -8,7 +8,6 @@ import {Player} from '../models/Player';
 
 import {HttpClient} from '@angular/common/http';
 import {Backend} from '../Backend';
-import {PlayerWidgetComponent} from '../player-widget/player-widget.component';
 
 @Component({
     selector: 'app-create-user',
@@ -46,6 +45,10 @@ export class CreateUserComponent implements OnInit {
         if (this._playerClass === PlayerClass.Priest
             || this._playerClass === PlayerClass.Shaman) {
             return [Spec.Heal, Spec.DD];
+        }
+
+        if(this.playerClass === PlayerClass.Warrior) {
+            return [Spec.Tank, Spec.DD];
         }
         return [Spec.DD];
     }

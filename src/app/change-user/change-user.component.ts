@@ -49,6 +49,10 @@ export class ChangeUserComponent implements OnInit {
             || this._playerClass === PlayerClass.Shaman) {
             return [Spec.Heal, Spec.DD];
         }
+
+        if(this.playerClass === PlayerClass.Warrior) {
+            return [Spec.Tank, Spec.DD];
+        }
         return [Spec.DD];
     }
 
