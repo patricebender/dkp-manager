@@ -24,9 +24,8 @@ export class EditUserComponent implements OnInit {
     @Input() player: Player;
 
 
-
     get myChar() {
-      return Settings.Instance.player;
+        return Settings.Instance.player;
     }
 
 
@@ -43,13 +42,13 @@ export class EditUserComponent implements OnInit {
         console.log(this.player);
     }
 
-    async createAndPostDkpEntry(dkp: number, reason: string){
+    async createAndPostDkpEntry(dkp: number, reason: string) {
         const dkpLogType = dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
-        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp);
+        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp, this.player.ingameName);
         this.postDkpEntry(dkpEntry);
     }
 
-     get token() {
+    get token() {
         return this.oktaAuth.getAccessToken();
     }
 
@@ -57,18 +56,18 @@ export class EditUserComponent implements OnInit {
         const token = await this.token;
         const options = await Backend.getHttpOptions(token);
 
-        this.http.patch(Backend.address + '/player/dkp' + this.player.mail, dkpEntry, options)
+        this.http.patch(Backend.address + '/dkp' + this.player.mail, dkpEntry, options)
             .subscribe((data) => {
-                console.log('user update successful!', data);
-                this.presentToast( "DKP Update Erfolgreich!");
+                console.log('dkp patch successful!', data);
+                this.presentToast('DKP Update Erfolgreich!');
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
     }
 
-        async promoteToAdmin() {
-        const token = await this.token
+    async promoteToAdmin() {
+        const token = await this.token;
         const options = await Backend.getHttpOptions(token);
         this.player.isAdmin = true;
 
@@ -82,18 +81,18 @@ export class EditUserComponent implements OnInit {
             });
     }
 
-  async demoteAdmin() {
-    const token = await this.oktaAuth.getAccessToken();
-    const options = await Backend.getHttpOptions(token);
-    this.player.isAdmin = false;
+    async demoteAdmin() {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+        this.player.isAdmin = false;
 
-    this.http.patch(Backend.address + '/player', this.player, options)
-        .subscribe((data) => {
-          console.log('user update successful!', data);
-          this.presentToast('Yeah ' + this.player.ingameName + 'ist jetzt Kein Admin mehr');
-        }, (e) => {
-          console.log(e);
-          this.presentToast('Da ist wohl was schiefgegangen 🤮');
-        });
-  }
+        this.http.patch(Backend.address + '/player', this.player, options)
+            .subscribe((data) => {
+                console.log('user update successful!', data);
+                this.presentToast('Yeah ' + this.player.ingameName + 'ist jetzt Kein Admin mehr');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
 }

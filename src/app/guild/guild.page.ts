@@ -8,6 +8,7 @@ import {Player} from '../models/Player';
 import {Backend} from '../Backend';
 import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {EditUserComponent} from '../edit-user/edit-user.component';
+import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 
 @Component({
     selector: 'app-guild',
@@ -96,6 +97,23 @@ export class GuildPage implements OnInit {
         await modal.present();
         modal.onDidDismiss().then((callback) => {
             this.updatePlayers();
+            this.isModalPresent = false;
+        });
+    }
+
+    async showDkpHistory(player) {
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: DkpHistoryComponent,
+            componentProps: {
+                player
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then((callback) => {
             this.isModalPresent = false;
         });
     }
