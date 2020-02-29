@@ -103,7 +103,6 @@ export class ChangeUserComponent implements OnInit {
 
         this.player.spec = this.spec;
         this.player.playerClass = this.playerClass;
-        this.player.isAdmin = true;
         this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
