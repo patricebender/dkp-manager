@@ -70,4 +70,5 @@ export class DkpHistoryComponent implements OnInit {
     private async getPlayersRequest(token): Promise<Observable<any>> {
         return this.http.get<Player>(Backend.address + '/dkp/history' + this.player.mail, await Backend.getHttpOptions(token));
     }
+
 }
