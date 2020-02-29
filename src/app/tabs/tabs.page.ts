@@ -32,7 +32,7 @@ export class TabsPage {
             (isAuthenticated: boolean) => {
                 this._isAuthenticated = isAuthenticated;
                 if (!this._isAuthenticated) {
-                    this.oktaAuth.loginRedirect('/tabs/raids');
+                    this.oktaAuth.loginRedirect('/tabs/guild');
                 }
             }
         );

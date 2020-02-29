@@ -44,7 +44,7 @@ export class EditUserComponent implements OnInit {
 
     async createAndPostDkpEntry(dkp: number, reason: string) {
         const dkpLogType = dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
-        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp, this.player.ingameName);
+        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp, this.player.mail);
         this.postDkpEntry(dkpEntry);
     }
 

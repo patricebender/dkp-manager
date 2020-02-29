@@ -50,7 +50,7 @@ export class GuildPage implements OnInit {
         const user = await this.oktaAuth.getUser();
 
         if (!token || !user) {
-            this.oktaAuth.loginRedirect('/tabs');
+            this.oktaAuth.loginRedirect('/tabs/guild');
 
         } else {
             let playerObservable = await this.getPlayersRequest(token);
