@@ -8,6 +8,7 @@ import {ModalController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {ChangeUserComponent} from '../change-user/change-user.component';
+import {max} from 'rxjs/operators';
 
 @Component({
     selector: 'app-player-widget',
@@ -16,6 +17,8 @@ import {ChangeUserComponent} from '../change-user/change-user.component';
 })
 export class PlayerWidgetComponent implements OnInit {
     private isModalPresent: boolean;
+    private timer: number;
+
     get player(): Player {
         return Settings.Instance.player;
     }
@@ -29,6 +32,22 @@ export class PlayerWidgetComponent implements OnInit {
 
     async ngOnInit() {
         await this.updatePlayer();
+        this.StartTimer();
+    }
+
+    refreshTime: number = 4;
+
+    StartTimer() {
+        setTimeout(() => {
+            if (this.refreshTime === 0) {
+                this.updatePlayer();
+                this.refreshTime = 4;
+            }else{
+                this.refreshTime -= 1;
+            }
+            this.StartTimer();
+
+        }, 1000);
     }
 
     public async updatePlayer() {
@@ -65,7 +84,9 @@ export class PlayerWidgetComponent implements OnInit {
     }
 
     async showCreateProfileModal() {
-        if(this.isModalPresent) return;
+        if (this.isModalPresent) {
+            return;
+        }
         const modal = await this.modalController.create({
             component: CreateUserComponent,
             componentProps: {
@@ -82,7 +103,9 @@ export class PlayerWidgetComponent implements OnInit {
 
 
     async showChangeUserModal() {
-        if(this.isModalPresent) return;
+        if (this.isModalPresent) {
+            return;
+        }
         this.isModalPresent = true;
         const modal = await this.modalController.create({
             component: ChangeUserComponent,

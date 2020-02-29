@@ -8,6 +8,7 @@ import {Observable} from 'rxjs';
 import {Backend} from '../Backend';
 import {DkpEntry} from '../models/DkpEntry';
 import {Settings} from '../Settings';
+import {getLocaleWeekEndRange} from '@angular/common';
 
 @Component({
     selector: 'app-dkp-history',
@@ -71,4 +72,25 @@ export class DkpHistoryComponent implements OnInit {
         return this.http.get<Player>(Backend.address + '/dkp/history' + this.player.mail, await Backend.getHttpOptions(token));
     }
 
+    deleteEntry(entry: DkpEntry) {
+        const dkpLog = new DkpEntry(DkpLogType.Correction, "Korrektur von: " + entry.dkpLogType, this.myChar.ingameName, new Date(), -entry.dkp, this.player.mail);
+        this.postDkpEntry(dkpLog)
+
+    }
+
+
+    async postDkpEntry(dkpEntry: DkpEntry) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        this.http.patch(Backend.address + '/dkp' + this.player.mail, dkpEntry, options)
+            .subscribe((data) => {
+                console.log('dkp patch successful!', data);
+                this.presentToast('DKP Update Erfolgreich!');
+                this.updateEntries();
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
 }
