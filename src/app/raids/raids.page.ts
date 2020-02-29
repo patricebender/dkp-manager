@@ -118,4 +118,7 @@ export class RaidsPage implements OnInit {
         return this.http.get<Raid>(Backend.address + '/raids', await Backend.getHttpOptions(token));
     }
 
+    showSignUpModal() {
+        this.presentToast("feature kommt bald 😎");
+    }
 }

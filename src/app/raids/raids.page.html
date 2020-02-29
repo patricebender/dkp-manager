@@ -41,12 +41,14 @@
                 </ion-col>
 
                 <ion-col size="3">
-                    <ion-button
-                            color="{{myChar.playerClass.toString().toLowerCase()}}">
+                    <ion-button (click)="showSignUpModal()"
+                                color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
                         </ion-icon>
-                        An / Abmelden
+                        <strong>
+                            zur Anmeldung
+                        </strong>
                     </ion-button>
                 </ion-col>
             </ion-row>

@@ -52,7 +52,7 @@
                         </ion-text>
                     </ion-text>
                 </ion-col>
-                <ion-col size="3">
+                <ion-col size="2">
                     <ion-row>
                         <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                             {{player.playerClass}}
@@ -61,6 +61,10 @@
                     <ion-row class="ion-margin-top">
                         <ion-text style="font-size: 1.5em"> {{player.spec}} </ion-text>
                     </ion-row>
+                </ion-col>
+                <ion-col size="1">
+                    <ion-icon name="hourglass-outline"></ion-icon>
+                    <ion-text>DKP History</ion-text>
                 </ion-col>
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
@@ -98,13 +102,10 @@
                         </ion-badge>
                     </ion-row>
                 </ion-col>
-                <ion-col size="3">
-                    <ion-text>
-                        <ion-text style="font-size: 1.5em">DKP: {{MyChar.dkp}}
-                        </ion-text>
-                    </ion-text>
+                <ion-col class="ion-text-center" size="3">
+                    <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">{{MyChar.dkp}} DKP</ion-badge>
                 </ion-col>
-                <ion-col size="3">
+                <ion-col size="2">
                     <ion-row>
                         <ion-text style="font-size: 1.5em" [ngClass]="MyChar.playerClass.toString().toLowerCase()">
                             {{MyChar.playerClass}}
@@ -113,6 +114,10 @@
                     <ion-row class="ion-margin-top">
                         <ion-text style="font-size: 1.5em"> {{MyChar.spec}} </ion-text>
                     </ion-row>
+                </ion-col>
+                <ion-col size="1">
+                    <ion-icon color="{{MyChar.playerClass.toString().toLowerCase()}}" size="large"
+                              name="information-circle"></ion-icon>
                 </ion-col>
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
