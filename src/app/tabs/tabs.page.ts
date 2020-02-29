@@ -36,7 +36,10 @@ export class TabsPage {
                 }
             }
         );
+
     }
+
+
 
     async ngOnInit() {
         this._isAuthenticated = await this.oktaAuth.isAuthenticated();

@@ -9,6 +9,7 @@ import {Raid} from '../models/Raid';
 import {ModalController} from '@ionic/angular';
 import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {ToastController} from '@ionic/angular';
+import {AlertController} from '@ionic/angular';
 
 @Component({
     selector: 'app-raids',
@@ -35,7 +36,8 @@ export class RaidsPage implements OnInit {
         private modalController: ModalController,
         private oktaAuth: OktaAuthService,
         private http: HttpClient,
-        private toastController: ToastController) {
+        private toastController: ToastController,
+        private alertController: AlertController) {
     }
 
     ngOnInit() {
@@ -105,6 +107,7 @@ export class RaidsPage implements OnInit {
         this.http.post(Backend.address + '/raid', raid, options)
             .subscribe((data) => {
                 console.log('raid creation successful!', data);
+                this.updateRaids();
                 this.presentToast('Yeah der Raid wurde erstellt!');
             }, (e) => {
                 console.log(e);
@@ -120,5 +123,46 @@ export class RaidsPage implements OnInit {
 
     showSignUpModal() {
         this.presentToast("feature kommt bald 😎");
+    }
+
+    async presentDeleteConfirm(raid: Raid) {
+        const alert = await this.alertController.create({
+            header: 'Raid Löschen?',
+            message: 'Bist du dir Sicher, dass du den Raid Absagen möchtest?',
+            buttons: [
+                {
+                    text: 'Löschen',
+                    handler: () => {
+                        this.cancelRaid(raid);
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    cssClass: this.myChar.playerClass.toString().toLowerCase(),
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    async cancelRaid(raid: Raid) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+
+        this.http.delete(Backend.address + '/raid'+raid._id, options)
+            .subscribe((data) => {
+                console.log('raid cancelled!', data);
+                this.updateRaids();
+                this.presentToast('Raid gelöscht!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
     }
 }

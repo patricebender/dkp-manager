@@ -11,7 +11,11 @@
             </ion-col>
         </ion-row>
         <ion-card class="ion-padding vertical-align-content" *ngFor="let raid of raids">
+
             <ion-row>
+                <ion-col *ngIf="myChar.isAdmin" size="1" style="margin-top: 1.3em">
+                    <ion-icon (click)="presentDeleteConfirm(raid)" color="danger" size="large" name="close-circle-sharp"></ion-icon>
+                </ion-col>
                 <ion-col size="1" class="ion-float-left">
                     <ion-avatar class="ion-float-right">
                         <img src="../assets/dungeons/{{raid.dungeonName}}.png">
@@ -34,14 +38,14 @@
                     </ion-row>
 
                 </ion-col>
-                <ion-col class="ion-padding-top">
+                <ion-col class="ion-margin-top">
                     <ion-text style="font-size: 1.5em">
                         {{raid.registrationCount || 0}} / 40 Anmeldungen
                     </ion-text>
                 </ion-col>
 
-                <ion-col size="3">
-                    <ion-button (click)="showSignUpModal()"
+                <ion-col size="3" style="margin-top: 1em">
+                    <ion-button size="medium"  (click)="showSignUpModal()"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
