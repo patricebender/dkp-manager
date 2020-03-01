@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, HostListener, Input, OnInit} from '@angular/core';
 import {Player} from '../models/Player';
 import {DkpLogType} from '../models/DkpLogType';
 import {ModalController, ToastController} from '@ionic/angular';
@@ -8,7 +8,6 @@ import {Observable} from 'rxjs';
 import {Backend} from '../Backend';
 import {DkpEntry} from '../models/DkpEntry';
 import {Settings} from '../Settings';
-import {getLocaleWeekEndRange} from '@angular/common';
 
 @Component({
     selector: 'app-dkp-history',
@@ -26,7 +25,9 @@ export class DkpHistoryComponent implements OnInit {
 
     @Input() player: Player;
 
-    entries: DkpEntry[];
+    entries: DkpEntry[] = [];
+    private skip: number = 0;
+    private isAllLogsLoaded: boolean;
 
     get myChar() {
         return Settings.Instance.player;
@@ -44,16 +45,21 @@ export class DkpHistoryComponent implements OnInit {
             this.oktaAuth.loginRedirect('/tabs/guild');
 
         } else {
-            let playerObservable = await this.getPlayersRequest(token);
-            playerObservable
+            let dkpLogObservable = await this.getDkpLogs(token);
+            dkpLogObservable
                 .subscribe(
                     (res) => {
-                        this.entries = res.data;
-                        console.log(this.entries, res);
+                        if (res.data.length === 0){
+                            this.isAllLogsLoaded = true;
+                        }else {
+                            this.skip += 10;
+                            this.entries.push(...res.data);
+                        }
+
                     },
                     (error) => {
-                        console.log(error)
-                        this.presentToast("etwas ist schiefgelaufen 🤮")
+                        console.log(error);
+                        this.presentToast('etwas ist schiefgelaufen 🤮');
                     }
                 );
         }
@@ -68,16 +74,28 @@ export class DkpHistoryComponent implements OnInit {
         toast.present();
     }
 
-    private async getPlayersRequest(token): Promise<Observable<any>> {
-        return this.http.get<Player>(Backend.address + '/dkp/history' + this.player.mail, await Backend.getHttpOptions(token));
+    private async getDkpLogs(token): Promise<Observable<any>> {
+        return this.http.get(Backend.address + '/dkp/history/' + this.player.mail + "/"+ this.skip, await Backend.getHttpOptions(token));
     }
 
     deleteEntry(entry: DkpEntry) {
-        const dkpLog = new DkpEntry(DkpLogType.Correction, "Korrektur von: " + entry.dkpLogType, this.myChar.ingameName, new Date(), -entry.dkp, this.player.mail);
-        this.postDkpEntry(dkpLog)
+        const dkpLog = new DkpEntry(DkpLogType.Correction, 'Korrektur von: ' + entry.dkpLogType, this.myChar.ingameName, new Date(), -entry.dkp, this.player.mail);
+        this.postDkpEntry(dkpLog);
 
     }
 
+
+    loadData(event) {
+        setTimeout(() => {
+            event.target.complete();
+            this.updateEntries();
+            // App logic to determine if all data is loaded
+            // and disable the infinite scroll
+            if (this.isAllLogsLoaded) {
+                event.target.disabled = true;
+            }
+        }, 500);
+    }
 
     async postDkpEntry(dkpEntry: DkpEntry) {
         const token = await this.oktaAuth.getAccessToken();
