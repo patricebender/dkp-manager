@@ -19,12 +19,7 @@ import {AlertController} from '@ionic/angular';
 export class RaidsPage implements OnInit {
     private isModalPresent: any;
     raids: Raid[];
-    status: string[] = [
-
-    ];
-
-
-
+    status: string[] = [];
 
 
     get myChar(): Player {
@@ -121,9 +116,6 @@ export class RaidsPage implements OnInit {
         return this.http.get<Raid>(Backend.address + '/raids', await Backend.getHttpOptions(token));
     }
 
-    showSignUpModal() {
-        this.presentToast("feature kommt bald 😎");
-    }
 
     async presentDeleteConfirm(raid: Raid) {
         const alert = await this.alertController.create({
@@ -150,12 +142,92 @@ export class RaidsPage implements OnInit {
         await alert.present();
     }
 
+    async presentRaidRegistration(raid: Raid) {
+        const alert = await this.alertController.create({
+            header: 'Anmeldung +5 DKP',
+            inputs: [
+                {
+                    name: 'confirm',
+                    type: 'radio',
+                    label: '✅ Zusage',
+                    value: 'confirm',
+                },
+                {
+                    name: 'decline',
+                    type: 'radio',
+                    label: '❌ Absage',
+                    value: 'decline'
+                },
+                {
+                    name: 'bench',
+                    type: 'radio',
+                    label: '🪑 Ersatzbank',
+                    value: 'bench'
+                },
+                {
+                    name: 'late',
+                    type: 'radio',
+                    label: '⌛️ Verspätung',
+                    value: 'late'
+                }
+            ],
+            buttons: [
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    cssClass: '',
+                    handler: () => {
+                        console.log(raid);
+                        console.log('Confirm Cancel');
+                    }
+                }, {
+                    text: 'Abschicken',
+
+                    handler: (data) => {
+                        if(data) {
+                            this.registerForRaid(raid, data);
+                        } else{
+                            this.presentToast("Du musst schon etwas auswählen 😜")
+                            return false;
+                        }
+
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    async registerForRaid(raid: Raid, registrationType: string) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        const body = {raid, player: this.myChar, registrationType};
+
+        this.http.patch(Backend.address + '/raid/register', body, options)
+            .subscribe((data) => {
+                console.log('registration success', data);
+                this.http.patch(Backend.address + '/raid/register', body, options);
+                if (this.isAlreadyRegistered(raid)) {
+                    this.presentToast('Registrierung erfolgreich geändert');
+                } else {
+                    this.presentToast('Danke für deine Registrierung! +5 DKP');
+                }
+                this.updateRaids();
+
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
     async cancelRaid(raid: Raid) {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
 
-        this.http.delete(Backend.address + '/raid'+raid._id, options)
+        this.http.delete(Backend.address + '/raid' + raid._id, options)
             .subscribe((data) => {
                 console.log('raid cancelled!', data);
                 this.updateRaids();
@@ -164,5 +236,28 @@ export class RaidsPage implements OnInit {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
+    }
+
+    isAlreadyRegistered(raid: Raid): boolean {
+        return raid.confirm.some(reg => reg.player.mail === this.myChar.mail)
+            || raid.bench.some(reg => reg.player.mail === this.myChar.mail)
+            || raid.late.some(reg => reg.player.mail === this.myChar.mail)
+            || raid.decline.some(reg => reg.player.mail === this.myChar.mail);
+    }
+
+    getConfirmed(raid: Raid): Player[] {
+        return raid.confirm;
+    }
+
+    getDeclined(raid: Raid): Player[] {
+        return raid.decline;
+    }
+
+    getBench(raid: Raid): Player[] {
+        return raid.bench;
+    }
+
+    getLate(raid: Raid): Player[] {
+        return raid.late;
     }
 }

@@ -11,19 +11,19 @@
             </ion-col>
         </ion-row>
         <ion-card class="ion-padding vertical-align-content" *ngFor="let raid of raids">
-
             <ion-row>
                 <ion-col *ngIf="myChar.isAdmin" size="1" style="margin-top: 1.3em">
-                    <ion-icon (click)="presentDeleteConfirm(raid)" color="danger" size="large" name="close-circle-sharp"></ion-icon>
+                    <ion-icon (click)="presentDeleteConfirm(raid)" color="danger" size="large"
+                              name="close-circle-sharp"></ion-icon>
                 </ion-col>
                 <ion-col size="1" class="ion-float-left">
                     <ion-avatar class="ion-float-right">
                         <img src="../assets/dungeons/{{raid.dungeonName}}.png">
                     </ion-avatar>
                 </ion-col>
-                <ion-col class="ion-padding-top" size="3">
+                <ion-col class="ion-padding-top" size="2">
                     <ion-row>
-                        <ion-text style="font-size: 1.5em">
+                        <ion-text style="font-size: 1.2em">
                             {{raid.dungeonName}}
                         </ion-text>
                     </ion-row>
@@ -38,25 +38,60 @@
                     </ion-row>
 
                 </ion-col>
-                <ion-col class="ion-margin-top">
-                    <ion-text style="font-size: 1.5em">
-                        {{raid.registrationCount || 0}} / 40 Anmeldungen
-                    </ion-text>
+                <ion-col size="1.5" class="ion-margin-top ion-justify-content-center">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-badge color="light" style="font-size: 1.5em">
+                            {{getConfirmed(raid).length || 0}}  ✅
+                        </ion-badge>
+                    </ion-row>
+
+                </ion-col>
+                <ion-col size="1.5" class="ion-margin-top ion-justify-content-center">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-badge color="light" style="font-size: 1.5em">
+                            {{getDeclined(raid).length || 0}}  ❌
+                        </ion-badge>
+                    </ion-row>
+
+                </ion-col>
+                <ion-col size="1.5" class="ion-margin-top ion-justify-content-center">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-badge color="light" style="font-size: 1.5em">
+                            {{getBench(raid).length || 0}}  🪑
+                        </ion-badge>
+                    </ion-row>
+
+                </ion-col>
+                <ion-col size="1.5" class="ion-margin-top ion-justify-content-center">
+                    <ion-row class="ion-justify-content-center">
+                        <ion-badge color="light" style="font-size: 1.5em">
+                            {{getLate(raid).length || 0}} ⌛️
+                        </ion-badge>
+                    </ion-row>
+
                 </ion-col>
 
-                <ion-col size="3" style="margin-top: 1em">
-                    <ion-button size="medium"  (click)="showSignUpModal()"
+                <ion-col *ngIf="!isAlreadyRegistered(raid)" size="2" style="margin-top: 1em">
+                    <ion-button  style="width: 14em" class="ion-text-center" (click)="presentRaidRegistration(raid)"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
-                        <ion-icon type="round" name="pencil-outline">
+                        <ion-icon slot="start" class="ion-padding-end" name="calendar-sharp"></ion-icon>
+                        <strong>
+                            Registrierung
+                        </strong>
+                    </ion-button>
+                </ion-col>
+                <ion-col *ngIf="isAlreadyRegistered(raid)" size="2" style="margin-top: 1em">
+                    <ion-button style="width: 14em" class="ion-text-center" (click)="presentRaidRegistration(raid)"
+                                color="{{myChar.playerClass.toString().toLowerCase()}}">
+                        <ion-icon class="ion-padding-end" type="round" name="pencil-outline">
 
                         </ion-icon>
                         <strong>
-                            zur Anmeldung
+                            Ändern
                         </strong>
                     </ion-button>
                 </ion-col>
             </ion-row>
-
         </ion-card>
 
 

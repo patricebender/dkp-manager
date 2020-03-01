@@ -8,16 +8,12 @@ export class Raid {
     registrationDeadline: Date;
     description: string;
 
-    bench: Player[];
-    attend: Player[];
-    declined: Player[];
-    late: Player[] ;
+    bench: any[];
+    confirm: any[];
+    decline: any[];
+    late: any[] ;
     _id: string;
 
-
-    get registrationCount(){
-        return this.attend.length + this.bench.length + this.declined.length + this.late.length
-    }
     constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string) {
         this.dungeonName = dungeonName;
         this.date = date;
@@ -26,4 +22,9 @@ export class Raid {
     }
 
 
+}
+
+class Registration {
+    player: Player[];
+    date: Date;
 }
