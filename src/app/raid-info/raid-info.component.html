@@ -1,5 +1,99 @@
 <ion-header>
-  <ion-toolbar>
-    {{myChar}}
-  </ion-toolbar>
+    <ion-toolbar class="ion-margin-horizontal">
+        Info für den {{raid.dungeonName}} Raid!
+    </ion-toolbar>
 </ion-header>
+
+<ion-content>
+    <ion-card>
+        <ion-header class="ion-margin"><h4>{{raid.description}}</h4></ion-header>
+    </ion-card>
+
+    <ion-card class="ion-margin">
+        <ion-card class="ion-margin">
+            <ion-card-title>
+                ✅ {{raid.confirm.length}}
+            </ion-card-title>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col *ngFor="let reg of raid.confirm" size="3">
+                            <ion-chip class="ion-margin-horizontal">
+                                <ion-avatar style="width: 3em">
+                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                                </ion-avatar>
+                                <ion-label class="ion-float-right">
+                                    {{reg.player.ingameName}}</ion-label>
+                            </ion-chip>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+
+        </ion-card>
+        <ion-card class="ion-margin">
+            <ion-card-title>
+                ❌ {{raid.decline.length}}
+            </ion-card-title>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col *ngFor="let reg of raid.decline" size="3">
+                            <ion-chip class="ion-margin-horizontal">
+                                <ion-avatar style="width: 3em">
+                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                                </ion-avatar>
+                                <ion-label class="ion-float-right">
+                                    {{reg.player.ingameName}}</ion-label>
+                            </ion-chip>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+
+        </ion-card>
+        <ion-card class="ion-margin">
+            <ion-card-title>
+                🪑 {{raid.bench.length}}
+            </ion-card-title>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col *ngFor="let reg of raid.bench" size="3">
+                            <ion-chip class="ion-margin-horizontal">
+                                <ion-avatar style="width: 3em">
+                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                                </ion-avatar>
+                                <ion-label class="ion-float-right">
+                                    {{reg.player.ingameName}}</ion-label>
+                            </ion-chip>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+
+        </ion-card>
+        <ion-card class="ion-margin">
+            <ion-card-title>
+                ⌛️ {{raid.late.length}}
+            </ion-card-title>
+            <ion-card-content>
+                <ion-grid>
+                    <ion-row>
+                        <ion-col *ngFor="let reg of raid.late" size="3">
+                            <ion-chip class="ion-margin-horizontal">
+                                <ion-avatar style="width: 3em">
+                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                                </ion-avatar>
+                                <ion-label class="ion-float-right">
+                                    {{reg.player.ingameName}}</ion-label>
+                            </ion-chip>
+                        </ion-col>
+                    </ion-row>
+                </ion-grid>
+            </ion-card-content>
+
+        </ion-card>
+
+    </ion-card>
+</ion-content>

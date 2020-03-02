@@ -293,7 +293,7 @@ export class RaidsPage implements OnInit {
         const modal = await this.modalController.create({
             component: RaidInfoComponent,
             componentProps: {
-                raid
+                raid: raid
             }
         });
         await modal.present();
