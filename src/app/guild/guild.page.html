@@ -37,18 +37,18 @@
             <ion-row class="ion-justify-content-center">
 
                 <ion-col
-                        *ngFor="let class of allClasses"
+                        *ngFor="let playerClass of allClasses"
                         class="ion-margin-horizontal"
                         style="width: 6em;"
                         size="1.2">
                     <ion-chip>
                         <ion-header>
-                            {{class}}
+                            {{playerClass}}
                         </ion-header>
                         <ion-avatar style="width: 3em">
-                            <img src="../assets/class/{{class.toLowerCase()}}.png">
+                            <img src="../assets/class/{{playerClass.toLowerCase()}}.png">
                         </ion-avatar>
-                        <ion-label>{{findAllPlayersOfOneClass(PlayerClass[class]).length}}</ion-label>
+                        <ion-label>{{findAllPlayersOfOneClass(PlayerClass[playerClass]).length}}</ion-label>
                     </ion-chip>
                 </ion-col>
 

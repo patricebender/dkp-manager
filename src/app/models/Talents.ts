@@ -8,8 +8,6 @@ export function Talent(playerClass: PlayerClass) {
             return ['Arcane', 'Fire', 'Frost'];
         case PlayerClass.Hunter:
             return ['Beastmastery', 'Marksman', 'Survival'];
-        case PlayerClass.Paladin:
-            return ['Holy', 'Protection', 'Retribution'];
         case PlayerClass.Rogue:
             return ['Assassination', 'Combat', 'Subtlety'];
         case PlayerClass.Warrior:

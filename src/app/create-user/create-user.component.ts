@@ -42,17 +42,34 @@ export class CreateUserComponent implements OnInit {
 
 
     get specs(): any[] {
-        if (this._playerClass === PlayerClass.Druid
-            || this._playerClass === PlayerClass.Paladin) {
+        if (this._playerClass === PlayerClass.Druid) {
+            if (this.talent === 'Feral') {
+                return [Spec.Tank, Spec.DD];
+            }
+            if (this.talent === 'Restoration') {
+                return [Spec.Heal];
+            }
             return Object.keys(Spec);
         }
 
-        if (this._playerClass === PlayerClass.Priest
-            || this._playerClass === PlayerClass.Shaman) {
-            return [Spec.Heal, Spec.DD];
+        if (this._playerClass === PlayerClass.Priest) {
+            if (this.talent === 'Shadow') {
+                return [Spec.DD];
+            }
+            return [Spec.Heal];
+        }
+
+        if (this._playerClass === PlayerClass.Shaman) {
+            if (this.talent === 'Restoration') {
+                return [Spec.Heal];
+            }
+            return [Spec.DD];
         }
 
         if (this.playerClass === PlayerClass.Warrior) {
+            if (this.talent === 'Protection') {
+                return [Spec.Tank];
+            }
             return [Spec.Tank, Spec.DD];
         }
         return [Spec.DD];
