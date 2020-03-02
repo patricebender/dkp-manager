@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Spec} from '../models/Spec';
 import {PlayerClass} from '../models/PlayerClass';
+import {Talent} from '../models/Talents';
 import {ModalController, ToastController, NavController} from '@ionic/angular';
 import {Player} from '../models/Player';
 import {OktaAuthService} from '@okta/okta-angular';
@@ -17,6 +18,14 @@ import {PlayerWidgetComponent} from '../player-widget/player-widget.component';
     styleUrls: ['./change-user.component.scss'],
 })
 export class ChangeUserComponent implements OnInit {
+    get talent(): string {
+        return this._talent;
+    }
+
+    set talent(value: string) {
+        this._talent = value;
+    }
+
 
     get spec(): Spec {
         return this._spec;
@@ -32,11 +41,19 @@ export class ChangeUserComponent implements OnInit {
 
     set playerClass(value: PlayerClass) {
         this._playerClass = value;
+        this.spec = undefined;
+        this.talent = undefined;
     }
 
     get playerClasses(): String[] {
         return Object.keys(PlayerClass);
     }
+
+
+    get talents(): any[] {
+        return Talent(this.playerClass);
+    }
+
 
 
     get specs(): any[] {
@@ -61,6 +78,7 @@ export class ChangeUserComponent implements OnInit {
 
     private _playerClass: PlayerClass;
     private _spec: Spec;
+    private _talent: string;
 
     constructor(private oktaAuth: OktaAuthService, private http: HttpClient
         , private toastController: ToastController,
@@ -85,7 +103,7 @@ export class ChangeUserComponent implements OnInit {
 
 
     setPlayerClass(e) {
-        this._playerClass = <PlayerClass> PlayerClass[e.detail.value];
+        this.playerClass = <PlayerClass> PlayerClass[e.detail.value];
     }
 
     setPlayerSpec(e) {
@@ -103,6 +121,7 @@ export class ChangeUserComponent implements OnInit {
 
         this.player.spec = this.spec;
         this.player.playerClass = this.playerClass;
+        this.player.talent = this.talent.toLowerCase();
         this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
@@ -114,4 +133,7 @@ export class ChangeUserComponent implements OnInit {
             });
     }
 
+    setPlayerTalent(e: CustomEvent) {
+        this.talent = e.detail.value;
+    }
 }

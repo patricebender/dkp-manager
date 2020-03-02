@@ -8,11 +8,13 @@ export class Player {
     dkp: number;
     isAdmin: boolean;
     mail: string;
+    talent: string;
 
-    constructor(name: string, playerClass: PlayerClass, spec: Spec) {
+    constructor(name: string, playerClass: PlayerClass, spec: Spec, talent: string) {
         this.ingameName = name;
         this.spec = spec;
         this.playerClass = playerClass;
+        this.talent = talent;
     }
 
 

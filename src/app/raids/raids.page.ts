@@ -10,6 +10,8 @@ import {ModalController} from '@ionic/angular';
 import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {ToastController} from '@ionic/angular';
 import {AlertController} from '@ionic/angular';
+import {DkpLogType} from '../models/DkpLogType';
+import {DkpEntry} from '../models/DkpEntry';
 
 @Component({
     selector: 'app-raids',
@@ -212,7 +214,8 @@ export class RaidsPage implements OnInit {
                 if (this.isAlreadyRegistered(raid)) {
                     this.presentToast('Registrierung erfolgreich geändert');
                 } else {
-                    this.presentToast('Danke für deine Registrierung! +5 DKP');
+                    this.presentToast('Danke fürs registrieren!');
+                    //this.createAndPostDkpEntry(5, "Raidanmeldung");
                 }
                 this.updateRaids();
 
@@ -232,6 +235,26 @@ export class RaidsPage implements OnInit {
                 console.log('raid cancelled!', data);
                 this.updateRaids();
                 this.presentToast('Raid gelöscht!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
+    async createAndPostDkpEntry(dkp: number, reason: string) {
+        const dkpLogType = dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
+        const dkpEntry = new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp, this.myChar.mail);
+        this.postDkpEntry(dkpEntry);
+    }
+
+    async postDkpEntry(dkpEntry: DkpEntry) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        this.http.patch(Backend.address + '/dkp' + this.myChar.mail, dkpEntry, options)
+            .subscribe((data) => {
+                console.log('dkp patch successful!', data);
+                this.presentToast('Danke für deine Registrierung! +5 DKP!');
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');

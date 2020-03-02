@@ -25,8 +25,20 @@
     </ion-item>
 
     <ion-item disabled="{{!playerClass}}">
+      <ion-label>Talent</ion-label>
+      <ion-avatar *ngIf="talent">
+        <img src="../assets/spec//{{playerClass.toString().toLowerCase()}}/{{talent.toString().toLowerCase()}}.png">
+      </ion-avatar>
+      <ion-select (ionChange)="setPlayerTalent($event)">
+        <ion-select-option *ngFor="let talent of talents" value="{{talent}}"
+
+        >{{talent}}</ion-select-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item disabled="{{!playerClass}}">
       <ion-label>Spec</ion-label>
-      <ion-select (ionChange)="setPlayerSpec($event)" (error)="true">
+      <ion-select (ionChange)="setPlayerSpec($event)">
         <ion-select-option *ngFor="let spec of specs" value="{{spec}}"
 
         >{{spec}}</ion-select-option>

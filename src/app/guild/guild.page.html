@@ -41,12 +41,6 @@
                     </ion-row>
 
                 </ion-col>
-                <ion-col *ngIf="MyChar.ingameName === player.ingameName" size="3">
-                    <ion-text [ngClass]="MyChar.playerClass.toString().toLowerCase()" style="font-size: 1.8em">
-                        <strong> DU ({{player.ingameName}}) </strong>
-                    </ion-text>
-                </ion-col>
-
                 <ion-col class="ion-text-center" size="3">
                     <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
                 </ion-col>
@@ -69,7 +63,7 @@
                         <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
                     </ion-avatar>
                     <ion-avatar class="ion-float-right">
-                        <img src="../assets/class/{{player.playerClass.toString().toLowerCase()}}.png">
+                        <img src="../assets/spec//{{player.playerClass.toString().toLowerCase()}}/{{player.talent.toString().toLowerCase()}}.png">
                     </ion-avatar>
                 </ion-col>
             </ion-row>
@@ -119,10 +113,10 @@
                 </ion-col>
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
-                        <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
+                        <img src="../assets/role/{{MyChar.spec.toString().toLowerCase()}}.png">
                     </ion-avatar>
                     <ion-avatar class="ion-float-right">
-                        <img src="../assets/class/{{MyChar.playerClass.toString().toLowerCase()}}.png">
+                        <img src="../assets/spec//{{MyChar.playerClass.toString().toLowerCase()}}/{{MyChar.talent.toString().toLowerCase()}}.png">
                     </ion-avatar>
                 </ion-col>
             </ion-row>

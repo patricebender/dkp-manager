@@ -78,7 +78,8 @@ export class GuildPage implements OnInit {
             const filter = this.searchTerm.toLowerCase();
             return player.ingameName.toLowerCase().startsWith(filter)
                 || player.playerClass.toString().toLowerCase().startsWith(filter)
-                || player.spec.toString().toLowerCase().startsWith(filter);
+                || player.spec.toString().toLowerCase().startsWith(filter)
+                || player.talent.toString().toLowerCase().startsWith(filter);
         });
     }
 

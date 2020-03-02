@@ -32,8 +32,8 @@
             <ion-avatar class="ion-float-right">
                 <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
             </ion-avatar>
-            <ion-avatar class="ion-float-right">
-                <img src="../assets/class/{{player.playerClass.toString().toLowerCase()}}.png">
+            <ion-avatar class="ion-float-right" *ngIf="player.talent">
+                <img src="../assets/spec//{{player.playerClass.toString().toLowerCase()}}/{{player.talent.toString().toLowerCase()}}.png">
             </ion-avatar>
         </ion-col>
     </ion-row>

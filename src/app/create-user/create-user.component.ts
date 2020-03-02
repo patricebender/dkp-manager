@@ -8,6 +8,7 @@ import {Player} from '../models/Player';
 
 import {HttpClient} from '@angular/common/http';
 import {Backend} from '../Backend';
+import {Talent} from '../models/Talents';
 
 @Component({
     selector: 'app-create-user',
@@ -15,6 +16,8 @@ import {Backend} from '../Backend';
     styleUrls: ['./create-user.component.scss'],
 })
 export class CreateUserComponent implements OnInit {
+    private _talent: string;
+
     get spec(): Spec {
         return this._spec;
     }
@@ -29,6 +32,8 @@ export class CreateUserComponent implements OnInit {
 
     set playerClass(value: PlayerClass) {
         this._playerClass = value;
+        this.spec = undefined;
+        this.talent = undefined;
     }
 
     get playerClasses(): String[] {
@@ -47,7 +52,7 @@ export class CreateUserComponent implements OnInit {
             return [Spec.Heal, Spec.DD];
         }
 
-        if(this.playerClass === PlayerClass.Warrior) {
+        if (this.playerClass === PlayerClass.Warrior) {
             return [Spec.Tank, Spec.DD];
         }
         return [Spec.DD];
@@ -60,7 +65,7 @@ export class CreateUserComponent implements OnInit {
     private _spec: Spec;
 
     constructor(private oktaAuth: OktaAuthService, private http: HttpClient
-    ,private toastController: ToastController,
+        , private toastController: ToastController,
                 private modalController: ModalController
     ) {
     }
@@ -82,17 +87,28 @@ export class CreateUserComponent implements OnInit {
 
 
     setPlayerClass(e) {
-        this._playerClass = <PlayerClass> PlayerClass[e.detail.value];
+        this.playerClass = <PlayerClass> PlayerClass[e.detail.value];
     }
 
     setPlayerSpec(e) {
         this.spec = <Spec> Spec[e.detail.value];
     }
 
-    logout(){
-        this.oktaAuth.logout("/tabs")
+    logout() {
+        this.oktaAuth.logout('/tabs');
     }
 
+    get talent(): string {
+        return this._talent;
+    }
+
+    set talent(value: string) {
+        this._talent = value;
+    }
+
+    get talents(): any[] {
+        return Talent(this.playerClass);
+    }
 
     async postUser() {
         const token = await this.oktaAuth.getAccessToken();
@@ -100,16 +116,21 @@ export class CreateUserComponent implements OnInit {
 
         this.player.spec = this.spec;
         this.player.playerClass = this.playerClass;
+        this.player.talent = this.talent;
 
-        console.log(Backend.address + '/player')
+        console.log(Backend.address + '/player');
         this.http.post(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
-                console.log("user creation successful!", data);
+                console.log('user creation successful!', data);
                 this.dismiss();
-                this.presentToast("Yeah "+ this.player.ingameName  +", dein Charakter wurde erstellt!")
+                this.presentToast('Yeah ' + this.player.ingameName + ', dein Charakter wurde erstellt!');
             }, (e) => {
                 console.log(e);
-                this.presentToast("Da ist wohl was schiefgegangen 🤮")
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
+    }
+
+    setPlayerTalent(e: CustomEvent) {
+        this.talent = e.detail.value;
     }
 }
