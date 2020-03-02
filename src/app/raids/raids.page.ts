@@ -12,6 +12,7 @@ import {ToastController} from '@ionic/angular';
 import {AlertController} from '@ionic/angular';
 import {DkpLogType} from '../models/DkpLogType';
 import {DkpEntry} from '../models/DkpEntry';
+import {RaidInfoComponent} from '../raid-info/raid-info.component';
 
 @Component({
     selector: 'app-raids',
@@ -283,4 +284,23 @@ export class RaidsPage implements OnInit {
     getLate(raid: Raid): Player[] {
         return raid.late;
     }
+
+    async showRaidInfo(raid: Raid) {
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: RaidInfoComponent,
+            componentProps: {
+                raid
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then(() => {
+            this.updateRaids();
+            this.isModalPresent = false;
+        });
+    }
+
 }

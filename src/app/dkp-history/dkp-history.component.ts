@@ -89,8 +89,7 @@ export class DkpHistoryComponent implements OnInit {
         setTimeout(() => {
             event.target.complete();
             this.updateEntries();
-            // App logic to determine if all data is loaded
-            // and disable the infinite scroll
+            // disable the infinite scroll
             if (this.isAllLogsLoaded) {
                 event.target.disabled = true;
             }

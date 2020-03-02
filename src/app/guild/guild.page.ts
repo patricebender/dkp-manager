@@ -9,6 +9,7 @@ import {Backend} from '../Backend';
 import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {EditUserComponent} from '../edit-user/edit-user.component';
 import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
+import {PlayerClass} from '../models/PlayerClass';
 
 @Component({
     selector: 'app-guild',
@@ -17,6 +18,10 @@ import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 })
 export class GuildPage implements OnInit {
     private isModalPresent: boolean;
+    get PlayerClass() {
+        return PlayerClass;
+    }
+
     get filteredPlayers(): Player[] {
         return this._filteredPlayers;
     }
@@ -26,6 +31,8 @@ export class GuildPage implements OnInit {
     }
 
     private _filteredPlayers: Player[];
+    players: Player[] = [];
+    searchTerm: string;
 
     constructor(
         private modalController: ModalController,
@@ -37,8 +44,16 @@ export class GuildPage implements OnInit {
         return Settings.Instance.player;
     }
 
-    players: Player[];
-    searchTerm: string;
+    get allClasses() {
+        return Object.keys(PlayerClass);
+    }
+
+    findAllPlayersOfOneClass(playerClass: PlayerClass){
+        return this.players.filter((p) => {
+            return p.playerClass === playerClass;
+        });
+    }
+
 
     async ngOnInit() {
         await this.updatePlayers();

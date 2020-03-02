@@ -7,5 +7,4 @@ export enum PlayerClass {
     Mage = "Mage",
     Hunter = "Hunter" ,
     Priest = "Priest",
-    Paladin = "Paladin",
 };

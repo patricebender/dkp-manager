@@ -23,6 +23,7 @@ import {environment} from '../environments/environment';
 import {CreateRaidComponent} from './create-raid/create-raid.component';
 import {EditUserComponent} from './edit-user/edit-user.component';
 import {DkpHistoryComponent} from './dkp-history/dkp-history.component';
+import {RaidInfoComponent} from './raid-info/raid-info.component';
 
 const config = {
     issuer: 'https://dev-181790.okta.com/oauth2/default',
@@ -48,8 +49,11 @@ const appRoutes: Routes = [
 
 
 @NgModule({
-    declarations: [AppComponent, CreateUserComponent, ChangeUserComponent, CreateRaidComponent, EditUserComponent, DkpHistoryComponent],
+    declarations: [AppComponent,
+        RaidInfoComponent,
+        CreateUserComponent, ChangeUserComponent, CreateRaidComponent, EditUserComponent, DkpHistoryComponent],
     entryComponents: [ChangeUserComponent,
+        RaidInfoComponent,
         DkpHistoryComponent,
         CreateUserComponent, CreateRaidComponent, EditUserComponent
     ],

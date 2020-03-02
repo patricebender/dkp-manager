@@ -1,20 +1,59 @@
 <ion-header>
     <ion-row>
-        <ion-col size="11">
+        <ion-col size="8">
             <ion-searchbar [(ngModel)]="searchTerm"
                            (ionChange)="setFilteredItems()" placeholder="Suche nach Namen, Klasse oder Spec"
                            animated="true"></ion-searchbar>
         </ion-col>
-        <ion-col size="1" class="ion-float-right">
-            <ion-button color="{{MyChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
-                <ion-icon name="refresh"></ion-icon>
-            </ion-button>
+        <ion-col size="4" class="ion-float-right">
+            <ion-row class="ion-text-center">
+                <ion-col
+                        size="8">
+                    <ion-chip class="ion-margin-horizontal">
+                        <ion-header class="ion-text-center">
+                            Insgesamt
+                        </ion-header>
+                        <ion-avatar style="width: 3em">
+                            <img src="../assets/misc.png">
+                        </ion-avatar>
+                        <ion-label class="ion-float-right">
+                            {{filteredPlayers.length}}</ion-label>
+                    </ion-chip>
+                </ion-col>
+                <ion-col>
+                    <ion-button color="{{MyChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
+                        <ion-icon name="refresh"></ion-icon>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
         </ion-col>
+
     </ion-row>
 </ion-header>
 
 <ion-content>
     <ion-grid class="vertical-align-content">
+        <ion-card>
+            <ion-row class="ion-justify-content-center">
+
+                <ion-col
+                        *ngFor="let class of allClasses"
+                        class="ion-margin-horizontal"
+                        style="width: 6em;"
+                        size="1.2">
+                    <ion-chip>
+                        <ion-header>
+                            {{class}}
+                        </ion-header>
+                        <ion-avatar style="width: 3em">
+                            <img src="../assets/class/{{class.toLowerCase()}}.png">
+                        </ion-avatar>
+                        <ion-label>{{findAllPlayersOfOneClass(PlayerClass[class]).length}}</ion-label>
+                    </ion-chip>
+                </ion-col>
+
+            </ion-row>
+        </ion-card>
         <ion-card class="ion-padding" *ngFor="let player of filteredPlayers">
             <ion-row *ngIf="MyChar.ingameName !== player.ingameName"
                      class="ion-justify-content-center ion-align-items-center">
@@ -55,7 +94,8 @@
                     </ion-row>
                 </ion-col>
                 <ion-col size="1">
-                    <ion-icon (click)="showDkpHistory(player)" color="{{MyChar.playerClass.toString().toLowerCase()}}" size="large"
+                    <ion-icon (click)="showDkpHistory(player)" color="{{MyChar.playerClass.toString().toLowerCase()}}"
+                              size="large"
                               name="information-circle"></ion-icon>
                 </ion-col>
                 <ion-col size="2">
@@ -108,7 +148,8 @@
                     </ion-row>
                 </ion-col>
                 <ion-col size="1">
-                    <ion-icon (click)="showDkpHistory(MyChar)" color="{{MyChar.playerClass.toString().toLowerCase()}}" size="large"
+                    <ion-icon (click)="showDkpHistory(MyChar)" color="{{MyChar.playerClass.toString().toLowerCase()}}"
+                              size="large"
                               name="information-circle"></ion-icon>
                 </ion-col>
                 <ion-col size="2">
