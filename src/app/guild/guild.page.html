@@ -21,7 +21,7 @@
                     </ion-chip>
                 </ion-col>
                 <ion-col>
-                    <ion-button color="{{MyChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
                         <ion-icon name="refresh"></ion-icon>
                     </ion-button>
                 </ion-col>
@@ -48,40 +48,46 @@
                         <ion-avatar style="width: 3em">
                             <img src="../assets/class/{{playerClass.toLowerCase()}}.png">
                         </ion-avatar>
-                        <ion-label>{{findAllPlayersOfOneClass(PlayerClass[playerClass]).length}}</ion-label>
+                        <ion-label>{{findAllPlayersOfOneClass(playerClass).length}}</ion-label>
                     </ion-chip>
                 </ion-col>
 
             </ion-row>
         </ion-card>
         <ion-card class="ion-padding" *ngFor="let player of filteredPlayers">
-            <ion-row *ngIf="MyChar.ingameName !== player.ingameName"
+            <ion-row *ngIf="myChar.ingameName !== player.ingameName"
                      class="ion-justify-content-center ion-align-items-center">
                 <ion-col>
                     <ion-button
                             (click)="showEditUserModal(player)"
-                            *ngIf="MyChar.isAdmin"
-                            color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                            *ngIf="myChar.isAdmin"
+                            color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
                         </ion-icon>
                     </ion-button>
+                    <ion-button *ngIf="myChar.isAdmin"
+                                (click)="presentDeleteConfirm(player)"
+                                size="1" style="margin-top: 1.3em">
+                        <ion-icon color="danger" size="large"
+                                  name="close-circle-sharp"></ion-icon>
+                    </ion-button>
                 </ion-col>
-                <ion-col *ngIf="MyChar.ingameName !== player.ingameName" size="3">
+                <ion-col *ngIf="myChar.ingameName !== player.ingameName" size="3">
                     <ion-row>
                         <ion-text style="font-size: 1.8em">
                             {{player.ingameName}}
                         </ion-text>
                     </ion-row>
                     <ion-row *ngIf="player.isAdmin" class="ion-margin-top">
-                        <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                        <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}">
                             ADMIN
                         </ion-badge>
                     </ion-row>
 
                 </ion-col>
                 <ion-col class="ion-text-center" size="3">
-                    <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
                 </ion-col>
                 <ion-col size="2">
                     <ion-row>
@@ -94,7 +100,7 @@
                     </ion-row>
                 </ion-col>
                 <ion-col size="1">
-                    <ion-icon (click)="showDkpHistory(player)" color="{{MyChar.playerClass.toString().toLowerCase()}}"
+                    <ion-icon (click)="showDkpHistory(player)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                               size="large"
                               name="information-circle"></ion-icon>
                 </ion-col>
@@ -109,55 +115,55 @@
             </ion-row>
 
             <!--     Row if this char is my char     -->
-            <ion-row *ngIf="MyChar.ingameName === player.ingameName"
+            <ion-row *ngIf="myChar.ingameName === player.ingameName"
                      class="ion-justify-content-center ion-align-items-center">
                 <ion-col>
-                    <ion-button disabled="true" *ngIf="MyChar.isAdmin"
-                                color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                    <ion-button disabled="true" *ngIf="myChar.isAdmin"
+                                color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon type="round" name="pencil-outline">
 
                         </ion-icon>
                     </ion-button>
                 </ion-col>
 
-                <ion-col *ngIf="MyChar.ingameName === player.ingameName" size="3">
+                <ion-col *ngIf="myChar.ingameName === player.ingameName" size="3">
                     <ion-row>
-                        <ion-text color="{{MyChar.playerClass.toString().toLowerCase()}}" style="font-size: 1.8em">
+                        <ion-text color="{{myChar.playerClass.toString().toLowerCase()}}" style="font-size: 1.8em">
                             <strong>
-                                DU ({{MyChar.ingameName}})
+                                DU ({{myChar.ingameName}})
                             </strong>
                         </ion-text>
                     </ion-row>
-                    <ion-row *ngIf="MyChar.isAdmin" class="ion-margin-top">
-                        <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">
+                    <ion-row *ngIf="myChar.isAdmin" class="ion-margin-top">
+                        <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}">
                             ADMIN
                         </ion-badge>
                     </ion-row>
                 </ion-col>
                 <ion-col class="ion-text-center" size="3">
-                    <ion-badge color="{{MyChar.playerClass.toString().toLowerCase()}}">{{MyChar.dkp}} DKP</ion-badge>
+                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}">{{myChar.dkp}} DKP</ion-badge>
                 </ion-col>
                 <ion-col size="2">
                     <ion-row>
-                        <ion-text style="font-size: 1.5em" [ngClass]="MyChar.playerClass.toString().toLowerCase()">
-                            {{MyChar.playerClass}}
+                        <ion-text style="font-size: 1.5em" [ngClass]="myChar.playerClass.toString().toLowerCase()">
+                            {{myChar.playerClass}}
                         </ion-text>
                     </ion-row>
                     <ion-row class="ion-margin-top">
-                        <ion-text style="font-size: 1.5em"> {{MyChar.spec}} </ion-text>
+                        <ion-text style="font-size: 1.5em"> {{myChar.spec}} </ion-text>
                     </ion-row>
                 </ion-col>
                 <ion-col size="1">
-                    <ion-icon (click)="showDkpHistory(MyChar)" color="{{MyChar.playerClass.toString().toLowerCase()}}"
+                    <ion-icon (click)="showDkpHistory(myChar)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                               size="large"
                               name="information-circle"></ion-icon>
                 </ion-col>
                 <ion-col size="2">
                     <ion-avatar class="ion-float-right">
-                        <img src="../assets/role/{{MyChar.spec.toString().toLowerCase()}}.png">
+                        <img src="../assets/role/{{myChar.spec.toString().toLowerCase()}}.png">
                     </ion-avatar>
                     <ion-avatar class="ion-float-right">
-                        <img src="../assets/spec//{{MyChar.playerClass.toString().toLowerCase()}}/{{MyChar.talent.toString().toLowerCase()}}.png">
+                        <img src="../assets/spec//{{myChar.playerClass.toString().toLowerCase()}}/{{myChar.talent.toString().toLowerCase()}}.png">
                     </ion-avatar>
                 </ion-col>
             </ion-row>

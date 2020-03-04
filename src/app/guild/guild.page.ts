@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {Settings} from '../Settings';
-import {ModalController} from '@ionic/angular';
+import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
@@ -10,6 +10,7 @@ import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {EditUserComponent} from '../edit-user/edit-user.component';
 import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 import {PlayerClass} from '../models/PlayerClass';
+import {Raid} from '../models/Raid';
 
 @Component({
     selector: 'app-guild',
@@ -18,9 +19,7 @@ import {PlayerClass} from '../models/PlayerClass';
 })
 export class GuildPage implements OnInit {
     private isModalPresent: boolean;
-    get PlayerClass() {
-        return PlayerClass;
-    }
+
 
     get filteredPlayers(): Player[] {
         return this._filteredPlayers;
@@ -34,13 +33,14 @@ export class GuildPage implements OnInit {
     players: Player[] = [];
     searchTerm: string;
 
-    constructor(
-        private modalController: ModalController,
-        private oktaAuth: OktaAuthService,
-        private http: HttpClient) {
+    constructor(private alertController: AlertController,
+                private toastController: ToastController,
+                private modalController: ModalController,
+                private oktaAuth: OktaAuthService,
+                private http: HttpClient) {
     }
 
-    get MyChar() {
+    get myChar() {
         return Settings.Instance.player;
     }
 
@@ -48,10 +48,62 @@ export class GuildPage implements OnInit {
         return Object.keys(PlayerClass);
     }
 
-    findAllPlayersOfOneClass(playerClass: PlayerClass){
+    findAllPlayersOfOneClass(playerClassString: string) {
+        const playerClass = PlayerClass[playerClassString];
         return this.players.filter((p) => {
             return p.playerClass === playerClass;
         });
+    }
+
+    async presentDeleteConfirm(player: Player) {
+        console.log(player + " wird gelöscht")
+        const alert = await this.alertController.create({
+            header: player.ingameName + ' Löschen?',
+            message: 'Bist du dir Sicher, dass du den Spieler inklusive DKP löschen möchtest?',
+            buttons: [
+                {
+                    text: 'Löschen',
+                    handler: () => {
+                        this.deleteUser(player);
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    cssClass: this.myChar.playerClass.toString().toLowerCase(),
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+    async deleteUser(player: Player) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+       console.log(player)
+
+        this.http.delete(Backend.address + '/player/' + player._id, options)
+            .subscribe((data) => {
+                console.log('raid cancelled!', data);
+                this.updatePlayers();
+                this.presentToast('Spieler gelöscht!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
+
+    async presentToast(msg) {
+        const toast = await this.toastController.create({
+            message: msg,
+            duration: 2000
+        });
+        toast.present();
     }
 
 
