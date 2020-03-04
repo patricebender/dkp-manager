@@ -289,9 +289,11 @@ export class RaidsPage implements OnInit {
         if (this.isModalPresent) {
             return;
         }
+       console.log()
         this.isModalPresent = true;
         const modal = await this.modalController.create({
             component: RaidInfoComponent,
+            cssClass:   'my-custom-modal-css',
             componentProps: {
                 raid: raid
             }
