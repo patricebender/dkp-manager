@@ -13,7 +13,7 @@
             <ion-row class="ion-text-center">
                 <ion-col size="4">
                     <ion-chip class="ion-margin-horizontal">
-                        <ion-avatar >
+                        <ion-avatar>
                             <img src="../assets/role/heal.png">
                         </ion-avatar>
                         <ion-label class="ion-float-right">
@@ -43,91 +43,119 @@
         </ion-grid>
     </ion-card>
 
-    <ion-card class="ion-margin">
-        <ion-card class="ion-margin">
-            <ion-card-title>
-                ✅ {{raid.confirm.length}}
-            </ion-card-title>
-            <ion-card-content>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col *ngFor="let reg of raid.confirm" size="3">
-                            <ion-chip class="ion-margin-horizontal">
-                                <ion-avatar style="width: 3em">
-                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
-                                </ion-avatar>
-                                <ion-label class="ion-float-right">
-                                    {{reg.player.ingameName}}</ion-label>
-                            </ion-chip>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-card-content>
 
-        </ion-card>
-        <ion-card class="ion-margin">
-            <ion-card-title>
-                ❌ {{raid.decline.length}}
-            </ion-card-title>
-            <ion-card-content>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col *ngFor="let reg of raid.decline" size="3">
-                            <ion-chip class="ion-margin-horizontal">
-                                <ion-avatar>
-                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
-                                </ion-avatar>
-                                <ion-label class="ion-float-right">
-                                    {{reg.player.ingameName}}</ion-label>
-                            </ion-chip>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-card-content>
+    <ion-card>
 
-        </ion-card>
-        <ion-card class="ion-margin">
-            <ion-card-title>
-                🪑 {{raid.bench.length}}
-            </ion-card-title>
-            <ion-card-content>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col *ngFor="let reg of raid.bench" size="3">
-                            <ion-chip class="ion-margin-horizontal">
+        <ion-card-title class="ion-margin">
+            ✅ {{raid.confirm.length}}
+        </ion-card-title>
+        <ion-grid>
+            <ion-row>
+                <ion-col *ngFor="let playerClass of allClasses" size="4">
+                    <ion-card class="ion-margin-bottom">
+                        <ion-card-content>
+                            <ion-chip class="ion-justify-content-center" style="width: 100%; background: none">
                                 <ion-avatar >
-                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                                    <img src="../assets/class/{{playerClass.toString().toLowerCase()}}.png">
+
+                                </ion-avatar>
+                                <ion-label>
+                                    {{playerClass}}
+                                </ion-label>
+                            </ion-chip>
+                            <ion-chip
+                                    class="ion-justify-content-center"
+
+                                    style="width: 45%;"
+
+
+                                    *ngFor="let confirmedPlayer of findConfirmedPlayersOfOneClassByString(playerClass) "
+                            >
+                                <ion-avatar class="ion-float-left">
+                                    <img src="../assets/spec/{{confirmedPlayer.playerClass.toString().toLowerCase()}}/{{confirmedPlayer.talent.toLowerCase()}}.png">
                                 </ion-avatar>
                                 <ion-label class="ion-float-right">
-                                    {{reg.player.ingameName}}</ion-label>
+                                    {{confirmedPlayer.ingameName}}</ion-label>
+                                <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(confirmedPlayer)" name="open-outline"></ion-icon>
                             </ion-chip>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-card-content>
+                        </ion-card-content>
 
-        </ion-card>
-        <ion-card class="ion-margin">
-            <ion-card-title>
-                ⌛️ {{raid.late.length}}
-            </ion-card-title>
-            <ion-card-content>
-                <ion-grid>
-                    <ion-row>
-                        <ion-col *ngFor="let reg of raid.late" size="3">
-                            <ion-chip class="ion-margin-horizontal">
-                                <ion-avatar >
-                                    <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
-                                </ion-avatar>
-                                <ion-label class="ion-float-right">
-                                    {{reg.player.ingameName}}</ion-label>
-                            </ion-chip>
-                        </ion-col>
-                    </ion-row>
-                </ion-grid>
-            </ion-card-content>
+                    </ion-card>
 
-        </ion-card>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
 
     </ion-card>
+
+    <ion-card class="ion-margin">
+        <ion-card-title class="ion-margin">
+            🪑 {{raid.bench.length}}
+        </ion-card-title>
+
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col *ngFor="let reg of raid.bench" size="3">
+                        <ion-chip class="ion-margin-horizontal">
+                            <ion-avatar>
+                                <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                            </ion-avatar>
+                            <ion-label class="ion-float-right">
+                                {{reg.player.ingameName}}</ion-label>
+                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)" name="open-outline"></ion-icon>
+                        </ion-chip>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+
+    </ion-card>
+    <ion-card>
+        <ion-card-title class="ion-margin">
+            ⌛️ {{raid.late.length}}
+        </ion-card-title>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col *ngFor="let reg of raid.late" size="3">
+                        <ion-chip class="ion-margin-horizontal">
+                            <ion-avatar>
+                                <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                            </ion-avatar>
+                            <ion-label class="ion-float-right">
+                                {{reg.player.ingameName}}</ion-label>
+                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)" name="open-outline"></ion-icon>
+                        </ion-chip>
+
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+
+    </ion-card>
+    <ion-card>
+        <ion-card-title class="ion-margin">
+            ❌ {{raid.decline.length}}
+        </ion-card-title>
+        <ion-card-content>
+            <ion-grid>
+                <ion-row>
+                    <ion-col *ngFor="let reg of raid.decline" size="3">
+                        <ion-chip class="ion-margin-horizontal">
+                            <ion-avatar>
+                                <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
+                            </ion-avatar>
+                            <ion-label class="ion-float-right">
+                                {{reg.player.ingameName}}</ion-label>
+                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)" name="open-outline"></ion-icon>
+                        </ion-chip>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+        </ion-card-content>
+
+    </ion-card>
+
+
 </ion-content>

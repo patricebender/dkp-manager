@@ -12,6 +12,7 @@ export class Raid {
     confirm: any[];
     decline: any[];
     late: any[] ;
+    isClosed: boolean;
     _id: string;
 
     constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string) {

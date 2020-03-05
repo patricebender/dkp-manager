@@ -187,10 +187,10 @@ export class RaidsPage implements OnInit {
                     text: 'Abschicken',
 
                     handler: (data) => {
-                        if(data) {
+                        if (data) {
                             this.registerForRaid(raid, data);
-                        } else{
-                            this.presentToast("Du musst schon etwas auswählen 😜")
+                        } else {
+                            this.presentToast('Du musst schon etwas auswählen 😜');
                             return false;
                         }
 
@@ -289,11 +289,11 @@ export class RaidsPage implements OnInit {
         if (this.isModalPresent) {
             return;
         }
-       console.log()
+        console.log();
         this.isModalPresent = true;
         const modal = await this.modalController.create({
             component: RaidInfoComponent,
-            cssClass:   'my-custom-modal-css',
+            cssClass: 'my-custom-modal-css',
             componentProps: {
                 raid: raid
             }
