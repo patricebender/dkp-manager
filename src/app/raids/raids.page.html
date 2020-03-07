@@ -77,28 +77,28 @@
 
                 </ion-col>
 
-                <ion-col *ngIf="!isAlreadyRegistered(raid)" size="2" style="margin-top: 1em">
-                    <ion-button style="width: 14em" class="ion-text-center" (click)="presentRaidRegistration(raid)"
+                <ion-col *ngIf="!isAlreadyRegistered(raid)" size="3" style=" width: 100%; margin-top: 1em">
+                    <ion-button style="width: 100%" class="ion-text-center" (click)="presentRaidRegistration(raid)"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon slot="start" class="ion-padding-end" name="calendar-sharp"></ion-icon>
                         <strong>
-                            Registrierung
+                            Zur Anmeldung
                         </strong>
                     </ion-button>
                 </ion-col>
-                <ion-col *ngIf="isAlreadyRegistered(raid) && !raid.isClosed" size="2" style="margin-top: 1em">
-                    <ion-button disabled="{{raid.isClosed}}" class="ion-text-center" (click)="presentRaidRegistration(raid)"
+                <ion-col *ngIf="isAlreadyRegistered(raid) && !raid.isClosed" size="3" style="margin-top: 1em">
+                    <ion-button style="width: 100%" disabled="{{raid.isClosed}}" class="ion-text-center" (click)="presentRaidRegistration(raid)"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon class="ion-padding-end" type="round" name="pencil-outline">
 
                         </ion-icon>
                         <strong>
-                            Registrierung Ändern
+                            Anmeldung Ändern
                         </strong>
                     </ion-button>
                 </ion-col>
-                <ion-col *ngIf="raid.isClosed" size="2" style="margin-top: 1em">
-                    <ion-button disabled="{{raid.isClosed}}"   class="ion-text-center"
+                <ion-col *ngIf="raid.isClosed" size="3" style="margin-top: 1em">
+                    <ion-button style="width: 100%" disabled="{{raid.isClosed}}"   class="ion-text-center"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
 
                         <strong>

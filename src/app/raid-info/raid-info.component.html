@@ -1,13 +1,36 @@
 <ion-header>
     <ion-toolbar class="ion-margin-horizontal">
-        Info für den {{raid.dungeonName}} Raid!
+        <ion-row>
+            <ion-col size="1">
+                <ion-avatar class="ion-float-right">
+                    <img src="../assets/dungeons/{{raid.dungeonName}}.png">
+                </ion-avatar>
+            </ion-col>
+            <ion-col size=7>
+               <h4> Registrierungen für den {{raid.dungeonName}} Raid</h4>
+
+            </ion-col>
+
+            <ion-col *ngIf="!raid.isClosed && myChar.isAdmin" size="4">
+                <ion-button (click)="presentConfirmCloseRaid()" color="danger">
+                    <ion-icon name="close-circle-outline"></ion-icon>
+                    Raidanmeldung Schließen
+                </ion-button>
+            </ion-col>
+            <ion-col  *ngIf="raid.isClosed && myChar.isAdmin" size="4">
+                <ion-button (click)="closeOrOpenRaid(false)" color="success">
+                    <ion-icon name="arrow-undo-outline"></ion-icon>
+                    Raidanmeldung öffnen
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
     </ion-toolbar>
+
 </ion-header>
 
 <ion-content>
-    <ion-card>
-        <ion-header class="ion-margin"><h4>{{raid.description}}</h4></ion-header>
-    </ion-card>
+    <ion-header class="ion-margin"><h1>{{raid.description}}</h1></ion-header>
     <ion-card>
         <ion-grid>
             <ion-row class="ion-text-center">
@@ -52,18 +75,7 @@
                 ✅ {{raid.confirm.length}}
             </ion-card-title>
         </ion-col>
-        <ion-col *ngIf="!raid.isClosed && myChar.isAdmin" size="4">
-            <ion-button (click)="presentConfirmCloseRaid()" color="danger">
-                <ion-icon name="close-circle-outline"></ion-icon>
-                Raidanmeldung Schließen
-            </ion-button>
-        </ion-col>
-        <ion-col *ngIf="raid.isClosed && myChar.isAdmin" size="4">
-            <ion-button (click)="closeOrOpenRaid(false)" color="success">
-                <ion-icon name="arrow-undo-outline"></ion-icon>
-                Raidanmeldung öffnen
-            </ion-button>
-        </ion-col>
+
     </ion-row>
 
 </ion-card-header>
