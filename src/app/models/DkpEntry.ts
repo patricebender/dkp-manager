@@ -2,6 +2,7 @@ import {PlayerClass} from './PlayerClass';
 import {Spec} from './Spec';
 import {DkpLogType} from './DkpLogType';
 import {Player} from './Player';
+import {Item} from './Item';
 
 export class DkpEntry {
     dkpLogType: DkpLogType;
@@ -10,6 +11,7 @@ export class DkpEntry {
     date: Date;
     author: string;
     player: string;
+    item: Item;
 
 
     constructor(dkpLogType: DkpLogType, reason: string, author: string, date: Date, dkp: number, player: string) {

@@ -1,16 +1,117 @@
 <ion-header>
-  <ion-row>
-    <ion-col>
-      <ion-button type="round" (click)="showCreateAuctionModal()" *ngIf="myChar.isAdmin"
-                  color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
-        <strong>
-          Neue Auktion Erstellen
-        </strong>
-      </ion-button>
-    </ion-col>
-  </ion-row>
+    <ion-row>
+        <ion-col>
+            <ion-button type="round" (click)="showCreateAuctionModal()" *ngIf="myChar.isAdmin"
+                        color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
+                <strong>
+                    Neue Auktion Erstellen
+                </strong>
+            </ion-button>
+        </ion-col>
+    </ion-row>
 </ion-header>
 
 <ion-content>
+
+    <ion-grid>
+        <ion-card *ngFor="let auction of auctions">
+            <ion-row *ngIf="!auction.isClosed">
+                <ion-col   *ngIf="myChar.isAdmin && !auction.isClosed" size="3">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="presentCloseAuction(auction)"  style="width: 100%">
+                        <ion-label>
+                            Auktion Beenden
+                        </ion-label>
+                    </ion-button>
+
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item class="ion-text-center">
+
+                        <ion-label>
+                            <h1>
+                                <a class="epic"
+                                   [attr.data-wowhead]="'item=' + auction.item.ingameId">
+                                    [{{auction.item.name}}]
+                                </a>
+                            </h1>
+                        </ion-label>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="3">
+                    <ion-button (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                        <ion-icon name="wallet-outline"></ion-icon>
+                        Gebot Abgeben
+                    </ion-button>
+                </ion-col>
+
+            </ion-row>
+            <ion-row *ngIf="auction.isClosed && auction.winnerBid">
+                <ion-col style="margin-top: 0.6em" *ngIf="myChar.isAdmin" size="1">
+                    <ion-icon (click)="presentDeleteConfirm(auction)" color="danger"
+                              size="large"
+                              name="close-circle-sharp"></ion-icon>
+                </ion-col>
+                <ion-col size="2">
+                    <ion-button  color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+
+                        {{auction.winnerBid.player.ingameName}} gewinnt
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item class="ion-text-center">
+
+                        <ion-label>
+                            <h1>
+                                <a class="epic"
+                                   [attr.data-wowhead]="'item=' + auction.item.ingameId">
+                                    [{{auction.item.name}}]
+                                </a>
+                            </h1>
+                        </ion-label>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="3">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                        <ion-icon name="cash-outline"></ion-icon>
+                       <ion-label class="ion-padding-start"> {{auction.winnerBid.dkpBid}} DKP</ion-label>
+                    </ion-button>
+                </ion-col>
+
+            </ion-row>
+            <ion-row *ngIf="auction.isClosed && !auction.winnerBid">
+                <ion-col style="margin-top: 0.6em" *ngIf="myChar.isAdmin" size="1">
+                    <ion-icon  color="danger"
+                              size="large"
+                              name="close-circle-sharp"></ion-icon>
+                </ion-col>
+                <ion-col size="2">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+
+                        niemand gewinnnt
+                    </ion-button>
+                </ion-col>
+                <ion-col size="6">
+                    <ion-item class="ion-text-center">
+
+                        <ion-label>
+                            <h1>
+                                <a class="epic"
+                                   [attr.data-wowhead]="'item=' + auction.item.ingameId">
+                                    [{{auction.item.name}}]
+                                </a>
+                            </h1>
+                        </ion-label>
+                    </ion-item>
+                </ion-col>
+                <ion-col size="3">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                        <ion-icon name="skull-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+
+            </ion-row>
+        </ion-card>
+
+    </ion-grid>
 
 </ion-content>

@@ -1,12 +1,13 @@
 import {Player} from './Player';
+import {Auction} from './Auction';
 
 export class Bid {
 
     player: Player;
-    dkp: number;
+    dkpBid: number;
     constructor(player: Player, dkp: number){
         this.player = player;
-        this.dkp = dkp;
+        this.dkpBid = dkp;
 
     }
 

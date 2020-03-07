@@ -15,6 +15,18 @@ import {Settings} from '../Settings';
     styleUrls: ['./dkp-history.component.scss'],
 })
 export class DkpHistoryComponent implements OnInit {
+    get entries(): DkpEntry[] {
+        return this._entries;
+        // return this._entries.sort(function(a,b){
+        //     // Turn your strings into dates, and then subtract them
+        //     // to get a value that is either negative, positive, or zero.
+        //     return b.date.getMilliseconds() - a.date.getMilliseconds()
+        // });
+    }
+
+    set entries(value: DkpEntry[]) {
+        this._entries = value;
+    }
 
     constructor(
         private modalController: ModalController,
@@ -23,11 +35,17 @@ export class DkpHistoryComponent implements OnInit {
         private toastController: ToastController) {
     }
 
+    get DkpLogType() {
+        return DkpLogType;
+    }
+
     @Input() player: Player;
 
-    entries: DkpEntry[] = [];
+    private _entries: DkpEntry[] = [];
     private skip: number = 0;
     private isAllLogsLoaded: boolean;
+
+
 
     get myChar() {
         return Settings.Instance.player;
@@ -53,7 +71,7 @@ export class DkpHistoryComponent implements OnInit {
                             this.isAllLogsLoaded = true;
                         }else {
                             this.skip += 10;
-                            this.entries.push(...res.data);
+                            this._entries.push(...res.data);
                         }
 
                     },

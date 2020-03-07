@@ -25,6 +25,10 @@ import {EditUserComponent} from './edit-user/edit-user.component';
 import {DkpHistoryComponent} from './dkp-history/dkp-history.component';
 import {RaidInfoComponent} from './raid-info/raid-info.component';
 import {CreateAuctionComponent} from './create-auction/create-auction.component';
+import {FormsModule} from '@angular/forms';
+import {Bid} from './models/Bid';
+import {BidComponent} from './bid/bid.component';
+import {CloseAuctionComponent} from './close-auction/close-auction.component';
 
 const config = {
     issuer: 'https://dev-181790.okta.com/oauth2/default',
@@ -51,11 +55,15 @@ const appRoutes: Routes = [
 
 @NgModule({
     declarations: [AppComponent,
+        CloseAuctionComponent,
         RaidInfoComponent,
+        BidComponent,
         CreateAuctionComponent,
         CreateUserComponent, ChangeUserComponent, CreateRaidComponent, EditUserComponent, DkpHistoryComponent],
     entryComponents: [ChangeUserComponent,
+        CloseAuctionComponent,
         RaidInfoComponent,
+        BidComponent,
         CreateAuctionComponent,
         DkpHistoryComponent,
         CreateUserComponent, CreateRaidComponent, EditUserComponent
@@ -64,7 +72,7 @@ const appRoutes: Routes = [
         AppRoutingModule,
         OktaAuthModule.initAuth(environment.production ? config : devconfig),
         RouterModule.forRoot(appRoutes),
-        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production})],
+        ServiceWorkerModule.register('ngsw-worker.js', {enabled: environment.production}), FormsModule],
     providers: [
         StatusBar,
         SplashScreen,

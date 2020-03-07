@@ -6,11 +6,13 @@ export class Auction {
     item: Item;
     isClosed: boolean;
     _id: string;
-    Bids: Bid[];
+    minBid: number;
+    bids: Bid[];
     winnerBid: Bid;
 
-    constructor(item: Item){
+    constructor(item: Item, minBid: number){
         this.item = item;
+        this.minBid = minBid;
     }
 
 

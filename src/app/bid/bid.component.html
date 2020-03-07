@@ -1,0 +1,30 @@
+<ion-toolbar>
+  <ion-row class="ion-margin-horizontal ion-justify-content-center">
+    <h1>
+      Auktion von
+      <a class="epic"
+         [attr.data-wowhead]="'item=' + auction.item.ingameId">
+        [{{auction.item.name}}]
+      </a>
+    </h1>
+  </ion-row>
+</ion-toolbar>
+
+<ion-footer>
+  <ion-row>
+
+      <ion-range (ionChange)="updateBid($event)" step="5" pin="true"  color="{{myChar.playerClass.toString().toLowerCase()}}" min="{{auction.minBid}}" max="{{auction.minBid > myChar.dkp ? auction.minBid : myChar.dkp}}" color="secondary">
+        <ion-label  color="{{myChar.playerClass.toString().toLowerCase()}}" slot="start"> <h2>{{auction.minBid}} </h2></ion-label>
+        <ion-label  color="{{myChar.playerClass.toString().toLowerCase()}}" slot="end"><h2> {{auction.minBid > myChar.dkp ? auction.minBid : myChar.dkp}} </h2></ion-label>
+      </ion-range>
+  </ion-row>
+  <ion-row class="ion-justify-content-center ion-margin">
+    <ion-button (click)="postBid()" color="{{myChar.playerClass.toString().toLowerCase()}}">
+      <ion-icon name="send-outline"></ion-icon>
+      <ion-label>
+      Auktion über {{dkpBid}} abgeben
+      </ion-label>
+    </ion-button>
+  </ion-row>
+</ion-footer>
+

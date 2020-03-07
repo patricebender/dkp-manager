@@ -1,0 +1,49 @@
+<ion-toolbar>
+    <ion-row class="ion-margin-horizontal ion-justify-content-center">
+        <h1 *ngIf="auction">
+            Auktion von
+            <a class="epic"
+               [attr.data-wowhead]="'item=' + auction.item.ingameId">
+                [{{_auction.item.name}}]
+            </a>
+        </h1>
+    </ion-row>
+</ion-toolbar>
+
+<ion-content>
+
+    <ion-grid *ngIf="auction">
+        <ion-card *ngFor="let bid of auction.bids">
+            <ion-row>
+                <ion-col size="3">
+                    <ion-badge style="margin: 1.6em" color="{{bid.player.playerClass.toString().toLowerCase()}}">
+                        {{bid.player.ingameName}}
+                    </ion-badge>
+                </ion-col>
+                <ion-col class="ion-text-center" size="4">
+                    <h1>
+                        {{bid.dkpBid}} DKP
+                    </h1>
+                </ion-col>
+                <ion-col size="5">
+                    <ion-button (click)="presentConfirmEndAuction(bid)" style="width: 100%; height: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                      <ion-icon name="thumbs-up-outline"></ion-icon>
+                      <ion-label class="ion-margin-start">
+                        Gebot Akzeptieren
+                      </ion-label>
+                    </ion-button>
+                </ion-col>
+            </ion-row>
+        </ion-card>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-row class="ion-justify-content-center ion-margin">
+        <ion-button (click)="presentConfirmEndAuction(null)" color="{{myChar.playerClass.toString().toLowerCase()}}">
+            <ion-icon name="send-outline"></ion-icon>
+            <ion-label>
+                Auktion ohne Gewinner beenden
+            </ion-label>
+        </ion-button>
+    </ion-row>
+</ion-footer>

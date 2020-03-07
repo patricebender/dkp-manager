@@ -1,3 +1,62 @@
-<p>
-  create-auction works!
-</p>
+<ion-content style="height: 100%">
+    <ion-grid style="height: 50%">
+        <ion-row>
+            <ion-text>
+                <h2></h2>
+            </ion-text>
+        </ion-row>
+        <ion-row>
+            <ion-col>
+                <ion-searchbar [(ngModel)]="searchTerm"
+                               debounce="500"
+                               (ionChange)="setFilteredItems()" placeholder="Suche nach einem Item"
+                               animated="true"></ion-searchbar>
+
+            </ion-col>
+        </ion-row>
+        <ion-radio-group (ionChange)="setAuctionItem($event)">
+
+            <ion-row *ngFor="let item of filteredItems">
+
+                <ion-item style="width: 100%">
+                    <ion-label><h2>
+                        <a class="epic"
+                           [attr.data-wowhead]="'item=' + item.ingameId">
+                            [{{item.name}}]
+                        </a>
+                    </h2></ion-label>
+                    <ion-radio color="{{myChar.playerClass.toString().toLowerCase()}}"
+                               value="{{item.name}}"></ion-radio>
+                </ion-item>
+
+
+            </ion-row>
+        </ion-radio-group>
+    </ion-grid>
+</ion-content>
+<ion-footer>
+    <ion-grid>
+        <ion-row>
+            <ion-col class=" ion-text-center">
+
+
+                <ion-item>
+                    <ion-label color="{{myChar.playerClass.toString().toLowerCase()}}" position="floating">
+                        <h2>Mindestgebot:</h2>
+                    </ion-label>
+                    <ion-input type="number" (ionChange)="setMinBid($event)" value="10"></ion-input>
+                </ion-item>
+            </ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col class=" ion-text-center">
+                <ion-button (click)="createAuction()" disabled="{{minBid === 0 || !auctionItem}}" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                    Auktion erstellen
+                </ion-button>
+
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+
+</ion-footer>
+

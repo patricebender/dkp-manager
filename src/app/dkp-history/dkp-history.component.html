@@ -43,8 +43,14 @@
                     </ion-text>
                 </ion-col>
                 <ion-col style="padding-top: 1.7em" class="ion-float-right">
-                    <ion-text>
+                    <ion-text *ngIf="dkpLog.dkpLogType !== DkpLogType.WonAuction">
                         {{dkpLog.reason}}
+                    </ion-text>
+                    <ion-text *ngIf="dkpLog.dkpLogType === DkpLogType.WonAuction && dkpLog.item">
+                        <a class="epic"
+                           [attr.data-wowhead]="'item=' + dkpLog.item.ingameId">
+                            [{{dkpLog.item.name}}]
+                        </a>
                     </ion-text>
                 </ion-col>
                 <ion-col *ngIf="myChar.isAdmin" size="1" class="ion-float-right">
