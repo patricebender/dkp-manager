@@ -19,8 +19,31 @@ import {CloseAuctionComponent} from '../close-auction/close-auction.component';
     styleUrls: ['./auctions.page.scss'],
 })
 export class AuctionsPage implements OnInit {
+
+    refreshTime: number = 4;
+
+    StartTimer() {
+        setTimeout(() => {
+            if (this.refreshTime === 0) {
+                this.updateAuctions();
+                this.refreshTime = 4;
+            }else{
+                this.refreshTime -= 1;
+            }
+            this.StartTimer();
+
+        }, 1000);
+    }
+
+    get auctions(): Auction[] {
+        return this._auctions;
+    }
+
+    set auctions(value: Auction[]) {
+        this._auctions = value;
+    }
     private isModalPresent: boolean;
-    private auctions: Auction[] = [];
+    private _auctions: Auction[] = [];
 
 
     get myChar() {
@@ -36,6 +59,8 @@ export class AuctionsPage implements OnInit {
     }
 
     ngOnInit() {
+        this.updateAuctions();
+        this.StartTimer();
     }
 
     async presentToast(msg) {
@@ -93,8 +118,8 @@ export class AuctionsPage implements OnInit {
             .subscribe(
                 (res) => {
                     const auctions = res.data;
-                    this.auctions = auctions;
-                    console.log('Fetched: ' + this.auctions);
+                    this._auctions = auctions;
+                    console.log('Fetched: ' + this._auctions);
                 },
                 (error) => {
                     const statusCode = error.status;
