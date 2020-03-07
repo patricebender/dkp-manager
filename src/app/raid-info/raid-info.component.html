@@ -45,10 +45,28 @@
 
 
     <ion-card>
+<ion-card-header>
+    <ion-row>
+        <ion-col size="8">
+            <ion-card-title >
+                ✅ {{raid.confirm.length}}
+            </ion-card-title>
+        </ion-col>
+        <ion-col *ngIf="!raid.isClosed && myChar.isAdmin" size="4">
+            <ion-button (click)="presentConfirmCloseRaid()" color="danger">
+                <ion-icon name="close-circle-outline"></ion-icon>
+                Raidanmeldung Schließen
+            </ion-button>
+        </ion-col>
+        <ion-col *ngIf="raid.isClosed && myChar.isAdmin" size="4">
+            <ion-button (click)="closeOrOpenRaid(false)" color="success">
+                <ion-icon name="arrow-undo-outline"></ion-icon>
+                Raidanmeldung öffnen
+            </ion-button>
+        </ion-col>
+    </ion-row>
 
-        <ion-card-title class="ion-margin">
-            ✅ {{raid.confirm.length}}
-        </ion-card-title>
+</ion-card-header>
         <ion-grid>
             <ion-row>
                 <ion-col *ngFor="let playerClass of allClasses" size="4">

@@ -146,6 +146,7 @@ export class RaidsPage implements OnInit {
     }
 
     async presentRaidRegistration(raid: Raid) {
+        console.log(raid)
         const alert = await this.alertController.create({
             header: 'Anmeldung +5 DKP',
             inputs: [

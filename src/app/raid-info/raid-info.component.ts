@@ -195,4 +195,49 @@ export class RaidInfoComponent implements OnInit {
         return this.http.get<Raid>(Backend.address + '/raid/' + this.raid._id, await Backend.getHttpOptions(token));
 
     }
+
+    async presentConfirmCloseRaid() {
+        const alert = await this.alertController.create({
+            header: 'Raidanmeldung Schließen',
+            message: 'Bist du dir Sicher, dass du den Raid Absagen möchtest, Spieler können sich dann nicht mehr registrieren.',
+                    buttons: [
+                        {
+                    text: 'Raid Schließen',
+                    handler: () => {
+                        this.closeOrOpenRaid(true);
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    cssClass: this.myChar.playerClass.toString().toLowerCase(),
+                    handler: (blah) => {
+                        console.log('Confirm Cancel: blah');
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
+
+    async closeOrOpenRaid(closeRaid: boolean) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+        const raid = this.raid;
+        raid.isClosed = closeRaid;
+
+        this.http.patch(Backend.address + '/raid/' + this.raid._id, this.raid, options)
+            .subscribe((data) => {
+                console.log('registration changed', data);
+                let msg = 'Raidanmeldung wurde ';
+                msg += closeRaid ? 'geschlossen' : 'wieder geöffnet';
+                this.presentToast(msg);
+
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
 }
