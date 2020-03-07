@@ -13,6 +13,10 @@ const routes: Routes = [
   {
     path: 'guild',
     loadChildren: () => import('./guild/guild.module').then( m => m.GuildPageModule)
+  },
+  {
+    path: 'auctions',
+    loadChildren: () => import('./auctions/auctions.module').then( m => m.AuctionsPageModule)
   }
 ];
 @NgModule({

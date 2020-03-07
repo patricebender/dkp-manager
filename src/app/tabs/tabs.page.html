@@ -41,6 +41,10 @@
                 <ion-icon name="people-sharp"></ion-icon>
                 <ion-label>Gildenübersicht</ion-label>
             </ion-tab-button>
+            <ion-tab-button [ngClass]="player.playerClass.toString().toLowerCase()" tab="auctions">
+                <ion-icon name="cash-outline"></ion-icon>
+                <ion-label>Auktionen</ion-label>
+            </ion-tab-button>
         </ion-tab-bar>
     </ion-tabs>
     <ion-card class="ion-text-center" *ngIf="!player">

@@ -1,15 +1,18 @@
+<ion-header>
+    <ion-row>
+        <ion-col>
+            <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="myChar.isAdmin"
+                        color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
+                <strong>
+                    Neuen Raid erstellen
+                </strong>
+            </ion-button>
+        </ion-col>
+    </ion-row>
+</ion-header>
 <ion-content>
     <ion-grid *ngIf="myChar">
-        <ion-row>
-            <ion-col>
-                <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="myChar.isAdmin"
-                            color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
-                    <strong>
-                        Neuen Raid erstellen
-                    </strong>
-                </ion-button>
-            </ion-col>
-        </ion-row>
+
         <ion-card class="ion-padding vertical-align-content" *ngFor="let raid of raids">
             <ion-row>
                 <ion-col *ngIf="myChar.isAdmin" size="1" style="margin-top: 1.3em">

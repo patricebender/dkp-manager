@@ -36,6 +36,22 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'tabs',
+    component: TabsPage,
+    children: [
+      {
+        path: 'auctions',
+        children: [
+          {
+            path: '',
+            loadChildren: () =>
+                import('../auctions/auctions.module').then(m => m.AuctionsPageModule)
+          }
+        ]
+      }
+    ]
+  },
+  {
     path: '',
     redirectTo: '/tabs/guild',
     pathMatch: 'full'

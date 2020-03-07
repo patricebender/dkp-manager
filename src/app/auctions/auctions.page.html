@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-row>
+    <ion-col>
+      <ion-button type="round" (click)="showCreateAuctionModal()" *ngIf="myChar.isAdmin"
+                  color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
+        <strong>
+          Neue Auktion Erstellen
+        </strong>
+      </ion-button>
+    </ion-col>
+  </ion-row>
+</ion-header>
+
+<ion-content>
+
+</ion-content>
