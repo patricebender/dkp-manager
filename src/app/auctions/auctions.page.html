@@ -92,7 +92,7 @@
             </ion-row>
             <ion-row *ngIf="auction.isClosed && !auction.winnerBid">
                 <ion-col class="ion-text-center" style="width: 100%; height: 100%" *ngIf="myChar.isAdmin" size="1">
-                    <ion-button  color="danger">
+                    <ion-button (click)="presentDeleteConfirm(auction)" color="danger">
                         <ion-icon (click)="presentDeleteConfirm(auction)"
                                   size="large"
                                   name="close-circle-sharp"></ion-icon>
