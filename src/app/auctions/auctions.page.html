@@ -16,8 +16,8 @@
     <ion-grid>
         <ion-card *ngFor="let auction of auctions">
             <ion-row *ngIf="!auction.isClosed">
-                <ion-col class="ion-text-center" style="width: 100%; height: 100%"  size="1">
-                    <ion-button  color="{{myChar.playerClass.toString().toLowerCase()}}">
+                <ion-col class="ion-text-center"  size="{{myChar.isAdmin ? 1 : 2}}">
+                    <ion-button  style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon
 
                                    name="people-outline"></ion-icon>
@@ -26,7 +26,7 @@
 
                 </ion-col>
                 <ion-col   *ngIf="myChar.isAdmin && !auction.isClosed" size="2">
-                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="presentCloseAuction(auction)"  style="width: 100%">
+                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="presentCloseAuction(auction)"  style="width: 100%;">
                         <ion-label>
                             Auktion Beenden
                         </ion-label>
@@ -47,7 +47,7 @@
                     </ion-item>
                 </ion-col>
                 <ion-col size="3">
-                    <ion-button (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                    <ion-button  (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="wallet-outline"></ion-icon>
                         Gebot Abgeben
                     </ion-button>
@@ -64,7 +64,7 @@
 
                 </ion-col>
                 <ion-col size="2">
-                    <ion-button  color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                    <ion-button style="width: 100%;"  color="{{myChar.playerClass.toString().toLowerCase()}}" >
 
                         {{auction.winnerBid.player.ingameName}} gewinnt
                     </ion-button>
@@ -100,7 +100,7 @@
 
                 </ion-col>
                 <ion-col class="ion-justify-content-center" size="2">
-                    <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
 
                         niemand gewinnnt
                     </ion-button>
