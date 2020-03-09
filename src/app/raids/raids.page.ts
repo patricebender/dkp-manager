@@ -232,7 +232,7 @@ export class RaidsPage implements OnInit {
         const options = await Backend.getHttpOptions(token);
 
 
-        this.http.delete(Backend.address + '/raid' + raid._id, options)
+        this.http.delete(Backend.address + '/raid/' + raid._id, options)
             .subscribe((data) => {
                 console.log('raid cancelled!', data);
                 this.updateRaids();
@@ -253,7 +253,7 @@ export class RaidsPage implements OnInit {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        this.http.patch(Backend.address + '/dkp' + this.myChar.mail, dkpEntry, options)
+        this.http.patch(Backend.address + '/dkp/' + this.myChar.mail, dkpEntry, options)
             .subscribe((data) => {
                 console.log('dkp patch successful!', data);
                 this.presentToast('Danke für deine Registrierung! +5 DKP!');

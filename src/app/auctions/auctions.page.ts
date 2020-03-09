@@ -20,21 +20,6 @@ import {CloseAuctionComponent} from '../close-auction/close-auction.component';
 })
 export class AuctionsPage implements OnInit {
 
-    refreshTime: number = 4;
-
-    StartTimer() {
-        setTimeout(() => {
-            if (this.refreshTime === 0) {
-                this.updateAuctions();
-                this.refreshTime = 4;
-            }else{
-                this.refreshTime -= 1;
-            }
-            this.StartTimer();
-
-        }, 1000);
-    }
-
     get auctions(): Auction[] {
         return this._auctions;
     }
@@ -42,6 +27,7 @@ export class AuctionsPage implements OnInit {
     set auctions(value: Auction[]) {
         this._auctions = value;
     }
+
     private isModalPresent: boolean;
     private _auctions: Auction[] = [];
 
@@ -60,7 +46,6 @@ export class AuctionsPage implements OnInit {
 
     ngOnInit() {
         this.updateAuctions();
-        this.StartTimer();
     }
 
     async presentToast(msg) {
@@ -76,9 +61,9 @@ export class AuctionsPage implements OnInit {
         const options = await Backend.getHttpOptions(token);
 
         this.http.post(Backend.address + '/auction', auction, options)
-            .subscribe((data) => {
+            .subscribe(() => {
                 this.updateAuctions();
-                console.log('auction creation successful!', data);
+                console.log('auction creation successful!');
                 this.presentToast('Yeah die Auktion wurde erstellt!');
             }, (e) => {
                 console.log(e);
@@ -136,7 +121,7 @@ export class AuctionsPage implements OnInit {
 
     private async getAuctions(): Promise<Observable<any>> {
         const token = await this.oktaAuth.getAccessToken();
-        return this.http.get<Auction>(Backend.address + '/auctions', await Backend.getHttpOptions(token));
+        return this.http.get<Auction>(Backend.address + '/auctions/' + this.myChar._id, await Backend.getHttpOptions(token));
     }
 
     async presentCloseAuction(auction: Auction) {
@@ -158,7 +143,6 @@ export class AuctionsPage implements OnInit {
             this.isModalPresent = false;
         });
     }
-
 
 
     async showBidModal(auction: Auction) {
@@ -229,7 +213,6 @@ export class AuctionsPage implements OnInit {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-
         this.http.delete(Backend.address + '/auction/' + auction._id, options)
             .subscribe((data) => {
                 console.log('auction deleted!', data);
@@ -242,5 +225,22 @@ export class AuctionsPage implements OnInit {
     }
 
 
+    myCharAlreadyBet(auction: Auction) {
+        return auction.playerMails.includes(this.myChar.mail);
+    }
+
+    async deleteMyBid(auction: Auction) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+        this.http.delete(Backend.address + '/auction/' + auction._id +'/bid/' + this.myChar.mail, options)
+            .subscribe((data) => {
+                console.log('auction deleted!', data);
+                this.updateAuctions();
+                this.presentToast('Gebot wurde zurückgezogen!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
 }
 

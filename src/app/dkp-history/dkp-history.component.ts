@@ -113,7 +113,7 @@ export class DkpHistoryComponent implements OnInit {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        this.http.patch(Backend.address + '/dkp' + this.player.mail, dkpEntry, options)
+        this.http.patch(Backend.address + '/dkp/' + this.player.mail, dkpEntry, options)
             .subscribe((data) => {
                 console.log('dkp patch successful!', data);
                 this.presentToast('DKP Update Erfolgreich!');

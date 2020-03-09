@@ -144,7 +144,7 @@ export class CloseAuctionComponent implements OnInit {
     const token = await this.oktaAuth.getAccessToken();
     const options = await Backend.getHttpOptions(token);
 
-    this.http.patch(Backend.address + '/dkp' + player.mail, dkpEntry, options)
+    this.http.patch(Backend.address + '/dkp/' + player.mail, dkpEntry, options)
         .subscribe((data) => {
           console.log('dkp patch successful!', data);
           this.presentToast('DKP erfolgreich verbucht!');

@@ -17,7 +17,7 @@ import {max} from 'rxjs/operators';
 })
 export class PlayerWidgetComponent implements OnInit {
     private isModalPresent: boolean;
-    private timer: number;
+
 
     get player(): Player {
         return Settings.Instance.player;
@@ -80,7 +80,7 @@ export class PlayerWidgetComponent implements OnInit {
     }
 
     private async getPlayerRequest(user, token): Promise<Observable<any>> {
-        return this.http.get<Player>(Backend.address + '/player' + user.mail, await Backend.getHttpOptions(token));
+        return this.http.get<Player>(Backend.address + '/player/' + user.mail, await Backend.getHttpOptions(token));
     }
 
     async showCreateProfileModal() {

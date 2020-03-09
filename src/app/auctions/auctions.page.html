@@ -21,7 +21,7 @@
                         <ion-icon
 
                                    name="people-outline"></ion-icon>
-                        <ion-label class="ion-padding-start">{{auction.bids.length || 0}}</ion-label>
+                        <ion-label class="ion-padding-start">{{auction.bidCount || 0}}</ion-label>
                     </ion-button>
 
                 </ion-col>
@@ -33,7 +33,7 @@
                     </ion-button>
 
                 </ion-col>
-                <ion-col size="6">
+                <ion-col size="5">
                     <ion-item class="ion-text-center">
 
                         <ion-label>
@@ -46,12 +46,29 @@
                         </ion-label>
                     </ion-item>
                 </ion-col>
-                <ion-col size="3">
+                <ion-col *ngIf="!myCharAlreadyBet(auction)" size="4">
                     <ion-button  (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="wallet-outline"></ion-icon>
                         Gebot Abgeben
                     </ion-button>
                 </ion-col>
+                <ion-col *ngIf="myCharAlreadyBet(auction)" size="2">
+                    <ion-button  (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                        <ion-icon name="pencil-outline"></ion-icon>
+                        <ion-label>
+                            Gebot Ändern
+                        </ion-label>
+                    </ion-button>
+                </ion-col>
+                <ion-col *ngIf="myCharAlreadyBet(auction)" size="2">
+                    <ion-button  (click)="deleteMyBid(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
+                        <ion-icon name="close-circle-outline"></ion-icon>
+                        <ion-label>
+                            Gebot Löschen
+                        </ion-label>
+                    </ion-button>
+                </ion-col>
+
 
             </ion-row>
             <ion-row *ngIf="auction.isClosed && auction.winnerBid">
@@ -69,7 +86,7 @@
                         {{auction.winnerBid.player.ingameName}} gewinnt
                     </ion-button>
                 </ion-col>
-                <ion-col size="6">
+                <ion-col size="5">
                     <ion-item class="ion-text-center">
 
                         <ion-label>
@@ -82,7 +99,7 @@
                         </ion-label>
                     </ion-item>
                 </ion-col>
-                <ion-col size="3">
+                <ion-col size="4">
                     <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="cash-outline"></ion-icon>
                        <ion-label class="ion-padding-start"> {{auction.winnerBid.dkpBid}} DKP</ion-label>
@@ -105,7 +122,7 @@
                         niemand gewinnnt
                     </ion-button>
                 </ion-col>
-                <ion-col size="6">
+                <ion-col size="5">
                     <ion-item class="ion-text-center">
 
                         <ion-label>
@@ -118,7 +135,7 @@
                         </ion-label>
                     </ion-item>
                 </ion-col>
-                <ion-col size="3">
+                <ion-col size="4">
                     <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="skull-outline"></ion-icon>
                     </ion-button>
