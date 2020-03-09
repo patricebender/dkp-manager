@@ -17,11 +17,6 @@ import {Settings} from '../Settings';
 export class DkpHistoryComponent implements OnInit {
     get entries(): DkpEntry[] {
         return this._entries;
-        // return this._entries.sort(function(a,b){
-        //     // Turn your strings into dates, and then subtract them
-        //     // to get a value that is either negative, positive, or zero.
-        //     return b.date.getMilliseconds() - a.date.getMilliseconds()
-        // });
     }
 
     set entries(value: DkpEntry[]) {

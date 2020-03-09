@@ -99,6 +99,33 @@
                 </ion-button>
             </ion-col>
         </ion-row>
+        <ion-row *ngIf="myChar.isAdmin" class="ion-justify-content-center ion-padding-top ion-padding-bottom">
+            <ion-col >
+                <ion-row>
+
+                    <ion-col >
+                        <ion-item style="width: 100%; height: 100%">
+                            <ion-label position="floating">DKP</ion-label>
+                            <ion-input (ionChange)="changeDkp($event)" type="number"></ion-input>
+                        </ion-item>
+
+                    </ion-col>
+                    <ion-col >
+                        <ion-item style="width: 100%; height: 100%">
+                            <ion-label position="floating">Grund</ion-label>
+                            <ion-input (ionChange)="changeReason($event)"></ion-input>
+                        </ion-item>
+
+                    </ion-col>
+                    <ion-col size="3" class="ion-text-center">
+
+                        <ion-button  style="width: 100%; height: 100%" disabled="{{!this.dkp || !this.reason}}" (click)="createAndPostDkpEntry(this.dkp, this.reason)" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                            DKP vergeben
+                        </ion-button>
+                    </ion-col>
+                </ion-row>
+            </ion-col>
+        </ion-row>
 
         <ion-row class="ion-padding-top" *ngIf="!player.isAdmin">
             <ion-col>

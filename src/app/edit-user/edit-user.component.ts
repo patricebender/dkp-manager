@@ -23,6 +23,16 @@ export class EditUserComponent implements OnInit {
 
     @Input() player: Player;
 
+    get reason(): string {
+        return this._reason;
+    }
+
+    get dkp(): number {
+        return this._dkp;
+    }
+    private _reason: string;
+    private _dkp: number;
+
 
     get myChar() {
         return Settings.Instance.player;
@@ -94,5 +104,13 @@ export class EditUserComponent implements OnInit {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
+    }
+
+    changeReason($event: CustomEvent) {
+        this._reason = $event.detail.value;
+    }
+
+    changeDkp($event: CustomEvent) {
+        this._dkp = $event.detail.value;
     }
 }

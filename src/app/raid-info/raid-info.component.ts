@@ -9,6 +9,8 @@ import {AlertController, ModalController, ToastController} from '@ionic/angular'
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
+import {DkpLogType} from '../models/DkpLogType';
+import {DkpEntry} from '../models/DkpEntry';
 
 
 @Component({
@@ -17,6 +19,15 @@ import {Observable} from 'rxjs';
     styleUrls: ['./raid-info.component.scss'],
 })
 export class RaidInfoComponent implements OnInit {
+    get reason(): string {
+        return this._reason;
+    }
+
+    get dkp(): number {
+        return this._dkp;
+    }
+    private _reason: string;
+    private _dkp: number;
 
     constructor(
         private modalController: ModalController,
@@ -240,4 +251,57 @@ export class RaidInfoComponent implements OnInit {
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
     }
+
+    createDKPEntriesForPlayer(players: Player[]) {
+        const dkpLogType = this._dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
+
+        return  players.map((p) => {
+            return new DkpEntry(dkpLogType, this._reason, this.myChar.ingameName, new Date(), this._dkp, p.mail);
+        });
+    }
+
+
+    changeReason(e) {
+        this._reason = e.detail.value;
+    }
+
+    changeDkp(e) {
+        this._dkp = e.detail.value;
+    }
+
+    async postDkpEntriesForConfirmed() {
+        const dkpEntries = this.createDKPEntriesForPlayer(this.raid.confirm.map(reg => reg.player));
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        console.log(dkpEntries)
+
+        this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
+            .subscribe((data) => {
+                console.log('dkp patch successful!', data);
+                this.presentToast('DKP Update Erfolgreich!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+    async postDkpEntriesForBench() {
+        const dkpEntries = this.createDKPEntriesForPlayer(this.raid.bench.map(reg => reg.player));
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        console.log(dkpEntries)
+
+        this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
+            .subscribe((data) => {
+                console.log('dkp patch successful!', data);
+                this.presentToast('DKP Update Erfolgreich!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
+
 }
+

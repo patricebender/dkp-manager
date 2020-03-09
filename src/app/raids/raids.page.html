@@ -80,7 +80,7 @@
 
                 </ion-col>
 
-                <ion-col *ngIf="!isAlreadyRegistered(raid)" size="3" style=" width: 100%; margin-top: 1em">
+                <ion-col *ngIf="!isAlreadyRegistered(raid) &&!raid.isClosed" size="3" style=" width: 100%; margin-top: 1em">
                     <ion-button style="width: 100%" class="ion-text-center" (click)="presentRaidRegistration(raid)"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
                         <ion-icon slot="start" class="ion-padding-end" name="calendar-sharp"></ion-icon>

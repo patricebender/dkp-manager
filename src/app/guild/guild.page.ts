@@ -183,6 +183,7 @@ export class GuildPage implements OnInit {
         await modal.present();
         modal.onDidDismiss().then((callback) => {
             this.isModalPresent = false;
+            this.updatePlayers();
         });
     }
 }

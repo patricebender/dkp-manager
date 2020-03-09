@@ -75,12 +75,41 @@
                         ✅ {{raid.confirm.length}}
                     </ion-card-title>
                 </ion-col>
-<!--                <ion-col size="3">-->
-<!--                    <ion-button *ngIf="myChar.isAdmin" color="{{myChar.playerClass.toString().toLowerCase()}}">-->
-<!--                        DKP Vergabe-->
-<!--                    </ion-button>-->
-<!--                </ion-col>-->
 
+
+
+            </ion-row>
+            <ion-row *ngIf="myChar.isAdmin">
+                <ion-col >
+                    <ion-row>
+                        <ion-col size="3" class="ion-margin-bottom">
+                            <ion-text color="{{myChar.playerClass.toString().toLowerCase()}}">
+                                <h2> DKP vergeben: </h2>
+                            </ion-text>
+
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-item>
+                                <ion-label position="floating">DKP</ion-label>
+                                <ion-input (ionChange)="changeDkp($event)" type="number"></ion-input>
+                            </ion-item>
+
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-item>
+                                <ion-label position="floating">Grund</ion-label>
+                                <ion-input (ionChange)="changeReason($event)"></ion-input>
+                            </ion-item>
+
+                        </ion-col>
+                        <ion-col size="3" class="ion-text-center">
+
+                            <ion-button disabled="{{!this.dkp || !this.reason}}" (click)="postDkpEntriesForConfirmed()" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                                DKP an alle vergeben
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
             </ion-row>
 
         </ion-card-header>
@@ -135,11 +164,38 @@
                         🪑 {{raid.bench.length}}
                     </ion-card-title>
                 </ion-col>
-<!--                <ion-col size="3">-->
-<!--                    <ion-button *ngIf="myChar.isAdmin" color="{{myChar.playerClass.toString().toLowerCase()}}">-->
-<!--                        DKP Vergabe-->
-<!--                    </ion-button>-->
-<!--                </ion-col>-->
+            </ion-row>
+            <ion-row *ngIf="myChar.isAdmin">
+                <ion-col >
+                    <ion-row>
+                        <ion-col size="3" class="ion-margin-bottom">
+                            <ion-text color="{{myChar.playerClass.toString().toLowerCase()}}">
+                                <h2> DKP vergeben: </h2>
+                            </ion-text>
+
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-item>
+                                <ion-label position="floating">DKP</ion-label>
+                                <ion-input (ionChange)="changeDkp($event)" type="number"></ion-input>
+                            </ion-item>
+
+                        </ion-col>
+                        <ion-col size="3">
+                            <ion-item>
+                                <ion-label position="floating">Grund</ion-label>
+                                <ion-input (ionChange)="changeReason($event)"></ion-input>
+                            </ion-item>
+
+                        </ion-col>
+                        <ion-col size="3" class="ion-text-center">
+
+                            <ion-button disabled="{{!this.dkp || !this.reason}}" (click)="postDkpEntriesForBench()" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                                DKP an alle vergeben
+                            </ion-button>
+                        </ion-col>
+                    </ion-row>
+                </ion-col>
             </ion-row>
 
         </ion-card-header>
