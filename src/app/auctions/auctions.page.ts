@@ -30,6 +30,16 @@ export class AuctionsPage implements OnInit {
 
     private isModalPresent: boolean;
     private _auctions: Auction[] = [];
+    isHistoryShown: boolean = false;
+
+    get filteredAuctions() {
+        if (this.isHistoryShown) {
+            return this.auctions;
+        }
+        return this.auctions.filter((auction) => {
+            return auction.isClosed === this.isHistoryShown;
+        });
+    }
 
 
     get myChar() {
@@ -232,7 +242,7 @@ export class AuctionsPage implements OnInit {
     async deleteMyBid(auction: Auction) {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
-        this.http.delete(Backend.address + '/auction/' + auction._id +'/bid/' + this.myChar.mail, options)
+        this.http.delete(Backend.address + '/auction/' + auction._id + '/bid/' + this.myChar.mail, options)
             .subscribe((data) => {
                 console.log('auction deleted!', data);
                 this.updateAuctions();
@@ -241,6 +251,10 @@ export class AuctionsPage implements OnInit {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
+    }
+
+    toggleHistory() {
+        this.isHistoryShown = !this.isHistoryShown;
     }
 }
 

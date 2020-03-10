@@ -1,16 +1,34 @@
 <ion-header>
     <ion-row>
         <ion-col>
-            <ion-button type="round" (click)="showCreateAuctionModal()" *ngIf="myChar.isAdmin"
+            <ion-button type="round" (click)="showCreateAuctionModal()"
+                        *ngIf="myChar.isAdmin"
                         color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
                 <strong>
                     Neue Auktion Erstellen
                 </strong>
             </ion-button>
         </ion-col>
-        <ion-col class="ion-text-center" size="1">
+        <ion-col  class="ion-text-center" size="2.5">
+            <ion-button *ngIf="!isHistoryShown"
+                        style="width: 100%"
+                        color="{{myChar.playerClass.toString().toLowerCase()}}"
+                        (click)="toggleHistory()">
+                <ion-icon name="eye-outline"></ion-icon>
+                Zeige Historie
+            </ion-button>
+            <ion-button *ngIf="isHistoryShown"
+                        style="width: 100%"
+                        color="{{myChar.playerClass.toString().toLowerCase()}}"
+                        (click)="toggleHistory()">
+                <ion-icon name="eye-outline"></ion-icon>
+                Verstecke Historie
+            </ion-button>
+        </ion-col>
+        <ion-col class="ion-text-center" style="width: 100%" size="1">
             <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="updateAuctions()">
                 <ion-icon name="refresh"></ion-icon>
+
             </ion-button>
 
         </ion-col>
@@ -21,7 +39,7 @@
 <ion-content>
 
     <ion-grid>
-        <ion-card *ngFor="let auction of auctions">
+        <ion-card *ngFor="let auction of filteredAuctions">
             <ion-row *ngIf="!auction.isClosed">
                 <ion-col class="ion-text-center"  size="{{myChar.isAdmin ? 1 : 2}}">
                     <ion-button  style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
