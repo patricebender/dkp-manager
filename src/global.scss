@@ -111,7 +111,10 @@
   position: absolute;
   display: block;
 }
-
+.verticalCenter {
+  display: flex;
+  align-items: center;
+}
 
 .classButton {
   background: var(--background-color);

@@ -84,7 +84,7 @@ export class EditUserComponent implements OnInit {
         this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
-                this.presentToast('Yeah ' + this.player.ingameName + 'ist jetzt ein admin');
+                this.presentToast('Yeah ' + this.player.ingameName + ' ist jetzt ein admin');
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
@@ -99,7 +99,7 @@ export class EditUserComponent implements OnInit {
         this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
-                this.presentToast('Yeah ' + this.player.ingameName + 'ist jetzt Kein Admin mehr');
+                this.presentToast('Yeah ' + this.player.ingameName + ' ist jetzt kein Admin mehr');
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
