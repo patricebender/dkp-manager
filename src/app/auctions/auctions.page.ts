@@ -3,8 +3,6 @@ import {Settings} from '../Settings';
 import {AlertController, ModalController, ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
-import {CreateRaidComponent} from '../create-raid/create-raid.component';
-import {Raid} from '../models/Raid';
 import {CreateAuctionComponent} from '../create-auction/create-auction.component';
 import {Auction} from '../models/Auction';
 import {Backend} from '../Backend';
@@ -107,7 +105,7 @@ export class AuctionsPage implements OnInit {
     }
 
 
-    private async updateAuctions() {
+    async updateAuctions() {
         let raidObs = await this.getAuctions();
         raidObs
             .subscribe(
