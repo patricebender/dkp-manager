@@ -1,7 +1,7 @@
 <ion-header>
     <ion-toolbar>
         <ion-title>
-          Erstelle einen neuen Raid {{player.ingameName}}
+            {{!this.existingRaid ? 'Neuen Raid erstellen' : 'Raid bearbeiten'}}
         </ion-title>
     </ion-toolbar>
 </ion-header>
@@ -12,22 +12,10 @@
         <ion-item>
             <ion-label>Dungeon Name:</ion-label>
             <ion-select
-                    (ionChange)="setDungeonName($event)" placeholder="Bitte auswählen">
+                    (ionChange)="setDungeonName($event)" placeholder="Bitte auswählen" value="{{this.dungeonName}}">
                 <ion-select-option *ngFor="let name of dungeonNames">{{name}}</ion-select-option>
             </ion-select>
         </ion-item>
-        <ion-item>
-
-
-            <ion-label>Maximale Spieleranzahl:</ion-label>
-
-
-            <ion-input (ionChange)="setPlayerLimit($event)" value="{{this.playerLimit}}" class="ion-float-right"
-                       type="number"></ion-input>
-
-
-        </ion-item>
-
         <ion-item>
             <ion-label>Start Datum:</ion-label>
             <ion-datetime
@@ -38,18 +26,15 @@
                     value="{{date}}"></ion-datetime>
         </ion-item>
 
-        <ion-item>
-            <ion-label>Dauer in Stunden:</ion-label>
-            <ion-input
-                    (ionChange)="setDuration($event)"
-                    value="{{this.duration}}" class="ion-float-right" type="number"></ion-input>
-        </ion-item>
         <ion-item >
             <ion-label>Beschreibung:</ion-label>
-            <ion-textarea (ionChange)="setDescription($event)" ></ion-textarea>
+            <ion-textarea (ionChange)="setDescription($event)" value="{{description}}" ></ion-textarea>
         </ion-item>
         <ion-row class="ion-justify-content-center">
-            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}" color="{{this.player.playerClass.toString().toLowerCase()}}"><strong> Raid Erstellen </strong>
+            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}" color="{{this.player.playerClass.toString().toLowerCase()}}">
+                <strong>
+                    {{!this.existingRaid ? 'Raid erstellen' : 'Raid aktualisieren'}}
+                </strong>
             </ion-button>
 
         </ion-row>

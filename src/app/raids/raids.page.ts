@@ -87,6 +87,28 @@ export class RaidsPage implements OnInit {
             this.isModalPresent = false;
         });
     }
+    async showChangeRaidModal(raid: Raid) {
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: CreateRaidComponent,
+            componentProps: {
+                existingRaid: raid
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then((callback) => {
+            if (callback.data) {
+                const raid: Raid = callback.data.raid;
+                const isUpdate = callback.data.isUpdate;
+                isUpdate ? this.patchRaid(raid) : this.postRaid(raid);
+            }
+            this.updateRaids();
+            this.isModalPresent = false;
+        });
+    }
 
 
     async presentToast(msg) {
@@ -96,7 +118,21 @@ export class RaidsPage implements OnInit {
         });
         toast.present();
     }
+    private async patchRaid(raid: Raid) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
 
+        this.http.patch(Backend.address + '/raid', raid, options)
+            .subscribe((data) => {
+                console.log('raid change successful!', data);
+                this.updateRaids();
+                this.presentToast('Yeah der Raid wurde geändert!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+
+    }
 
     private async postRaid(raid: Raid) {
         const token = await this.oktaAuth.getAccessToken();
@@ -146,7 +182,7 @@ export class RaidsPage implements OnInit {
     }
 
     async presentRaidRegistration(raid: Raid) {
-        console.log(raid)
+        console.log(raid);
         const alert = await this.alertController.create({
             header: 'Anmeldung +5 DKP',
             inputs: [
@@ -306,4 +342,12 @@ export class RaidsPage implements OnInit {
         });
     }
 
+    getInviteOrPullTime(raid: Raid, getInvTime: boolean) {
+        let pullTime = new Date(raid.date);
+        const invTime = new Date(pullTime);
+        invTime.setHours(pullTime.getHours() - 0.5);
+
+        return getInvTime ? invTime.getHours() + ':' + invTime.getMinutes() :
+            pullTime.getHours() + ':' + pullTime.getMinutes();
+    }
 }

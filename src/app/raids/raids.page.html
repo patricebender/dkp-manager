@@ -22,13 +22,17 @@
                 </ion-col>
                 <ion-col size="1" class="verticalCenter">
                     <ion-icon (click)="showRaidInfo(raid)" size="large"
+
                               color="{{myChar.playerClass.toString().toLowerCase()}}"
                               name="information-circle-outline"></ion-icon>
                 </ion-col>
                 <ion-col size="1" class="verticalCenter">
 
 
-                    <ion-icon size="large" color="{{myChar.playerClass.toString().toLowerCase()}}"
+                    <ion-icon size="large"
+                              *ngIf="myChar.isAdmin"
+                              (click)="showChangeRaidModal(raid)"
+                              color="{{myChar.playerClass.toString().toLowerCase()}}"
                               name="create-outline"></ion-icon>
                 </ion-col>
 
@@ -47,11 +51,11 @@
                 <ion-col size="1.5">
 
                         <ion-badge  style="width: 100%; margin-top: 0.3em" color="success">
-                            Invite 18:30 Uhr
+                            Invite {{getInviteOrPullTime(raid, true)}} Uhr
                         </ion-badge>
 
                         <ion-badge class="ion-margin-top"  style="width: 100%" color="warning">
-                            Pull 19:00 Uhr
+                            Pull {{getInviteOrPullTime(raid, false)}}  Uhr
                         </ion-badge>
 
 

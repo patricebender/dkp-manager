@@ -1,4 +1,4 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {Player} from '../models/Player';
 import {PlayerClass} from '../models/PlayerClass';
 import {OktaAuthService} from '@okta/okta-angular';
@@ -20,6 +20,9 @@ export class CreateRaidComponent implements OnInit {
     description: string;
     playerLimit: number = 40;
 
+    @Input()
+    existingRaid: Raid;
+
     get dungeonNames(): string[] {
         return this._dungeonNames;
     }
@@ -37,8 +40,13 @@ export class CreateRaidComponent implements OnInit {
     }
 
     dismiss() {
+        const raid = new Raid(this.dungeonName, this.date, this.date, this.description);
+        if (this.existingRaid) {
+            raid._id = this.existingRaid._id;
+        }
         this.modalController.dismiss({
-            raid: new Raid(this.dungeonName, this.date, this.date, this.description)
+            raid,
+            isUpdate: !!this.existingRaid
         });
     }
 
@@ -47,6 +55,18 @@ export class CreateRaidComponent implements OnInit {
         'Molten Core',
         'Blackwing Lair'
     ];
+
+
+    async ionViewDidEnter() {
+        if (this.existingRaid) {
+            this.dungeonName = this.existingRaid.dungeonName;
+            this.date = this.existingRaid.date;
+            this.registrationDeadline = this.existingRaid.registrationDeadline;
+            this.description = this.existingRaid.description;
+            console.log(this.existingRaid);
+        }
+
+    }
 
 
     get now() {
