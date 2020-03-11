@@ -347,7 +347,16 @@ export class RaidsPage implements OnInit {
         const invTime = new Date(pullTime);
         invTime.setMinutes(pullTime.getMinutes() - 30);
 
-        return getInvTime ? invTime.getHours() + ':' + invTime.getMinutes() :
-            pullTime.getHours() + ':' + pullTime.getMinutes();
+
+
+        return getInvTime ? this.getTimeWithLeadingZero(invTime.getHours()) + ':' + this.getTimeWithLeadingZero(invTime.getMinutes()) :
+            this.getTimeWithLeadingZero(pullTime.getHours())+ ':' + this.getTimeWithLeadingZero(pullTime.getMinutes()) ;
+    }
+
+    getTimeWithLeadingZero(val: number){
+        if(val < 10) {
+            return '0' + val;
+        }
+        return val;
     }
 }
