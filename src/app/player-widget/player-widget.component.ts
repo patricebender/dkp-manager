@@ -4,7 +4,7 @@ import {Settings} from '../Settings';
 import {CreateUserComponent} from '../create-user/create-user.component';
 import {Observable} from 'rxjs';
 import {Backend} from '../Backend';
-import {ModalController} from '@ionic/angular';
+import {ModalController, ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {ChangeUserComponent} from '../change-user/change-user.component';
@@ -27,6 +27,7 @@ export class PlayerWidgetComponent implements OnInit {
     constructor(
         private modalController: ModalController,
         private oktaAuth: OktaAuthService,
+        private toastController: ToastController,
         private http: HttpClient) {
     }
 
@@ -119,4 +120,27 @@ export class PlayerWidgetComponent implements OnInit {
             this.isModalPresent = false;
         });
     }
+
+    async updatePlayerLanguage() {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        this.http.patch(Backend.address + '/player', this.player, options)
+            .subscribe((data) => {
+                console.log('user update successful!', data);
+                this.presentToast('Yeah ' + this.player.ingameName + ', deine Spracheinstellung wurde aktualisiert!');
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+    async presentToast(msg) {
+        const toast = await this.toastController.create({
+            message: msg,
+            duration: 2000
+        });
+        toast.present();
+    }
+
+
 }

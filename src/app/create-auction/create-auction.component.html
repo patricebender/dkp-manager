@@ -19,12 +19,16 @@
             <ion-row *ngFor="let item of filteredItems">
 
                 <ion-item style="width: 100%">
-                    <ion-label><h2>
-                        <a class="epic"
-                           [attr.data-wowhead]="'item=' + item.ingameId">
-                            [{{item.name}}]
-                        </a>
-                    </h2></ion-label>
+                    <ion-label>
+                        <h1>
+                            <a class="epic"
+                               target="_blank"
+                               href="https://us.classic.wowhead.com/item={{item.ingameId}}"
+                            >
+                            </a>
+                        </h1>
+
+                    </ion-label>
                     <ion-radio color="{{myChar.playerClass.toString().toLowerCase()}}"
                                value="{{item.name}}"></ion-radio>
                 </ion-item>

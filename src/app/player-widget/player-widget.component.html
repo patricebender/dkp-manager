@@ -2,12 +2,12 @@
     <ion-row *ngIf="player" class="ion-justify-content-center ion-align-items-center">
         <ion-col size="2.4">
             <ion-button (click)="this.showChangeUserModal()" color="{{player.playerClass.toString().toLowerCase()}}">
-                <ion-icon  name="hammer-outline" >
+                <ion-icon name="hammer-outline">
 
                 </ion-icon>
             </ion-button>
         </ion-col>
-        <ion-col size="2.4">
+        <ion-col size="1">
             <ion-text style="font-size: 1.8em">
                 {{player.ingameName}}
             </ion-text>
@@ -18,7 +18,7 @@
                 </ion-text>
             </ion-text>
         </ion-col>
-        <ion-col size="2.4">
+        <ion-col size="2">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                     {{player.playerClass}}
@@ -28,7 +28,15 @@
                 <ion-text style="font-size: 1.5em"> {{player.spec}} </ion-text>
             </ion-row>
         </ion-col>
-        <ion-col size="2.4">
+        <ion-col size="2" class="verticalCenter">
+
+            <ion-label>{{player.prefersEnglish ? 'English 🇬🇧' : 'Deutsch 🇩🇪'}}</ion-label>
+            <ion-toggle (ionChange)="updatePlayerLanguage()"
+                    color="{{player.playerClass.toString().toLowerCase()}}"
+                    [(ngModel)]="player.prefersEnglish"></ion-toggle>
+        </ion-col>
+
+        <ion-col size="2">
             <ion-avatar class="ion-float-right">
                 <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
             </ion-avatar>
