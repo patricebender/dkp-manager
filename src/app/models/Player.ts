@@ -9,6 +9,7 @@ export class Player {
     isAdmin: boolean;
     mail: string;
     talent: string;
+    prefersEnglish: boolean;
     _id: string;
 
     constructor(name: string, playerClass: PlayerClass, spec: Spec, talent: string) {

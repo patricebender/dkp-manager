@@ -10,13 +10,29 @@ import {Observable} from 'rxjs';
 import {BidComponent} from '../bid/bid.component';
 import {Bid} from '../models/Bid';
 import {CloseAuctionComponent} from '../close-auction/close-auction.component';
+declare var $WowheadPower: any;
 
 @Component({
     selector: 'app-auctions',
     templateUrl: './auctions.page.html',
     styleUrls: ['./auctions.page.scss'],
 })
+
 export class AuctionsPage implements OnInit {
+
+    updateLinks() {
+        try{
+            if(typeof $WowheadPower == 'undefined'){
+                $.getScript('//wow.zamimg.com/widgets/power.js');
+            } else {
+                $WowheadPower.refreshLinks();
+            }
+        } catch (e) {
+            console.log("error while refreshing wowhead links")
+        }
+    }
+
+
 
     get auctions(): Auction[] {
         return this._auctions;
@@ -28,9 +44,11 @@ export class AuctionsPage implements OnInit {
 
     private isModalPresent: boolean;
     private _auctions: Auction[] = [];
+
     isHistoryShown: boolean = false;
 
     get filteredAuctions() {
+        this.updateLinks();
         if (this.isHistoryShown) {
             return this.auctions;
         }
@@ -54,6 +72,7 @@ export class AuctionsPage implements OnInit {
 
     ngOnInit() {
         this.updateAuctions();
+
     }
 
     async presentToast(msg) {
@@ -253,6 +272,7 @@ export class AuctionsPage implements OnInit {
 
     toggleHistory() {
         this.isHistoryShown = !this.isHistoryShown;
+
     }
 }
 

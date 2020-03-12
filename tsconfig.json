@@ -21,6 +21,7 @@
       "dom"
     ]
   },
+  "types": ["jquery"],
   "angularCompilerOptions": {
     "fullTemplateTypeCheck": true,
     "strictInjectionParameters": true
