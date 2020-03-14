@@ -1,15 +1,19 @@
 <ion-header>
     <ion-row>
-        <ion-col size="8">
-            <ion-searchbar [(ngModel)]="searchTerm"
-                           (ionChange)="setFilteredItems()" placeholder="Suche nach Namen, Klasse oder Spec"
+        <ion-col size="9">
+            <ion-searchbar
+
+                    color="{{myChar.playerClass.toString().toLowerCase()}}"
+                    [(ngModel)]="searchTerm"
+                    (ionChange)="setFilteredItems()"
+                    placeholder="Suche nach Namen, Klasse oder Spec"
                            animated="true"></ion-searchbar>
 
         </ion-col>
-        <ion-col class="ion-text-center"
-                 size=2>
+        <ion-col   class="ion-text-center verticalCenter"
+                 size="2">
             <ion-chip>
-                <ion-header class="ion-text-center">
+                <ion-header>
                     Insgesamt
                 </ion-header>
                 <ion-avatar style="width: 3em">
@@ -20,7 +24,7 @@
             </ion-chip>
 
         </ion-col>
-        <ion-col class="ion-text-center" size="2">
+        <ion-col class="verticalCenter" size="1">
             <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">
                 <ion-icon name="refresh"></ion-icon>
             </ion-button>
