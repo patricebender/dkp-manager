@@ -8,6 +8,7 @@ import {ModalController, ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {ChangeUserComponent} from '../change-user/change-user.component';
+import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 declare var $WowheadPower: any;
 
 @Component({
@@ -159,4 +160,20 @@ export class PlayerWidgetComponent implements OnInit {
     }
 
 
+    async showMyDkpLog() {
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: DkpHistoryComponent,
+            componentProps: {
+                player: this.player
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then(() => {
+            this.isModalPresent = false;
+        });
+    }
 }

@@ -1,23 +1,32 @@
 <ion-grid class="vertical-align-content">
     <ion-row *ngIf="player" class="ion-justify-content-center ion-align-items-center">
-        <ion-col size="2.4">
+        <ion-col size="1">
             <ion-button (click)="this.showChangeUserModal()" color="{{player.playerClass.toString().toLowerCase()}}">
                 <ion-icon name="hammer-outline">
 
                 </ion-icon>
             </ion-button>
         </ion-col>
-        <ion-col size="1">
+        <ion-col size="2.4">
             <ion-text style="font-size: 1.8em">
                 {{player.ingameName}}
             </ion-text>
         </ion-col>
-        <ion-col size="2.4">
-            <ion-text>
-                <ion-text style="font-size: 1.5em">DKP: {{player.dkp}}
+
+        <ion-col size="2.4" class="ion-justify-content-center">
+            <ion-button
+                    (click)="showMyDkpLog()"
+                    color="{{player.playerClass.toString().toLowerCase()}}"
+                 >
+                <ion-icon
+                        size="large"
+                        name="information-circle-outline"></ion-icon>
+                <ion-text style="font-size: 1.5em">{{player.dkp}} DKP
                 </ion-text>
-            </ion-text>
+            </ion-button>
+
         </ion-col>
+
         <ion-col size="2">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">

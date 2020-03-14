@@ -19,6 +19,8 @@ import {DkpEntry} from '../models/DkpEntry';
     styleUrls: ['./raid-info.component.scss'],
 })
 export class RaidInfoComponent implements OnInit {
+
+
     get reason(): string {
         return this._reason;
     }
@@ -26,8 +28,10 @@ export class RaidInfoComponent implements OnInit {
     get dkp(): number {
         return this._dkp;
     }
+
     private _reason: string;
     private _dkp: number;
+    private _playersNotInRaid: Player[] = [];
 
     constructor(
         private modalController: ModalController,
@@ -42,6 +46,7 @@ export class RaidInfoComponent implements OnInit {
 
     @Input() raid: Raid;
 
+
     get PlayerClass() {
         return PlayerClass;
     }
@@ -55,6 +60,18 @@ export class RaidInfoComponent implements OnInit {
             || this.raid.bench.some(reg => reg.player.mail === this.myChar.mail)
             || this.raid.late.some(reg => reg.player.mail === this.myChar.mail)
             || this.raid.decline.some(reg => reg.player.mail === this.myChar.mail);
+    }
+
+    isPlayerAlreadyRegistered(player: Player): boolean {
+        return this.raid.confirm.some(reg => reg.player.mail === player.mail)
+            || this.raid.bench.some(reg => reg.player.mail === player.mail)
+            || this.raid.late.some(reg => reg.player.mail === player.mail)
+            || this.raid.decline.some(reg => reg.player.mail === player.mail);
+    }
+
+    getAllRegisteredPlayers(): Player[] {
+        const allRegs = this.raid.confirm.concat(this.raid.late).concat(this.raid.decline).concat(this.raid.bench);
+        return allRegs.map(reg => reg.player);
     }
 
     get confirmedHeals() {
@@ -101,6 +118,7 @@ export class RaidInfoComponent implements OnInit {
         });
         toast.present();
     }
+
     async presentMovePlayerAlert(player: Player) {
         const alert = await this.alertController.create({
             header: 'Verschiebe in',
@@ -142,11 +160,11 @@ export class RaidInfoComponent implements OnInit {
                     text: 'Abschicken',
 
                     handler: (registrationType) => {
-                        if(registrationType) {
-                            console.log("reg" + registrationType);
+                        if (registrationType) {
+                            console.log('reg' + registrationType);
                             this.changePlayerRegistration(player, registrationType);
-                        } else{
-                            this.presentToast("Du musst schon etwas auswählen 😜")
+                        } else {
+                            this.presentToast('Du musst schon etwas auswählen 😜');
                             return false;
                         }
 
@@ -184,7 +202,7 @@ export class RaidInfoComponent implements OnInit {
         raidObs
             .subscribe(
                 (res) => {
-                    console.log(res)
+                    console.log(res);
                     const raid = res.item;
                     this.raid = raid;
                 },
@@ -201,7 +219,7 @@ export class RaidInfoComponent implements OnInit {
             );
     }
 
-    private async getRaid():Promise<Observable<any>>{
+    private async getRaid(): Promise<Observable<any>> {
         const token = await this.oktaAuth.getAccessToken();
         return this.http.get<Raid>(Backend.address + '/raid/' + this.raid._id, await Backend.getHttpOptions(token));
 
@@ -211,8 +229,8 @@ export class RaidInfoComponent implements OnInit {
         const alert = await this.alertController.create({
             header: 'Raidanmeldung Schließen',
             message: 'Bist du dir Sicher, dass du den Raid Absagen möchtest, Spieler können sich dann nicht mehr registrieren.',
-                    buttons: [
-                        {
+            buttons: [
+                {
                     text: 'Raid Schließen',
                     handler: () => {
                         this.closeOrOpenRaid(true);
@@ -255,7 +273,7 @@ export class RaidInfoComponent implements OnInit {
     createDKPEntriesForPlayer(players: Player[]) {
         const dkpLogType = this._dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
 
-        return  players.map((p) => {
+        return players.map((p) => {
             return new DkpEntry(dkpLogType, this._reason, this.myChar.ingameName, new Date(), this._dkp, p.mail);
         });
     }
@@ -274,7 +292,7 @@ export class RaidInfoComponent implements OnInit {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        console.log(dkpEntries)
+        console.log(dkpEntries);
 
         this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
             .subscribe((data) => {
@@ -285,12 +303,13 @@ export class RaidInfoComponent implements OnInit {
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
     }
+
     async postDkpEntriesForBench() {
         const dkpEntries = this.createDKPEntriesForPlayer(this.raid.bench.map(reg => reg.player));
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        console.log(dkpEntries)
+        console.log(dkpEntries);
 
         this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
             .subscribe((data) => {
