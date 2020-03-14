@@ -8,7 +8,7 @@ import {ModalController, ToastController} from '@ionic/angular';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {ChangeUserComponent} from '../change-user/change-user.component';
-import {max} from 'rxjs/operators';
+declare var $WowheadPower: any;
 
 @Component({
     selector: 'app-player-widget',
@@ -17,6 +17,19 @@ import {max} from 'rxjs/operators';
 })
 export class PlayerWidgetComponent implements OnInit {
     private isModalPresent: boolean;
+
+    updateLinks() {
+        try {
+            if (typeof $WowheadPower == 'undefined') {
+                $.getScript('//wow.zamimg.com/widgets/power.js');
+            } else {
+                $WowheadPower.refreshLinks();
+                console.log('dakosdnaosn');
+            }
+        } catch (e) {
+            console.log('error while refreshing wowhead links');
+        }
+    }
 
 
     get player(): Player {
@@ -129,6 +142,9 @@ export class PlayerWidgetComponent implements OnInit {
             .subscribe((data) => {
                 console.log('user update successful!', data);
                 this.presentToast('Yeah ' + this.player.ingameName + ', deine Spracheinstellung wurde aktualisiert!');
+                this.updatePlayer();
+                this.updateLinks();
+
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');

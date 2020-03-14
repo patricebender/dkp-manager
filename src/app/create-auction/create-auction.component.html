@@ -22,9 +22,8 @@
                     <ion-label>
                         <h1>
                             <a class="epic"
-                               target="_blank"
-                               href="https://us.classic.wowhead.com/item={{item.ingameId}}"
-                            >
+                               [attr.data-wowhead]="'item=' + item.ingameId">
+                                [{{item.name}}]
                             </a>
                         </h1>
 

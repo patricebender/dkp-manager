@@ -20,19 +20,19 @@ declare var $WowheadPower: any;
 
 export class AuctionsPage implements OnInit {
 
+
     updateLinks() {
-        try{
-            if(typeof $WowheadPower == 'undefined'){
+        try {
+            if (typeof $WowheadPower == 'undefined') {
                 $.getScript('//wow.zamimg.com/widgets/power.js');
             } else {
                 $WowheadPower.refreshLinks();
+                console.log('dakosdnaosn');
             }
         } catch (e) {
-            console.log("error while refreshing wowhead links")
+            console.log('error while refreshing wowhead links');
         }
     }
-
-
 
     get auctions(): Auction[] {
         return this._auctions;
@@ -48,7 +48,6 @@ export class AuctionsPage implements OnInit {
     isHistoryShown: boolean = false;
 
     get filteredAuctions() {
-        this.updateLinks();
         if (this.isHistoryShown) {
             return this.auctions;
         }
@@ -132,6 +131,7 @@ export class AuctionsPage implements OnInit {
                     const auctions = res.data;
                     this._auctions = auctions;
                     console.log('Fetched: ' + this._auctions);
+                    setTimeout(this.updateLinks, 100);
                 },
                 (error) => {
                     const statusCode = error.status;
@@ -272,7 +272,7 @@ export class AuctionsPage implements OnInit {
 
     toggleHistory() {
         this.isHistoryShown = !this.isHistoryShown;
-
+        setTimeout(this.updateLinks, 100);
     }
 }
 
