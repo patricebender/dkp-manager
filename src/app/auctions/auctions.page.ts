@@ -10,6 +10,7 @@ import {Observable} from 'rxjs';
 import {BidComponent} from '../bid/bid.component';
 import {Bid} from '../models/Bid';
 import {CloseAuctionComponent} from '../close-auction/close-auction.component';
+
 declare var $WowheadPower: any;
 
 @Component({
@@ -18,7 +19,7 @@ declare var $WowheadPower: any;
     styleUrls: ['./auctions.page.scss'],
 })
 
-export class AuctionsPage implements OnInit {
+export class AuctionsPage {
 
 
     updateLinks() {
@@ -27,7 +28,6 @@ export class AuctionsPage implements OnInit {
                 $.getScript('//wow.zamimg.com/widgets/power.js');
             } else {
                 $WowheadPower.refreshLinks();
-                console.log('dakosdnaosn');
             }
         } catch (e) {
             console.log('error while refreshing wowhead links');
@@ -44,6 +44,8 @@ export class AuctionsPage implements OnInit {
 
     private isModalPresent: boolean;
     private _auctions: Auction[] = [];
+    private skip: number = 0;
+    private allAuctionsLoaded: boolean;
 
     isHistoryShown: boolean = false;
 
@@ -69,10 +71,6 @@ export class AuctionsPage implements OnInit {
         private alertController: AlertController) {
     }
 
-    ngOnInit() {
-        this.updateAuctions();
-
-    }
 
     async presentToast(msg) {
         const toast = await this.toastController.create({
@@ -128,10 +126,19 @@ export class AuctionsPage implements OnInit {
         raidObs
             .subscribe(
                 (res) => {
-                    const auctions = res.data;
-                    this._auctions = auctions;
-                    console.log('Fetched: ' + this._auctions);
-                    setTimeout(this.updateLinks, 100);
+
+
+
+                    if (res.data.length === 0){
+                        this.allAuctionsLoaded = true;
+                    }else {
+                        this.skip += 2;
+                        console.log("fetched auctions#: " + res.data.length )
+                        this._auctions.push(...res.data);
+                        setTimeout(this.updateLinks, 100);
+                    }
+
+
                 },
                 (error) => {
                     const statusCode = error.status;
@@ -148,7 +155,7 @@ export class AuctionsPage implements OnInit {
 
     private async getAuctions(): Promise<Observable<any>> {
         const token = await this.oktaAuth.getAccessToken();
-        return this.http.get<Auction>(Backend.address + '/auctions/' + this.myChar._id, await Backend.getHttpOptions(token));
+        return this.http.get<Auction>(Backend.address + '/auctions/' + this.myChar._id + "/" + this.skip, await Backend.getHttpOptions(token));
     }
 
     async presentCloseAuction(auction: Auction) {
@@ -273,6 +280,22 @@ export class AuctionsPage implements OnInit {
     toggleHistory() {
         this.isHistoryShown = !this.isHistoryShown;
         setTimeout(this.updateLinks, 100);
+    }
+
+    auctionWasToday() {
+        return true;
+    }
+
+    loadMoreAuctions(event) {
+        setTimeout(() => {
+            event.target.complete();
+            this.skip += 10;
+            this.updateAuctions();
+            // disable the infinite scroll
+            if (this.allAuctionsLoaded) {
+                event.target.disabled = true;
+            }
+        }, 500);
     }
 }
 

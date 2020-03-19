@@ -11,6 +11,7 @@ export class Auction {
     winnerBid: Bid;
     bidCount: number;
     playerMails: string[];
+    createdAt: Date;
 
     constructor(item: Item, minBid: number){
         this.item = item;
