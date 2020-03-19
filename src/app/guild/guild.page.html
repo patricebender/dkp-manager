@@ -1,6 +1,6 @@
 <ion-header>
     <ion-row>
-        <ion-col size="9">
+        <ion-col size="8">
             <ion-searchbar
 
                     color="{{myChar.playerClass.toString().toLowerCase()}}"
@@ -23,6 +23,14 @@
                     {{filteredPlayers ? filteredPlayers.length : 0}}</ion-label>
             </ion-chip>
 
+        </ion-col>
+        <ion-col class="verticalCenter" size="1">
+            <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="swapDkpSort()">
+                DKP
+                <ion-icon *ngIf="this.isDkpSortAscending" name="arrow-up"></ion-icon>
+                <ion-icon  *ngIf="!this.isDkpSortAscending" name="arrow-down"></ion-icon>
+
+            </ion-button>
         </ion-col>
         <ion-col class="verticalCenter" size="1">
             <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="updatePlayers()">

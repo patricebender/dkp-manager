@@ -19,19 +19,23 @@ import {Raid} from '../models/Raid';
 })
 export class GuildPage implements OnInit {
     private isModalPresent: boolean;
+    private isDkpSortAscending: boolean = true;
 
 
     get filteredPlayers(): Player[] {
-        return this._filteredPlayers;
+        if (this.isDkpSortAscending) {
+            return this._filteredPlayers.sort((a, b) => a.dkp > b.dkp ? -1 : a.dkp < b.dkp ? 1 : 0);
+        }
+        return this._filteredPlayers.sort((a, b) => a.dkp > b.dkp ? 1 : a.dkp < b.dkp ? -1 : 0);
     }
 
     set filteredPlayers(value: Player[]) {
         this._filteredPlayers = value;
     }
 
-    private _filteredPlayers: Player[];
+    private _filteredPlayers: Player[] = [];
     players: Player[] = [];
-    searchTerm: string;
+    searchTerm: string = "";
 
     constructor(private alertController: AlertController,
                 private toastController: ToastController,
@@ -56,7 +60,7 @@ export class GuildPage implements OnInit {
     }
 
     async presentDeleteConfirm(player: Player) {
-        console.log(player + " wird gelöscht")
+        console.log(player + ' wird gelöscht');
         const alert = await this.alertController.create({
             header: player.ingameName + ' Löschen?',
             message: 'Bist du dir Sicher, dass du den Spieler inklusive DKP löschen möchtest?',
@@ -84,7 +88,7 @@ export class GuildPage implements OnInit {
     async deleteUser(player: Player) {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
-       console.log(player)
+        console.log(player);
 
         this.http.delete(Backend.address + '/player/' + player._id, options)
             .subscribe((data) => {
@@ -125,7 +129,7 @@ export class GuildPage implements OnInit {
                 .subscribe(
                     (res) => {
                         this.players = res.data;
-                        this._filteredPlayers = this.players;
+                        this._filteredPlayers = this.getFilteredPlayers();
                         console.log(this.players);
                     },
                     (error) => {
@@ -142,6 +146,16 @@ export class GuildPage implements OnInit {
 
     setFilteredItems() {
         this._filteredPlayers = this.players.filter((player) => {
+            const filter = this.searchTerm.toLowerCase();
+            return player.ingameName.toLowerCase().startsWith(filter)
+                || player.playerClass.toString().toLowerCase().startsWith(filter)
+                || player.spec.toString().toLowerCase().startsWith(filter)
+                || player.talent.toString().toLowerCase().startsWith(filter);
+        });
+    }
+
+    getFilteredPlayers() {
+        return this.players.filter((player) => {
             const filter = this.searchTerm.toLowerCase();
             return player.ingameName.toLowerCase().startsWith(filter)
                 || player.playerClass.toString().toLowerCase().startsWith(filter)
@@ -185,5 +199,9 @@ export class GuildPage implements OnInit {
             this.isModalPresent = false;
             this.updatePlayers();
         });
+    }
+
+    swapDkpSort() {
+        this.isDkpSortAscending = !this.isDkpSortAscending;
     }
 }
