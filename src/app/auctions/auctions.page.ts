@@ -44,7 +44,7 @@ export class AuctionsPage {
 
     private isModalPresent: boolean;
     private _auctions: Auction[] = [];
-    private skip: number = 0;
+    private limit: number = 15;
     private allAuctionsLoaded: boolean;
 
     isHistoryShown: boolean = false;
@@ -127,16 +127,12 @@ export class AuctionsPage {
             .subscribe(
                 (res) => {
 
-
-
-                    if (res.data.length === 0){
+                    if (res.data.length < this.limit) {
                         this.allAuctionsLoaded = true;
-                    }else {
-                        this.skip += 2;
-                        console.log("fetched auctions#: " + res.data.length )
-                        this._auctions.push(...res.data);
-                        setTimeout(this.updateLinks, 100);
                     }
+                    console.log('fetched auctions#: ' + res.data.length);
+                    this._auctions = res.data;
+                    setTimeout(this.updateLinks, 100);
 
 
                 },
@@ -155,7 +151,7 @@ export class AuctionsPage {
 
     private async getAuctions(): Promise<Observable<any>> {
         const token = await this.oktaAuth.getAccessToken();
-        return this.http.get<Auction>(Backend.address + '/auctions/' + this.myChar._id + "/" + this.skip, await Backend.getHttpOptions(token));
+        return this.http.get<Auction>(Backend.address + '/auctions/' + this.myChar._id + '/' + this.limit, await Backend.getHttpOptions(token));
     }
 
     async presentCloseAuction(auction: Auction) {
@@ -282,14 +278,18 @@ export class AuctionsPage {
         setTimeout(this.updateLinks, 100);
     }
 
-    auctionWasToday() {
-        return true;
+    auctionWasToday(auction: Auction) {
+        const today = new Date();
+        const auctionDate = new Date(auction.createdAt);
+        return auctionDate.getDate() == today.getDate() &&
+            auctionDate.getMonth() == today.getMonth() &&
+            auctionDate.getFullYear() == today.getFullYear();
     }
 
     loadMoreAuctions(event) {
         setTimeout(() => {
             event.target.complete();
-            this.skip += 10;
+            this.limit += 10;
             this.updateAuctions();
             // disable the infinite scroll
             if (this.allAuctionsLoaded) {

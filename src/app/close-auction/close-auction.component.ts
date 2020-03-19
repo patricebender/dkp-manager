@@ -124,7 +124,7 @@ export class CloseAuctionComponent implements OnInit {
       this.http.patch(Backend.address + '/auction/close/' + auction._id, auction, options)
           .subscribe((data) => {
             console.log('close auction success', data);
-            this.createAndPostDkpEntry(auction)
+            if(auction.winnerBid) this.createAndPostDkpEntry(auction);
             this.presentToast("Auktion erfolgreich beendet!")
           }, (e) => {
             console.log(e);
@@ -134,7 +134,6 @@ export class CloseAuctionComponent implements OnInit {
     }
 
   async createAndPostDkpEntry(auction: Auction) {
-
     const dkpEntry = new DkpEntry(DkpLogType.WonAuction, auction.item.name, this.myChar.ingameName, new Date(), -auction.winnerBid.dkpBid, auction.winnerBid.player.mail);
     dkpEntry.item = auction.item;
     this.postDkpEntry(dkpEntry, auction.winnerBid.player);

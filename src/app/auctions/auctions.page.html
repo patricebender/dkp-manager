@@ -60,7 +60,7 @@
                     </ion-button>
 
                 </ion-col>
-                <ion-col size="5">
+                <ion-col size="4">
                     <ion-item class="ion-text-center">
 
                         <ion-label>
@@ -77,7 +77,7 @@
                 <ion-col *ngIf="!myChar.isAdmin" size="1">
 
                 </ion-col>
-                <ion-col *ngIf="!myCharAlreadyBet(auction)" size="3">
+                <ion-col *ngIf="!myCharAlreadyBet(auction)" size="4">
                     <ion-button (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                                 style="width: 100%">
                         <ion-icon name="wallet-outline"></ion-icon>
@@ -137,7 +137,7 @@
                     </ion-item>
                 </ion-col>
                 <ion-col class="verticalCenter" size="1">
-                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}" *ngIf="auctionWasToday()">Heute🔥</ion-badge>
+                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}" *ngIf="auctionWasToday(auction)">Heute🔥</ion-badge>
 
                 </ion-col>
                 <ion-col size="{{myChar.isAdmin ? 2 : 3}}">
@@ -180,7 +180,7 @@
                     </ion-item>
                 </ion-col>
                 <ion-col class="verticalCenter" size="1">
-                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}" *ngIf="auctionWasToday()">Heute🔥</ion-badge>
+                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}" *ngIf="auctionWasToday(auction)">Heute🔥</ion-badge>
 
                 </ion-col>
 
