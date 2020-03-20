@@ -10,6 +10,7 @@ export class Player {
     mail: string;
     talent: string;
     prefersEnglish: boolean;
+    dkpRank: number;
     _id: string;
 
     constructor(name: string, playerClass: PlayerClass, spec: Spec, talent: string) {

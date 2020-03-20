@@ -35,7 +35,7 @@ export class GuildPage implements OnInit {
 
     private _filteredPlayers: Player[] = [];
     players: Player[] = [];
-    searchTerm: string = "";
+    searchTerm: string = '';
 
     constructor(private alertController: AlertController,
                 private toastController: ToastController,
@@ -203,5 +203,39 @@ export class GuildPage implements OnInit {
 
     swapDkpSort() {
         this.isDkpSortAscending = !this.isDkpSortAscending;
+    }
+
+    getColorForRank(player: Player) {
+        if (player.dkpRank === 0) {
+            return 'gray';
+        }
+        if (player.dkpRank === 1) {
+            return 'orange';
+        }
+        if (player.dkpRank === 2 || player.dkpRank === 3) {
+            return 'purple';
+        }
+        if (player.dkpRank / (this.players.length) < 0.1) {
+            return 'blue';
+        }
+        if (player.dkpRank / (this.players.length) < 0.25) {
+            return 'green';
+        }
+        if (player.dkpRank / (this.players.length) < 0.5) {
+            return 'white';
+        } else {
+            return 'gray';
+        }
+    }
+
+    getFormatForRankBadge(dkpRank: number) {
+        if (dkpRank === 1) {
+            return '🔥' + dkpRank + ".🔥";
+        } else if (dkpRank === 2 ) {
+            return "🥈" + dkpRank + ".🥈";
+        } else if (dkpRank === 3 ) {
+            return "🥉" + dkpRank + ".🥉";
+        }
+        return dkpRank + ".";
     }
 }

@@ -7,10 +7,10 @@
                     [(ngModel)]="searchTerm"
                     (ionChange)="setFilteredItems()"
                     placeholder="Suche nach Namen, Klasse oder Spec"
-                           animated="true"></ion-searchbar>
+                    animated="true"></ion-searchbar>
 
         </ion-col>
-        <ion-col   class="ion-text-center verticalCenter"
+        <ion-col class="ion-text-center verticalCenter"
                  size="2">
             <ion-chip>
                 <ion-header>
@@ -26,9 +26,10 @@
         </ion-col>
         <ion-col class="verticalCenter" size="1">
             <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" (click)="swapDkpSort()">
+
                 DKP
                 <ion-icon *ngIf="this.isDkpSortAscending" name="arrow-up"></ion-icon>
-                <ion-icon  *ngIf="!this.isDkpSortAscending" name="arrow-down"></ion-icon>
+                <ion-icon *ngIf="!this.isDkpSortAscending" name="arrow-down"></ion-icon>
 
             </ion-button>
         </ion-col>
@@ -67,7 +68,7 @@
 
                     class="ion-justify-content-center ion-align-items-center">
 
-                <ion-col size="2">
+                <ion-col size="1.5">
                     <ion-avatar style="height: 2.5em; width: 2.5em" class="ion-float-left">
                         <img src="../assets/role/{{player.spec.toString().toLowerCase()}}.png">
                     </ion-avatar>
@@ -91,17 +92,22 @@
                     </ion-badge>
                 </ion-col>
 
-                <ion-col size="3" class="ion-padding-start">
+                <ion-col size="2" >
                     <ion-text style="font-size: 1.8em">
                         {{player.ingameName}}  {{myChar.ingameName === player.ingameName ? ' (DU)' : ''}}
                     </ion-text>
 
                 </ion-col>
-
-
                 <ion-col class="ion-text-center" size="1">
-                    <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+                    <ion-badge style="width: 100%" color="{{getColorForRank(player)}}">
+                        {{getFormatForRankBadge(player.dkpRank)}}</ion-badge>
                 </ion-col>
+                <ion-col class="ion-text-center" size="1">
+                    <ion-badge
+                            style="width: 100%"
+                            color="{{myChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+                </ion-col>
+
 
 
                 <ion-col class="ion-justify-content-center" size="1">
@@ -125,8 +131,8 @@
                     <ion-icon
                             color="danger"
                             size="large"
-                              (click)="presentDeleteConfirm(player)"
-                              name="close-circle-sharp"></ion-icon>
+                            (click)="presentDeleteConfirm(player)"
+                            name="close-circle-sharp"></ion-icon>
                 </ion-col>
                 <ion-col *ngIf="!myChar.isAdmin" size="2">
                     <ion-button

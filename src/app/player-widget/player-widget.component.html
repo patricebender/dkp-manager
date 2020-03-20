@@ -13,21 +13,27 @@
             </ion-text>
         </ion-col>
 
-        <ion-col size="2.4" class="ion-justify-content-center">
-            <ion-button
-                    (click)="showMyDkpLog()"
-                    color="{{player.playerClass.toString().toLowerCase()}}"
-                 >
-                <ion-icon
-                        size="large"
-                        name="information-circle-outline"></ion-icon>
-                <ion-text style="font-size: 1.5em">{{player.dkp}} DKP
-                </ion-text>
-            </ion-button>
-
+        <ion-col class="ion-text-center" size="1">
+            <ion-badge style="width: 100%" color="{{player.playerClass.toString().toLowerCase()}}">
+                {{getFormatForRankBadge(player.dkpRank)}}</ion-badge>
         </ion-col>
 
-        <ion-col size="2">
+        <ion-col class="ion-text-center" size="1">
+            <ion-badge
+                    style="width: 100%"
+                    color="{{player.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+        </ion-col>
+
+
+
+        <ion-col class="ion-justify-content-center" size="1">
+            <ion-icon *ngIf="player.isAdmin" (click)="showMyDkpLog()"
+                      color="{{player.playerClass.toString().toLowerCase()}}"
+                      size="large"
+                      name="information-circle"></ion-icon>
+        </ion-col>
+
+        <ion-col size="1">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                     {{player.playerClass}}

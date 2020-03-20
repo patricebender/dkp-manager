@@ -176,4 +176,16 @@ export class PlayerWidgetComponent implements OnInit {
             this.isModalPresent = false;
         });
     }
+
+
+    getFormatForRankBadge(dkpRank: number) {
+        if (dkpRank === 1) {
+            return '🔥' + dkpRank + ".🔥";
+        } else if (dkpRank === 2 ) {
+            return "🥈" + dkpRank + ".🥈";
+        } else if (dkpRank === 3 ) {
+            return "🥉" + dkpRank + ".🥉";
+        }
+        return dkpRank + ".";
+    }
 }
