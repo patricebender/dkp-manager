@@ -177,15 +177,29 @@ export class PlayerWidgetComponent implements OnInit {
         });
     }
 
+    getColorForRank(player: Player) {
+        if (player.dkpRank === 0) {
+            return 'gray';
+        }
+        if (player.dkpRank === 1) {
+            return 'orange';
+        }
+        if (player.dkpRank === 2 || player.dkpRank === 3) {
+            return 'purple';
+        }
+        return this.player.playerClass.toString().toLowerCase();
+
+    }
+
 
     getFormatForRankBadge(dkpRank: number) {
         if (dkpRank === 1) {
-            return '🔥' + dkpRank + ".🔥";
+            return 'Rang: ' + dkpRank + ".🔥";
         } else if (dkpRank === 2 ) {
-            return "🥈" + dkpRank + ".🥈";
+            return "Rang: " + dkpRank + ".🥈";
         } else if (dkpRank === 3 ) {
-            return "🥉" + dkpRank + ".🥉";
+            return "Rang: " + dkpRank + ".🥉";
         }
-        return dkpRank + ".";
+        return "Rang: " + dkpRank + ".";
     }
 }

@@ -18,12 +18,19 @@ import {Raid} from '../models/Raid';
     styleUrls: ['./guild.page.scss'],
 })
 export class GuildPage implements OnInit {
+    get isDkpSortAscending(): boolean {
+        return this._isDkpSortAscending;
+    }
+
+    set isDkpSortAscending(value: boolean) {
+        this._isDkpSortAscending = value;
+    }
     private isModalPresent: boolean;
-    private isDkpSortAscending: boolean = true;
+    private _isDkpSortAscending: boolean = true;
 
 
     get filteredPlayers(): Player[] {
-        if (this.isDkpSortAscending) {
+        if (this._isDkpSortAscending) {
             return this._filteredPlayers.sort((a, b) => a.dkp > b.dkp ? -1 : a.dkp < b.dkp ? 1 : 0);
         }
         return this._filteredPlayers.sort((a, b) => a.dkp > b.dkp ? 1 : a.dkp < b.dkp ? -1 : 0);
@@ -202,7 +209,7 @@ export class GuildPage implements OnInit {
     }
 
     swapDkpSort() {
-        this.isDkpSortAscending = !this.isDkpSortAscending;
+        this._isDkpSortAscending = !this._isDkpSortAscending;
     }
 
     getColorForRank(player: Player) {
