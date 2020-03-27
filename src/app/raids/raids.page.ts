@@ -306,6 +306,13 @@ export class RaidsPage implements OnInit {
             || raid.decline.some(reg => reg.player.mail === this.myChar.mail);
     }
 
+    getMyRegistration(raid: Raid) {
+        if (raid.confirm.some(reg => reg.player.mail === this.myChar.mail)) return '✅';
+        if (raid.decline.some(reg => reg.player.mail === this.myChar.mail)) return '❌';
+        if (raid.bench.some(reg => reg.player.mail === this.myChar.mail)) return '🪑';
+        if (raid.late.some(reg => reg.player.mail === this.myChar.mail)) return '⌛️';
+    }
+
     getConfirmed(raid: Raid): Player[] {
         return raid.confirm;
     }

@@ -36,8 +36,8 @@
                               name="create-outline"></ion-icon>
                 </ion-col>
 
-                <ion-col size="1.5" style="flex-flow: column" >
-                    <ion-row  class="ion-padding-top">
+                <ion-col size="1.5" style="flex-flow: column">
+                    <ion-row class="ion-padding-top">
                         <ion-text style="font-size: 1.2em">
                             {{raid.dungeonName}}
                         </ion-text>
@@ -50,13 +50,13 @@
                 </ion-col>
                 <ion-col size="1.5">
 
-                        <ion-badge  style="width: 100%; margin-top: 0.3em" color="success">
-                            Invite {{getInviteOrPullTime(raid, true)}} Uhr
-                        </ion-badge>
+                    <ion-badge style="width: 100%; margin-top: 0.3em" color="success">
+                        Invite {{getInviteOrPullTime(raid, true)}} Uhr
+                    </ion-badge>
 
-                        <ion-badge class="ion-margin-top"  style="width: 100%" color="warning">
-                            Pull {{getInviteOrPullTime(raid, false)}}  Uhr
-                        </ion-badge>
+                    <ion-badge class="ion-margin-top" style="width: 100%" color="warning">
+                        Pull {{getInviteOrPullTime(raid, false)}}  Uhr
+                    </ion-badge>
 
 
                 </ion-col>
@@ -86,11 +86,15 @@
                     </ion-row>
 
                 </ion-col>
-                <ion-col size="1" class="verticalCenter">
+                <ion-col size=".5" class="verticalCenter">
                     <ion-icon *ngIf="myChar.isAdmin" (click)="presentDeleteConfirm(raid)" color="danger" size="large"
                               name="close-circle-sharp"></ion-icon>
                 </ion-col>
-
+                <ion-col size=".5" class="verticalCenter">
+                    <ion-badge *ngIf="isAlreadyRegistered(raid)" color="light" style="font-size: 1.5em">
+                        {{getMyRegistration(raid)}}
+                    </ion-badge>
+                </ion-col>
                 <ion-col *ngIf="!isAlreadyRegistered(raid) &&!raid.isClosed" size="3"
                          style=" width: 100%; margin-top: 1em">
                     <ion-button style="width: 100%" class="ion-text-center" (click)="presentRaidRegistration(raid)"
