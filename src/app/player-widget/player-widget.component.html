@@ -15,7 +15,8 @@
         <ion-col class="ion-text-center" size="1">
             <ion-badge
                     style="width: 100%"
-                    color="{{player.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+                    color="{{player.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP
+            </ion-badge>
         </ion-col>
         <ion-col class="ion-text-center" size="1">
             <ion-badge style="width: 100%" color="{{getColorForRank(player)}}">
@@ -23,11 +24,8 @@
         </ion-col>
 
 
-
-
-
         <ion-col class="ion-justify-content-center" size="1">
-            <ion-icon *ngIf="player.isAdmin" (click)="showMyDkpLog()"
+            <ion-icon (click)="showMyDkpLog()"
                       color="{{player.playerClass.toString().toLowerCase()}}"
                       size="large"
                       name="information-circle"></ion-icon>
@@ -47,8 +45,8 @@
 
             <ion-label>{{player.prefersEnglish ? 'English 🇬🇧' : 'Deutsch 🇩🇪'}}</ion-label>
             <ion-toggle (ionChange)="updatePlayerLanguage()"
-                    color="{{player.playerClass.toString().toLowerCase()}}"
-                    [(ngModel)]="player.prefersEnglish"></ion-toggle>
+                        color="{{player.playerClass.toString().toLowerCase()}}"
+                        [(ngModel)]="player.prefersEnglish"></ion-toggle>
         </ion-col>
 
         <ion-col size="2">
