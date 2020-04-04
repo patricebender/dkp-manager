@@ -1,13 +1,25 @@
 <ion-grid class="vertical-align-content">
     <ion-row *ngIf="player" class="ion-justify-content-center ion-align-items-center">
-        <ion-col size="1">
-            <ion-button (click)="this.showChangeUserModal()" color="{{player.playerClass.toString().toLowerCase()}}">
+
+        <ion-col class="ion-text-center" size="1.5">
+            <ion-button (click)="this.showChangeUserModal()"
+                        color="{{player.playerClass.toString().toLowerCase()}}">
+
                 <ion-icon name="hammer-outline">
 
                 </ion-icon>
             </ion-button>
         </ion-col>
-        <ion-col size="2.4">
+
+
+        <ion-col size="1.5" class="verticalCenter">
+
+            <ion-label>{{player.prefersEnglish ? 'English 🇬🇧' : 'Deutsch 🇩🇪'}}</ion-label>
+            <ion-toggle (ionChange)="updatePlayerLanguage()"
+                        color="{{player.playerClass.toString().toLowerCase()}}"
+                        [(ngModel)]="player.prefersEnglish"></ion-toggle>
+        </ion-col>
+        <ion-col class="ion-text-center" size="2">
             <ion-text style="font-size: 1.8em">
                 {{player.ingameName}}
             </ion-text>
@@ -17,21 +29,23 @@
                     style="width: 100%"
                     color="{{player.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP
             </ion-badge>
-        </ion-col>
-        <ion-col class="ion-text-center" size="1">
-            <ion-badge style="width: 100%" color="{{getColorForRank(player)}}">
+
+            <ion-badge style="width: 100%;"
+                    color="{{getColorForRank(player)}}"
+                    >
                 {{getFormatForRankBadge(player.dkpRank)}}</ion-badge>
         </ion-col>
-
-
-        <ion-col class="ion-justify-content-center" size="1">
-            <ion-icon (click)="showMyDkpLog()"
-                      color="{{player.playerClass.toString().toLowerCase()}}"
-                      size="large"
-                      name="information-circle"></ion-icon>
+        <ion-col style="width: 100%" class="ion-justify-content-center" size="2.5">
+            <ion-button (click)="showMyDkpLog()"
+                        color="{{player.playerClass.toString().toLowerCase()}}"
+            >
+                DKP Log
+                <ion-icon slot="end" name="information-circle-outline"></ion-icon>
+            </ion-button>
         </ion-col>
 
-        <ion-col size="1">
+
+        <ion-col size="1.5" class="ion-padding-start">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                     {{player.playerClass}}
@@ -40,13 +54,6 @@
             <ion-row class="ion-margin-top">
                 <ion-text style="font-size: 1.5em"> {{player.spec}} </ion-text>
             </ion-row>
-        </ion-col>
-        <ion-col size="2" class="verticalCenter">
-
-            <ion-label>{{player.prefersEnglish ? 'English 🇬🇧' : 'Deutsch 🇩🇪'}}</ion-label>
-            <ion-toggle (ionChange)="updatePlayerLanguage()"
-                        color="{{player.playerClass.toString().toLowerCase()}}"
-                        [(ngModel)]="player.prefersEnglish"></ion-toggle>
         </ion-col>
 
         <ion-col size="2">

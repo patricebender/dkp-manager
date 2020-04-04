@@ -14,6 +14,7 @@ export class Raid {
     late: any[] ;
     isClosed: boolean;
     _id: string;
+    raidlead: string;
 
     constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string) {
         this.dungeonName = dungeonName;

@@ -116,6 +116,11 @@
   align-items: center;
 }
 
+.verticalAndHorizontalCenter {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 .classButton {
   background: var(--background-color);
 }

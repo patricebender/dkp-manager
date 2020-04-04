@@ -53,7 +53,9 @@ export class CreateRaidComponent implements OnInit {
 
     private _dungeonNames: string[] = [
         'Molten Core',
-        'Blackwing Lair'
+        'Blackwing Lair',
+        'Zul Gurub',
+        'Onyxia'
     ];
 
 
