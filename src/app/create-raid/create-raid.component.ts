@@ -55,7 +55,8 @@ export class CreateRaidComponent implements OnInit {
         'Molten Core',
         'Blackwing Lair',
         'Zul Gurub',
-        'Onyxia'
+        'Onyxia',
+        'MC und BWL'
     ];
 
 

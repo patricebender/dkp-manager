@@ -16,7 +16,7 @@
         <ion-card *ngFor="let raid of raids">
             <ion-row>
                 <ion-col size="1" class="ion-padding-start verticalCenter">
-                    <ion-avatar style="height: 4.5em; width: 4.5em" class="ion-float-left">
+                    <ion-avatar style="height: 5em; width: 5em" class="ion-float-left">
                         <img src="../assets/dungeons/{{raid.dungeonName}}.png">
                     </ion-avatar>
                 </ion-col>
@@ -57,7 +57,7 @@
                         </ion-datetime>
                     </ion-row>
                 </ion-col>
-                <ion-col size="1.5">
+                <ion-col size="1.5" >
 
                     <ion-badge style="width: 100%; margin-top: 0.3em" color="success">
                         Invite {{getInviteOrPullTime(raid, true)}} Uhr
