@@ -11,13 +11,13 @@
 
             </ion-col>
 
-            <ion-col *ngIf="!raid.isClosed && myChar.isAdmin" size="4">
+            <ion-col *ngIf="!raid.isClosed && isUserAllowedToEdit" size="4">
                 <ion-button (click)="presentConfirmCloseRaid()" color="danger">
                     <ion-icon name="close-circle-outline"></ion-icon>
                     Raidanmeldung Schließen
                 </ion-button>
             </ion-col>
-            <ion-col *ngIf="raid.isClosed && myChar.isAdmin" size="4">
+            <ion-col *ngIf="raid.isClosed && isUserAllowedToEdit" size="4">
                 <ion-button (click)="closeOrOpenRaid(false)" color="success">
                     <ion-icon name="arrow-undo-outline"></ion-icon>
                     Raidanmeldung öffnen
@@ -140,7 +140,7 @@
                                 </ion-avatar>
                                 <ion-label class="ion-float-right">
                                     {{confirmedPlayer.ingameName}}</ion-label>
-                                <ion-icon color="danger" *ngIf="myChar.isAdmin"
+                                <ion-icon color="danger" *ngIf="isUserAllowedToEdit"
                                           (click)="presentMovePlayerAlert(confirmedPlayer)"
                                           name="open-outline"></ion-icon>
                             </ion-chip>
@@ -211,7 +211,7 @@
                             </ion-avatar>
                             <ion-label class="ion-float-right">
                                 {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)"
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
                     </ion-col>
@@ -234,7 +234,7 @@
                             </ion-avatar>
                             <ion-label class="ion-float-right">
                                 {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)"
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
 
@@ -258,7 +258,7 @@
                             </ion-avatar>
                             <ion-label class="ion-float-right">
                                 {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="myChar.isAdmin" (click)="presentMovePlayerAlert(reg.player)"
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
                     </ion-col>

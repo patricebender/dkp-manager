@@ -14,13 +14,16 @@ export class Raid {
     late: any[] ;
     isClosed: boolean;
     _id: string;
-    raidlead: string;
+    raidLead: Player;
+    raidCreator: Player;
 
-    constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string) {
+    constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string, raidCreator: Player, raidLead: Player) {
         this.dungeonName = dungeonName;
         this.date = date;
         this.description = description;
         this.registrationDeadline = registrationDeadline;
+        this.raidCreator = raidCreator;
+        this.raidLead = raidLead;
     }
 
 

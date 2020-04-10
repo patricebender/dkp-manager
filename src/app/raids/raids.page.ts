@@ -366,4 +366,10 @@ export class RaidsPage implements OnInit {
         }
         return val;
     }
+
+    canPlayerEditRaid(raid: Raid) {
+        return this.myChar.isAdmin
+            || (raid.raidCreator && raid.raidCreator._id === this.myChar._id)
+            || (raid.raidLead && raid.raidLead._id === this.myChar._id)
+    }
 }

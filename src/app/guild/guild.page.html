@@ -135,6 +135,7 @@
                 </ion-col>
                 <ion-col *ngIf="!myChar.isAdmin" size="2">
                     <ion-button
+                            style="width: 100%"
                             color="{{myChar.playerClass.toString().toLowerCase()}}"
                             (click)="showDkpHistory(player)">
                         <ion-icon

@@ -1,7 +1,7 @@
 <ion-header>
     <ion-row>
         <ion-col>
-            <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="myChar.isAdmin"
+            <ion-button type="round" (click)="showCreateRaidModal()" *ngIf="myChar.isAdmin || myChar.isRaidlead"
                         color="{{myChar.playerClass.toString().toLowerCase()}}" expand="block">
                 <strong>
                     Neuen Raid erstellen
@@ -15,37 +15,31 @@
 
         <ion-card *ngFor="let raid of raids">
             <ion-row>
-                <ion-col size="1" class="ion-padding-start verticalCenter">
-                    <ion-avatar style="height: 5em; width: 5em" class="ion-float-left">
+
+                <ion-col size="1" class="verticalAndHorizontalCenter">
+                    <ion-avatar style="height: 5em; width: 5em" >
                         <img src="../assets/dungeons/{{raid.dungeonName}}.png">
                     </ion-avatar>
                 </ion-col>
-                <ion-col size=".5" class="verticalCenter">
-                    <ion-icon (click)="showRaidInfo(raid)" size="large"
 
-                              color="{{myChar.playerClass.toString().toLowerCase()}}"
-                              name="information-circle-outline"></ion-icon>
-                </ion-col>
-                <ion-col size=".5" class="verticalCenter">
-
-
+                <ion-col size="1" class="verticalAndHorizontalCenter">
                     <ion-icon size="large"
-                              *ngIf="myChar.isAdmin"
+                              *ngIf="canPlayerEditRaid(raid)"
                               (click)="showChangeRaidModal(raid)"
                               color="{{myChar.playerClass.toString().toLowerCase()}}"
-                              name="create-outline"></ion-icon>
-                </ion-col>
-                <ion-col size=".5" class="verticalCenter">
-                    <ion-icon *ngIf="myChar.isAdmin" (click)="presentDeleteConfirm(raid)" color="danger" size="large"
+                              name="construct"></ion-icon>
+                    <ion-icon (click)="showRaidInfo(raid)" size="large"
+                              class="ion-margin-vertical"
+                              color="{{myChar.playerClass.toString().toLowerCase()}}"
+                              name="information-circle-outline"></ion-icon>
+
+                    <ion-icon *ngIf="canPlayerEditRaid(raid)" (click)="presentDeleteConfirm(raid)" color="danger" size="large"
                               name="close-circle-sharp"></ion-icon>
-                </ion-col>
-
-                <ion-col>
-
 
                 </ion-col>
 
                 <ion-col size="1.5" style="flex-flow: column">
+
                     <ion-row class="ion-padding-top">
                         <ion-text style="font-size: 1.2em">
                             {{raid.dungeonName}}
@@ -57,7 +51,25 @@
                         </ion-datetime>
                     </ion-row>
                 </ion-col>
-                <ion-col size="1.5" >
+
+
+                <ion-col *ngIf="!raid.raidLead" size="1">
+
+
+                </ion-col>
+                <ion-col *ngIf="raid.raidLead" size="1" class="verticalAndHorizontalCenter">
+
+                    <ion-badge   style="width: 100%"   color="{{raid.raidLead.playerClass.toString().toLowerCase()}}">
+                       Leitung: {{raid.raidLead.ingameName}}
+                    </ion-badge>
+                    </ion-col>
+
+                <ion-col>
+
+
+                </ion-col>
+
+                <ion-col size="1" >
 
                     <ion-badge style="width: 100%; margin-top: 0.3em" color="success">
                         Invite {{getInviteOrPullTime(raid, true)}} Uhr
@@ -69,9 +81,11 @@
 
 
                 </ion-col>
+
                 <ion-col>
 
                 </ion-col>
+
                 <ion-col size="1" class="ion-justify-content-center">
                     <ion-row class="ion-justify-content-center">
                         <ion-badge color="light" style="font-size: 1.5em">
@@ -105,6 +119,7 @@
                     </ion-text>
 
                 </ion-col>
+
                 <ion-col *ngIf="!isAlreadyRegistered(raid) &&!raid.isClosed" size="2.5"
                          style=" width: 100%; margin-top: 1em">
                     <ion-button style="width: 100%" class="ion-text-center" (click)="presentRaidRegistration(raid)"
@@ -115,6 +130,7 @@
                         </strong>
                     </ion-button>
                 </ion-col>
+
                 <ion-col *ngIf="isAlreadyRegistered(raid) && !raid.isClosed" size="2.5" style="margin-top: 1em">
                     <ion-button style="width: 100%" disabled="{{raid.isClosed}}" class="ion-text-center"
                                 (click)="presentRaidRegistration(raid)"
@@ -127,6 +143,7 @@
                         </strong>
                     </ion-button>
                 </ion-col>
+
                 <ion-col *ngIf="raid.isClosed" class="ion-justify-content-center" size="2.5" style="margin-top: 1em">
                     <ion-button style="width: 100%" disabled="{{raid.isClosed}}" class="ion-text-center"
                                 color="{{myChar.playerClass.toString().toLowerCase()}}">
@@ -136,6 +153,7 @@
                         </strong>
                     </ion-button>
                 </ion-col>
+
                 <ion-col>
 
 

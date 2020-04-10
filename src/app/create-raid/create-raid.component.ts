@@ -6,6 +6,7 @@ import {HttpClient} from '@angular/common/http';
 import {ModalController, ToastController} from '@ionic/angular';
 import {Raid} from '../models/Raid';
 import {Settings} from '../Settings';
+import {GuildRepo} from '../GuildRepo';
 
 @Component({
     selector: 'app-create-raid',
@@ -13,12 +14,16 @@ import {Settings} from '../Settings';
     styleUrls: ['./create-raid.component.scss'],
 })
 export class CreateRaidComponent implements OnInit {
-    duration: number = 4;
     dungeonName: string;
     date: Date = new Date();
     registrationDeadline: Date;
     description: string;
     playerLimit: number = 40;
+    raidLead: Player = this.myChar;
+
+    get raidLeads(){
+        return this.guildRepo.getAllPlayers().filter(p => p.isAdmin || p.isRaidlead);
+    }
 
     @Input()
     existingRaid: Raid;
@@ -27,7 +32,7 @@ export class CreateRaidComponent implements OnInit {
         return this._dungeonNames;
     }
 
-    get player(): Player {
+    get myChar(): Player {
         return Settings.Instance.player;
     }
 
@@ -35,12 +40,12 @@ export class CreateRaidComponent implements OnInit {
     constructor(private oktaAuth: OktaAuthService,
                 private http: HttpClient,
                 private toastController: ToastController,
-                private modalController: ModalController
-    ) {
+                private modalController: ModalController,
+                private guildRepo: GuildRepo) {
     }
 
     dismiss() {
-        const raid = new Raid(this.dungeonName, this.date, this.date, this.description);
+        const raid = new Raid(this.dungeonName, this.date, this.date, this.description, this.myChar, this.raidLead);
         if (this.existingRaid) {
             raid._id = this.existingRaid._id;
         }
@@ -60,12 +65,16 @@ export class CreateRaidComponent implements OnInit {
     ];
 
 
+
     async ionViewDidEnter() {
+        await this.guildRepo.updatePlayers();
         if (this.existingRaid) {
+            this.raidLead = this.existingRaid.raidLead;
             this.dungeonName = this.existingRaid.dungeonName;
             this.date = this.existingRaid.date;
             this.registrationDeadline = this.existingRaid.registrationDeadline;
             this.description = this.existingRaid.description;
+            this.raidLead = this.existingRaid.raidLead || this.myChar;
             console.log(this.existingRaid);
         }
 
@@ -78,7 +87,7 @@ export class CreateRaidComponent implements OnInit {
     }
 
     isValidRaid() {
-        return this.description && this.dungeonName && this.playerLimit && this.duration;
+        return this.description && this.dungeonName && this.date && this.raidLead;
     }
 
 
@@ -97,11 +106,14 @@ export class CreateRaidComponent implements OnInit {
         this.date = e.detail.value;
     }
 
-    setDuration(e: CustomEvent) {
-        this.duration = e.detail.value;
-    }
-
     setDescription(e: CustomEvent) {
         this.description = e.detail.value;
+    }
+
+    setRaidLead(e) {
+        const player: Player = e.detail.value;
+        console.log(player)
+        this.raidLead = player;
+
     }
 }

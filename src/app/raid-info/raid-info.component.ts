@@ -55,6 +55,11 @@ export class RaidInfoComponent implements OnInit {
         return Object.keys(PlayerClass);
     }
 
+    get isUserAllowedToEdit(){
+        return this.myChar.isAdmin || (this.raid.raidCreator && this.raid.raidCreator._id === this.myChar._id)
+        || (this.raid.raidLead && this.raid.raidLead._id === this.myChar._id);
+    }
+
     isAlreadyRegistered(): boolean {
         return this.raid.confirm.some(reg => reg.player.mail === this.myChar.mail)
             || this.raid.bench.some(reg => reg.player.mail === this.myChar.mail)

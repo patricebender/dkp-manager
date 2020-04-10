@@ -10,10 +10,19 @@
 <ion-content>
     <ion-list>
         <ion-item>
-            <ion-label>Dungeon Name:</ion-label>
+            <ion-label>Dungeon:</ion-label>
             <ion-select
                     (ionChange)="setDungeonName($event)" placeholder="Bitte auswählen" value="{{this.dungeonName}}">
                 <ion-select-option *ngFor="let name of dungeonNames">{{name}}</ion-select-option>
+            </ion-select>
+        </ion-item>
+        <ion-item>
+            <ion-label>Raidlead:</ion-label>
+            <ion-select
+                    selectedText="{{this.raidLead.ingameName}}"
+                    (ionChange)="setRaidLead($event)"
+                  >
+                <ion-select-option [value]="player" *ngFor="let player of raidLeads">{{player.ingameName}}</ion-select-option>
             </ion-select>
         </ion-item>
         <ion-item>
@@ -31,7 +40,7 @@
             <ion-textarea (ionChange)="setDescription($event)" value="{{description}}" ></ion-textarea>
         </ion-item>
         <ion-row class="ion-justify-content-center">
-            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}" color="{{this.player.playerClass.toString().toLowerCase()}}">
+            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}" color="{{this.myChar.playerClass.toString().toLowerCase()}}">
                 <strong>
                     {{!this.existingRaid ? 'Raid erstellen' : 'Raid aktualisieren'}}
                 </strong>
