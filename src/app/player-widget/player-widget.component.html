@@ -19,33 +19,33 @@
                         color="{{player.playerClass.toString().toLowerCase()}}"
                         [(ngModel)]="player.prefersEnglish"></ion-toggle>
         </ion-col>
-        <ion-col class="ion-text-center" size="2">
-            <ion-text style="font-size: 1.8em">
+        <ion-col class="verticalAndHorizontalCenter" size="2">
+            <ion-text style="font-size: 1.8em" class="ion-padding-end">
                 {{player.ingameName}}
             </ion-text>
+            <ion-icon *ngIf="player.isAdmin" size="large" src="assets/icons/crown.svg"></ion-icon>
+            <ion-icon *ngIf="!player.isAdmin && player.isRaidlead" size="large" src="assets/icons/crown_outline.svg"></ion-icon>
         </ion-col>
         <ion-col class="ion-text-center" size="1">
-            <ion-badge
-                    style="width: 100%"
-                    color="{{player.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP
-            </ion-badge>
+        </ion-col>
+        <ion-col class="ion-text-center" size="1">
 
-            <ion-badge style="width: 100%;"
-                    color="{{getColorForRank(player)}}"
-                    >
+            <ion-badge style="width: 100%"
+                       color="{{getColorForRank(player)}}">
                 {{getFormatForRankBadge(player.dkpRank)}}</ion-badge>
         </ion-col>
-        <ion-col style="width: 100%" class="ion-justify-content-center" size="2.5">
+
+        <ion-col style="width: 100%" class="ion-justify-content-center" size="2">
             <ion-button (click)="showMyDkpLog()"
                         color="{{player.playerClass.toString().toLowerCase()}}"
             >
-                DKP Log
+                {{player.dkp}} DKP
                 <ion-icon slot="end" name="information-circle-outline"></ion-icon>
             </ion-button>
         </ion-col>
 
 
-        <ion-col size="1.5" class="ion-padding-start">
+        <ion-col size="1" class="ion-padding-start">
             <ion-row>
                 <ion-text style="font-size: 1.5em" [ngClass]="player.playerClass.toString().toLowerCase()">
                     {{player.playerClass}}

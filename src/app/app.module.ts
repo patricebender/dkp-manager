@@ -30,6 +30,8 @@ import {Bid} from './models/Bid';
 import {BidComponent} from './bid/bid.component';
 import {CloseAuctionComponent} from './close-auction/close-auction.component';
 
+
+
 const config = {
     issuer: 'https://dev-181790.okta.com/oauth2/default',
     redirectUri: 'https://dkp-manager.firebaseapp.com/implicit/callback',
@@ -58,6 +60,7 @@ const appRoutes: Routes = [
         CloseAuctionComponent,
         RaidInfoComponent,
         BidComponent,
+
         CreateAuctionComponent,
         CreateUserComponent, ChangeUserComponent, CreateRaidComponent, EditUserComponent, DkpHistoryComponent],
     entryComponents: [ChangeUserComponent,

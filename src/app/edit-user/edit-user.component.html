@@ -19,7 +19,7 @@
                        Gildenspende
                     </strong>
                 </ion-header>
-                <ion-button (click)="createAndPostDkpEntry(5 , 'Gildenspende')" expand="block" color="warning">
+                <ion-button (click)="createAndPostDkpEntry(10 , 'Gildenspende')" expand="block" color="warning">
                     <strong>
                         +5 DKP
                     </strong>
@@ -127,7 +127,7 @@
             </ion-col>
         </ion-row>
 
-        <ion-row class="ion-padding-top" *ngIf="!player.isAdmin">
+        <ion-row *ngIf="!player.isAdmin" class="ion-padding-top">
             <ion-col>
                 <ion-button disabled="{{player.isAdmin}}" (click)="promoteToAdmin()" expand="block" color="danger">
                     <strong>
@@ -138,11 +138,32 @@
         </ion-row>
 
 
-        <ion-row class="ion-padding-top" *ngIf="myChar.isAdmin && myChar.ingameName.toLowerCase() === 'malfoy' && player.isAdmin">
+        <ion-row class="ion-padding-top" *ngIf="myChar.isAdmin && myChar.mail === 'patrice.bender@hotmail.de' && player.isAdmin">
             <ion-col>
                 <ion-button (click)="demoteAdmin()" expand="block" color="danger">
                     <strong>
                         Entziehe {{player.ingameName}} die Admin Rolle
+                    </strong>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
+        <ion-row class="ion-padding-top" *ngIf="!player.isRaidlead" >
+            <ion-col>
+                <ion-button (click)="promoteToRaidlead()" expand="block" color="danger">
+                    <strong>
+                        Erteile {{player.ingameName}} Organisations Rechte
+                    </strong>
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row class="ion-padding-top" *ngIf="player.isRaidlead && myChar.isAdmin">
+            <ion-col>
+                <ion-button (click)="demoteRaidlead()" expand="block" color="danger">
+                    <strong>
+                        Entziehe {{player.ingameName}} die Organisations Rechte
                     </strong>
                 </ion-button>
             </ion-col>

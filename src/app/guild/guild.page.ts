@@ -6,11 +6,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {Player} from '../models/Player';
 import {Backend} from '../Backend';
-import {CreateRaidComponent} from '../create-raid/create-raid.component';
 import {EditUserComponent} from '../edit-user/edit-user.component';
 import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 import {PlayerClass} from '../models/PlayerClass';
-import {Raid} from '../models/Raid';
 
 @Component({
     selector: 'app-guild',
@@ -179,6 +177,7 @@ export class GuildPage implements OnInit {
         this.isModalPresent = true;
         const modal = await this.modalController.create({
             component: EditUserComponent,
+            cssClass: 'my-custom-modal-medium',
             componentProps: {
                 player
             }

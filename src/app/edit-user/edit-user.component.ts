@@ -30,6 +30,7 @@ export class EditUserComponent implements OnInit {
     get dkp(): number {
         return this._dkp;
     }
+
     private _reason: string;
     private _dkp: number;
 
@@ -77,29 +78,32 @@ export class EditUserComponent implements OnInit {
     }
 
     async promoteToAdmin() {
-        const token = await this.token;
-        const options = await Backend.getHttpOptions(token);
         this.player.isAdmin = true;
-
-        this.http.patch(Backend.address + '/player', this.player, options)
-            .subscribe((data) => {
-                console.log('user update successful!', data);
-                this.presentToast('Yeah ' + this.player.ingameName + ' ist jetzt ein admin');
-            }, (e) => {
-                console.log(e);
-                this.presentToast('Da ist wohl was schiefgegangen 🤮');
-            });
+        this.patchPlayer('Yeah ' + this.player.ingameName + ' ist jetzt ein admin');
     }
 
     async demoteAdmin() {
+        this.player.isAdmin = false;
+        this.patchPlayer('Yeah ' + this.player.ingameName + ' ist jetzt ein admin');
+    }
+
+    async promoteToRaidlead() {
+        this.player.isRaidlead = true;
+        this.patchPlayer('Yeah ' + this.player.ingameName + ' kann jetzt auch Raids organisieren!');
+    }
+
+    async demoteRaidlead() {
+        this.player.isRaidlead = false;
+        this.patchPlayer(this.player.ingameName + 'kann jetzt keine Raids mehr organisieren!');
+    }
+
+    async patchPlayer(msg: string) {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
-        this.player.isAdmin = false;
-
         this.http.patch(Backend.address + '/player', this.player, options)
             .subscribe((data) => {
                 console.log('user update successful!', data);
-                this.presentToast('Yeah ' + this.player.ingameName + ' ist jetzt kein Admin mehr');
+                this.presentToast(msg);
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');

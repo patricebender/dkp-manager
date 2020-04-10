@@ -7,6 +7,7 @@ export class Player {
     spec: Spec;
     dkp: number;
     isAdmin: boolean;
+    isRaidlead: boolean;
     mail: string;
     talent: string;
     prefersEnglish: boolean;

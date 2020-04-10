@@ -77,9 +77,8 @@
                     </ion-avatar>
                 </ion-col>
                 <ion-col size="1">
-                    <ion-badge *ngIf="player.isAdmin" color="{{myChar.playerClass.toString().toLowerCase()}}">
-                        ADMIN
-                    </ion-badge>
+                    <ion-icon *ngIf="player.isAdmin" size="large" src="assets/icons/crown.svg"></ion-icon>
+                    <ion-icon *ngIf="!player.isAdmin && player.isRaidlead" size="large" src="assets/icons/crown_outline.svg"></ion-icon>
                 </ion-col>
                 <ion-col size="1" class="ion-text-center">
                     <ion-badge color="{{player.playerClass.toString().toLowerCase()}}">
