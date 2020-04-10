@@ -1,6 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Player} from '../models/Player';
-import {PlayerClass} from '../models/PlayerClass';
 import {OktaAuthService} from '@okta/okta-angular';
 import {HttpClient} from '@angular/common/http';
 import {ModalController, ToastController} from '@ionic/angular';
@@ -13,7 +12,7 @@ import {GuildRepo} from '../GuildRepo';
     templateUrl: './create-raid.component.html',
     styleUrls: ['./create-raid.component.scss'],
 })
-export class CreateRaidComponent implements OnInit {
+export class CreateRaidComponent  {
     dungeonName: string;
     date: Date = new Date();
     registrationDeadline: Date;
@@ -21,8 +20,11 @@ export class CreateRaidComponent implements OnInit {
     playerLimit: number = 40;
     raidLead: Player = this.myChar;
 
-    get raidLeads(){
-        return this.guildRepo.getAllPlayers().filter(p => p.isAdmin || p.isRaidlead);
+    players: Player[] = [];
+
+    get raidLeads() {
+        return this.players
+            .filter(p => p.isAdmin || p.isRaidlead);
     }
 
     @Input()
@@ -65,9 +67,8 @@ export class CreateRaidComponent implements OnInit {
     ];
 
 
-
-    async ionViewDidEnter() {
-        await this.guildRepo.updatePlayers();
+    async ionViewWillEnter() {
+        this.players = await this.guildRepo.getPlayers();
         if (this.existingRaid) {
             this.raidLead = this.existingRaid.raidLead;
             this.dungeonName = this.existingRaid.dungeonName;
@@ -91,9 +92,6 @@ export class CreateRaidComponent implements OnInit {
     }
 
 
-    ngOnInit() {
-    }
-
     setDungeonName(e: CustomEvent) {
         this.dungeonName = e.detail.value;
     }
@@ -112,7 +110,7 @@ export class CreateRaidComponent implements OnInit {
 
     setRaidLead(e) {
         const player: Player = e.detail.value;
-        console.log(player)
+        console.log(player);
         this.raidLead = player;
 
     }

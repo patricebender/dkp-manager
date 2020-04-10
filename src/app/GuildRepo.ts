@@ -12,35 +12,21 @@ import {Injectable} from '@angular/core';
 })
 
 export class GuildRepo {
-    private players: Player[] = [];
+    private players: Player[];
 
 
     constructor(
         private oktaAuth: OktaAuthService,
         private http: HttpClient) {
-        this.updatePlayers();
+
     }
 
-
-    public getAllPlayers(){
-        return this.players
-    }
-
-
-
-
-    async updatePlayers() {
+    async getPlayers(): Promise<Player[]> {
         const token = await this.oktaAuth.getAccessToken();
-        this.http
-            .get(Backend.address + '/players', await Backend.getHttpOptions(token))
-            .subscribe((res: any) => {
-                this.players = res.data;
-                console.log(this.players);
-                console.log("YEAH Player aktualisiert")
-            });
+        const players = await this.http
+            .get<any>(Backend.address + '/players', await Backend.getHttpOptions(token)).toPromise();
+        return players.data;
     }
-
-
 
 
 

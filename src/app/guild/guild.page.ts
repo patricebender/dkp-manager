@@ -9,13 +9,14 @@ import {Backend} from '../Backend';
 import {EditUserComponent} from '../edit-user/edit-user.component';
 import {DkpHistoryComponent} from '../dkp-history/dkp-history.component';
 import {PlayerClass} from '../models/PlayerClass';
+import {GuildRepo} from '../GuildRepo';
 
 @Component({
     selector: 'app-guild',
     templateUrl: './guild.page.html',
     styleUrls: ['./guild.page.scss'],
 })
-export class GuildPage implements OnInit {
+export class GuildPage{
     get isDkpSortAscending(): boolean {
         return this._isDkpSortAscending;
     }
@@ -23,6 +24,7 @@ export class GuildPage implements OnInit {
     set isDkpSortAscending(value: boolean) {
         this._isDkpSortAscending = value;
     }
+
     private isModalPresent: boolean;
     private _isDkpSortAscending: boolean = true;
 
@@ -38,15 +40,18 @@ export class GuildPage implements OnInit {
         this._filteredPlayers = value;
     }
 
-    private _filteredPlayers: Player[] = [];
     players: Player[] = [];
+
+    private _filteredPlayers: Player[] = [];
+
     searchTerm: string = '';
 
     constructor(private alertController: AlertController,
                 private toastController: ToastController,
                 private modalController: ModalController,
                 private oktaAuth: OktaAuthService,
-                private http: HttpClient) {
+                private http: HttpClient,
+                private guildRepo: GuildRepo) {
     }
 
     get myChar() {
@@ -116,38 +121,17 @@ export class GuildPage implements OnInit {
     }
 
 
-    async ngOnInit() {
-        await this.updatePlayers();
+    async ionViewWillEnter() {
+        console.log("Entered Guilds Tab")
+        this.updatePlayers();
     }
 
 
     public async updatePlayers() {
-        const token = await this.oktaAuth.getAccessToken();
-        const user = await this.oktaAuth.getUser();
-
-        if (!token || !user) {
-            this.oktaAuth.loginRedirect('/tabs/guild');
-
-        } else {
-            let playerObservable = await this.getPlayersRequest(token);
-            playerObservable
-                .subscribe(
-                    (res) => {
-                        this.players = res.data;
-                        this._filteredPlayers = this.getFilteredPlayers();
-                        console.log(this.players);
-                    },
-                    (error) => {
-                        const statusCode = error.status;
-                        console.log('something went wrong ' + error);
-                    }
-                );
-        }
+        this.players = await this.guildRepo.getPlayers();
+        this.setFilteredItems();
     }
 
-    private async getPlayersRequest(token): Promise<Observable<any>> {
-        return this.http.get<Player>(Backend.address + '/players', await Backend.getHttpOptions(token));
-    }
 
     setFilteredItems() {
         this._filteredPlayers = this.players.filter((player) => {
@@ -183,7 +167,7 @@ export class GuildPage implements OnInit {
             }
         });
         await modal.present();
-        modal.onDidDismiss().then((callback) => {
+        modal.onDidDismiss().then(() => {
             this.updatePlayers();
             this.isModalPresent = false;
         });
@@ -236,12 +220,12 @@ export class GuildPage implements OnInit {
 
     getFormatForRankBadge(dkpRank: number) {
         if (dkpRank === 1) {
-            return '🔥' + dkpRank + ".🔥";
-        } else if (dkpRank === 2 ) {
-            return "🥈" + dkpRank + ".🥈";
-        } else if (dkpRank === 3 ) {
-            return "🥉" + dkpRank + ".🥉";
+            return '🔥' + dkpRank + '.🔥';
+        } else if (dkpRank === 2) {
+            return '🥈' + dkpRank + '.🥈';
+        } else if (dkpRank === 3) {
+            return '🥉' + dkpRank + '.🥉';
         }
-        return dkpRank + ".";
+        return dkpRank + '.';
     }
 }
