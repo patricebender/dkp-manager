@@ -13,7 +13,7 @@
 <ion-content>
 
     <ion-grid *ngIf="auction">
-        <ion-card *ngFor="let bid of auction.bids">
+        <ion-card *ngFor="let bid of bids">
             <ion-row>
                 <ion-col size="3">
                     <ion-badge style="margin: 1.6em" color="{{bid.player.playerClass.toString().toLowerCase()}}">

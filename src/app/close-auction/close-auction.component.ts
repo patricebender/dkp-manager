@@ -22,6 +22,10 @@ export class CloseAuctionComponent implements OnInit {
         return this._auction;
     }
 
+    get bids(): Bid[] {
+        return this.auction.bids.sort((a, b) => a.dkpBid > b.dkpBid ? -1 : a.dkpBid < b.dkpBid ? 1 : 0 );
+    }
+
     set auction(value: Auction) {
         this._auction = value;
     }

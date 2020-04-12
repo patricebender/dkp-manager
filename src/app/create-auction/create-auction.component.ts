@@ -67,7 +67,7 @@ export class CreateAuctionComponent implements OnInit {
 
     createAuction() {
         this.modalController.dismiss({
-            auction: new Auction(this.auctionItem, this.minBid)
+            auction: new Auction(this.auctionItem, this.minBid, this.myChar)
         });
     }
 }

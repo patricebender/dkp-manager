@@ -41,18 +41,18 @@
 
     <ion-grid>
         <ion-card *ngFor="let auction of filteredAuctions">
-            <ion-row *ngIf="!auction.isClosed" class="ion-justify-content-center">
-                <ion-col class="ion-text-center" size="{{myChar.isAdmin ? 1 : 2}}">
-                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
-                        <ion-icon
+            <ion-row *ngIf="!auction.isClosed" class="verticalAndHorizontalCenter">
+                <ion-col class="ion-text-center" size="1">
+                <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                    <ion-icon
 
-                                name="people-outline"></ion-icon>
-                        <ion-label class="ion-padding-start">{{auction.bidCount || 0}}</ion-label>
-                    </ion-button>
+                            name="people-outline"></ion-icon>
+                    <ion-label class="ion-padding-start">{{auction.bidCount || 0}}</ion-label>
+                </ion-button>
 
-                </ion-col>
-                <ion-col size="3">
-                    <ion-button *ngIf="myChar.isAdmin && !auction.isClosed"  color="{{myChar.playerClass.toString().toLowerCase()}}"
+            </ion-col>
+                <ion-col  size="2">
+                    <ion-button  *ngIf="myChar._id === auction.createdBy._id && !auction.isClosed" color="{{myChar.playerClass.toString().toLowerCase()}}"
                                 (click)="presentCloseAuction(auction)" style="width: 100%;">
                         <ion-label>
                             Auktion Beenden
@@ -60,7 +60,7 @@
                     </ion-button>
 
                 </ion-col>
-                <ion-col size="4">
+                <ion-col size="5">
                     <ion-item class="ion-text-center">
 
                         <ion-label>
@@ -74,10 +74,13 @@
                         </ion-label>
                     </ion-item>
                 </ion-col>
-                <ion-col *ngIf="!myChar.isAdmin" size="1">
+
+                <ion-col >
 
                 </ion-col>
-                <ion-col *ngIf="!myCharAlreadyBet(auction)" size="4">
+
+
+                <ion-col *ngIf="!myCharAlreadyBet(auction)" size="3">
                     <ion-button (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                                 style="width: 100%">
                         <ion-icon name="wallet-outline"></ion-icon>
@@ -85,7 +88,7 @@
                     </ion-button>
                 </ion-col>
 
-                <ion-col *ngIf="myCharAlreadyBet(auction)" size="2">
+                <ion-col *ngIf="myCharAlreadyBet(auction)" size="1.5">
                     <ion-button (click)="showBidModal(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                                 style="width: 100%">
                         <ion-icon name="pencil-outline"></ion-icon>
@@ -94,7 +97,7 @@
                         </ion-label>
                     </ion-button>
                 </ion-col>
-                <ion-col *ngIf="myCharAlreadyBet(auction)" size="2">
+                <ion-col *ngIf="myCharAlreadyBet(auction)" size="1.5">
                     <ion-button (click)="deleteMyBid(auction)" color="{{myChar.playerClass.toString().toLowerCase()}}"
                                 style="width: 100%">
                         <ion-icon name="close-circle-outline"></ion-icon>
@@ -107,8 +110,16 @@
 
             </ion-row>
             <ion-row *ngIf="auction.isClosed && auction.winnerBid">
-                <ion-col class="ion-text-center" style="width: 100%; height: 100%" *ngIf="myChar.isAdmin" size="1">
-                    <ion-button (click)="presentDeleteConfirm(auction)" color="danger">
+
+
+                <ion-col size="2">
+                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
+
+                        {{auction.winnerBid.player.ingameName}} gewinnt
+                    </ion-button>
+                </ion-col>
+                <ion-col class="ion-text-center" style="width: 100%; height: 100%"  size="1">
+                    <ion-button *ngIf="myChar.isAdmin" (click)="presentDeleteConfirm(auction)" color="danger">
                         <ion-icon
                                 size="large"
                                 name="close-circle-sharp"></ion-icon>
@@ -116,12 +127,6 @@
 
                 </ion-col>
 
-                <ion-col size="3">
-                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
-
-                        {{auction.winnerBid.player.ingameName}} gewinnt
-                    </ion-button>
-                </ion-col>
                 <ion-col  size="5">
 
                     <ion-item class="ion-text-center">
@@ -140,7 +145,7 @@
                     <ion-badge color="{{myChar.playerClass.toString().toLowerCase()}}" *ngIf="auctionWasToday(auction)">Heute🔥</ion-badge>
 
                 </ion-col>
-                <ion-col size="{{myChar.isAdmin ? 2 : 3}}">
+                <ion-col size="3">
                     <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="cash-outline"></ion-icon>
                         <ion-label class="ion-padding-start">
@@ -150,21 +155,24 @@
                 </ion-col>
 
             </ion-row>
-            <ion-row *ngIf="auction.isClosed && !auction.winnerBid">
+            <ion-row *ngIf="auction.isClosed && !auction.winnerBid" class="verticalAndHorizontalCenter">
 
-                <ion-col class="ion-text-center" style="width: 100%; height: 100%" *ngIf="myChar.isAdmin" size="1">
-                    <ion-button (click)="presentDeleteConfirm(auction)" color="danger">
+
+                <ion-col class="ion-justify-content-center" size="2">
+                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                        niemand gewinnnt
+                    </ion-button>
+                </ion-col>
+
+                <ion-col class="ion-text-center" style="width: 100%; height: 100%"  size="1">
+                    <ion-button *ngIf="myChar.isAdmin" (click)="presentDeleteConfirm(auction)" color="danger">
                         <ion-icon (click)="presentDeleteConfirm(auction)"
                                   size="large"
                                   name="close-circle-sharp"></ion-icon>
                     </ion-button>
 
                 </ion-col>
-                <ion-col class="ion-justify-content-center" size="3">
-                    <ion-button style="width: 100%;" color="{{myChar.playerClass.toString().toLowerCase()}}">
-                        niemand gewinnnt
-                    </ion-button>
-                </ion-col>
+
                 <ion-col size="5">
                     <ion-item class="ion-text-center">
 
@@ -184,7 +192,7 @@
 
                 </ion-col>
 
-                <ion-col size="{{myChar.isAdmin ? 2 : 3}}">
+                <ion-col size="3">
                     <ion-button color="{{myChar.playerClass.toString().toLowerCase()}}" style="width: 100%">
                         <ion-icon name="skull-outline"></ion-icon>
                     </ion-button>

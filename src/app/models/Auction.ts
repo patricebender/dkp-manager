@@ -12,10 +12,12 @@ export class Auction {
     bidCount: number;
     playerMails: string[];
     createdAt: Date;
+    createdBy: Player;
 
-    constructor(item: Item, minBid: number){
+    constructor(item: Item, minBid: number, createdBy: Player){
         this.item = item;
         this.minBid = minBid;
+        this.createdBy = createdBy;
     }
 
 
