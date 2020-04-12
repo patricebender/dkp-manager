@@ -58,9 +58,11 @@
 
                 </ion-col>
                 <ion-col *ngIf="raid.raidLead" size="1" class="verticalAndHorizontalCenter">
-
+                    <ion-text style="padding-bottom: 0.7em">
+                        <h4>👑 </h4>
+                    </ion-text>
                     <ion-badge   style="width: 100%"   color="{{raid.raidLead.playerClass.toString().toLowerCase()}}">
-                       Leitung: {{raid.raidLead.ingameName}}
+                      {{raid.raidLead.ingameName}}
                     </ion-badge>
                     </ion-col>
 
