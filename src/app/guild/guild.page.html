@@ -48,7 +48,7 @@
                 <ion-col
                         *ngFor="let playerClass of allClasses"
                         size="3">
-                    <ion-chip class="ion-justify-content-center" style="width:100%">
+                    <ion-chip (click)="searchForClass(playerClass)" class="ion-justify-content-center" style="width:100%">
 
 
                         <ion-avatar class="ion-float-left">
@@ -104,7 +104,7 @@
                 <ion-col class="ion-text-center" size="1">
                     <ion-badge
                             style="width: 100%"
-                            color="{{myChar.playerClass.toString().toLowerCase()}}">{{player.dkp}} DKP</ion-badge>
+                            color="{{getDkpColor(player)}}">{{player.dkp}} DKP</ion-badge>
                 </ion-col>
 
 

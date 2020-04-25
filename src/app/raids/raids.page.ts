@@ -184,7 +184,7 @@ export class RaidsPage implements OnInit {
     async presentRaidRegistration(raid: Raid) {
         console.log(raid);
         const alert = await this.alertController.create({
-            header: 'Anmeldung +5 DKP',
+            header: 'Anmeldung',
             inputs: [
                 {
                     name: 'confirm',
@@ -292,7 +292,7 @@ export class RaidsPage implements OnInit {
         this.http.patch(Backend.address + '/dkp/' + this.myChar.mail, dkpEntry, options)
             .subscribe((data) => {
                 console.log('dkp patch successful!', data);
-                this.presentToast('Danke für deine Registrierung! +5 DKP!');
+                this.presentToast('Danke für deine Registrierung!');
             }, (e) => {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');

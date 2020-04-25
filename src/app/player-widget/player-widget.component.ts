@@ -191,6 +191,9 @@ export class PlayerWidgetComponent implements OnInit {
 
     }
 
+    getDkpColor() {
+        return this.player.dkp === 800 ? 'danger' : this.player.dkp >= 750 ? 'warning' : this.player.playerClass.toString().toLowerCase();
+    }
 
     getFormatForRankBadge(dkpRank: number) {
         if (dkpRank === 1) {

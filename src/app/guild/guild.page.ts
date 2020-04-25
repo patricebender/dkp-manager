@@ -228,4 +228,12 @@ export class GuildPage{
         }
         return dkpRank + '.';
     }
+
+    getDkpColor(player: Player) {
+        return player.dkp === 800 ? 'danger' : player.dkp >= 750 ? 'warning' : this.myChar.playerClass.toString().toLowerCase();
+    }
+
+    searchForClass(playerClass: string) {
+        this.searchTerm = playerClass;
+    }
 }

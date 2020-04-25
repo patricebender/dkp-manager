@@ -37,7 +37,7 @@
 
         <ion-col style="width: 100%" class="ion-justify-content-center" size="2">
             <ion-button (click)="showMyDkpLog()"
-                        color="{{player.playerClass.toString().toLowerCase()}}"
+                        color="{{getDkpColor()}}"
             >
                 {{player.dkp}} DKP
                 <ion-icon slot="end" name="information-circle-outline"></ion-icon>
