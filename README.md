@@ -17,7 +17,7 @@ Admins can create and manage raids, assign dkp for boss kills or other events fo
 
 ## Item Auctions
 
-When items are looted after bossfights the lootmaster can create the item auctions in the DKP Manager App. Players can bid on items in realtime with their DKP. The lootmaster ends the auction and announces a winner. The DKP of the bid will be subtracted of the winner's DKP balance. 
+When items are looted after bossfights the lootmaster can create the item auctions in the DKP Manager App. Players can bid on items in realtime with their DKP. The lootmaster ends the auction and announces a winner. The DKP amount of the bid will be withdrawn from the winner's DKP balance. 
 
 ![Alt gang](https://i.imgur.com/mEtCg14.png)
 
