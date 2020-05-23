@@ -38,7 +38,7 @@
 
                 </ion-col>
 
-                <ion-col size="1.5" style="flex-flow: column">
+                <ion-col size="1" style="flex-flow: column">
 
                     <ion-row class="ion-padding-top">
                         <ion-text style="font-size: 1.2em">
@@ -46,10 +46,18 @@
                         </ion-text>
                     </ion-row>
                     <ion-row>
-                        <ion-datetime style="font-weight: bold" class="ion-no-padding ion-no-margin" disabled="true" displayFormat="DDDD, MMMM D"
+                        <ion-datetime style="font-weight: bold" class="ion-no-padding ion-no-margin" disabled="true" displayFormat="MMMM D"
                                       value="{{raid.date}}">
                         </ion-datetime>
                     </ion-row>
+                </ion-col>
+
+                <ion-col size="1" class="verticalAndHorizontalCenter">
+                    <ion-text color="white">
+                        <ion-datetime  style="font-weight: bold" class="ion-no-padding ion-no-margin" disabled="true" displayFormat="DDDD"
+                                      value="{{raid.date}}">
+                        </ion-datetime>
+                    </ion-text>
                 </ion-col>
 
 
