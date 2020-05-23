@@ -30,17 +30,46 @@
             <ion-datetime
                     (ionChange)="setDate($event)"
                     min="2020"
-                    max="2021"
-                    displayFormat="HH:mm DDDD, MMM D" pickerFormat="YYYY MMM DDD HH:mm"
+                    max="2020"
+                    displayFormat="DDDD, MMM D" pickerFormat="MMM DDD"
                     value="{{date}}"></ion-datetime>
         </ion-item>
 
-        <ion-item >
+
+        <ion-item>
+            <ion-label>Pull Zeit:</ion-label>
+            <ion-datetime
+                    (ionChange)="setHours($event)"
+                    displayFormat="HH:mm" pickerFormat="HH:mm"
+                    value="{{date}}"></ion-datetime>
+        </ion-item>
+
+        <ion-item>
+
+            <ion-label>Invite:</ion-label>
+            <ion-radio-group value="{{invite}}" (ionChange)="changeInviteTime($event)" class="verticalAndHorizontalCenter">
+
+                <ion-item>
+                    <ion-label>-15 Minuten</ion-label>
+                    <ion-radio slot="start" value="15"></ion-radio>
+                </ion-item>
+
+                <ion-item>
+                    <ion-label>-30 Minuten</ion-label>
+                    <ion-radio slot="start" value="30"></ion-radio>
+                </ion-item>
+
+            </ion-radio-group>
+        </ion-item>
+
+
+        <ion-item>
             <ion-label>Beschreibung:</ion-label>
-            <ion-textarea (ionChange)="setDescription($event)" value="{{description}}" ></ion-textarea>
+            <ion-textarea (ionChange)="setDescription($event)" value="{{description}}"></ion-textarea>
         </ion-item>
         <ion-row class="ion-justify-content-center">
-            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}" color="{{this.myChar.playerClass.toString().toLowerCase()}}">
+            <ion-button (click)="dismiss()" disabled="{{!isValidRaid()}}"
+                        color="{{this.myChar.playerClass.toString().toLowerCase()}}">
                 <strong>
                     {{!this.existingRaid ? 'Raid erstellen' : 'Raid aktualisieren'}}
                 </strong>

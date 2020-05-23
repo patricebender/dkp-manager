@@ -20,6 +20,8 @@ export class CreateRaidComponent  {
     playerLimit: number = 40;
     raidLead: Player = this.myChar;
 
+    invite: number = 15;
+
     players: Player[] = [];
 
     get raidLeads() {
@@ -47,7 +49,7 @@ export class CreateRaidComponent  {
     }
 
     dismiss() {
-        const raid = new Raid(this.dungeonName, this.date, this.date, this.description, this.myChar, this.raidLead);
+        const raid = new Raid(this.dungeonName, this.date, this.date, this.description, this.myChar, this.raidLead, this.invite);
         if (this.existingRaid) {
             raid._id = this.existingRaid._id;
         }
@@ -76,6 +78,7 @@ export class CreateRaidComponent  {
             this.registrationDeadline = this.existingRaid.registrationDeadline;
             this.description = this.existingRaid.description;
             this.raidLead = this.existingRaid.raidLead || this.myChar;
+            this.invite = this.existingRaid.invite;
             console.log(this.existingRaid);
         }
 
@@ -112,6 +115,11 @@ export class CreateRaidComponent  {
         const player: Player = e.detail.value;
         console.log(player);
         this.raidLead = player;
+
+    }
+
+    changeInviteTime(e: CustomEvent) {
+        this.invite = e.detail.value;
 
     }
 }

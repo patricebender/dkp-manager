@@ -16,14 +16,16 @@ export class Raid {
     _id: string;
     raidLead: Player;
     raidCreator: Player;
+    invite: number;
 
-    constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string, raidCreator: Player, raidLead: Player) {
+    constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string, raidCreator: Player, raidLead: Player, invite: number) {
         this.dungeonName = dungeonName;
         this.date = date;
         this.description = description;
         this.registrationDeadline = registrationDeadline;
         this.raidCreator = raidCreator;
         this.raidLead = raidLead;
+        this.invite = invite;
     }
 
 

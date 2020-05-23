@@ -352,7 +352,7 @@ export class RaidsPage implements OnInit {
     getInviteOrPullTime(raid: Raid, getInvTime: boolean) {
         let pullTime = new Date(raid.date);
         const invTime = new Date(pullTime);
-        invTime.setMinutes(pullTime.getMinutes() - 30);
+        invTime.setMinutes(pullTime.getMinutes() - raid.invite);
 
 
 
