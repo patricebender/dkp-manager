@@ -11,12 +11,15 @@ export class Raid {
     bench: any[];
     confirm: any[];
     decline: any[];
+    bossList = ['Broodlord Lashlayer', 'Vaelestraz'];
     late: any[] ;
     isClosed: boolean;
     _id: string;
     raidLead: Player;
     raidCreator: Player;
     invite: number;
+
+    hasStarted: boolean;
 
     constructor(dungeonName: string, date: Date, registrationDeadline: Date, description: string, raidCreator: Player, raidLead: Player, invite: number) {
         this.dungeonName = dungeonName;
@@ -27,6 +30,7 @@ export class Raid {
         this.raidLead = raidLead;
         this.invite = invite;
     }
+
 
 
 }

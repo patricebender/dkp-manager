@@ -1,8 +1,8 @@
 <ion-content style="height: 100%">
     <ion-grid style="height: 50%">
         <ion-row>
-            <ion-text>
-                <h2></h2>
+            <ion-text class="ion-margin-horizontal">
+                <h2> {{auctionItems.length === 1 ? auctionItems.length + " Auktion erstellen" : auctionItems.length + " Auktionen erstellen" }}</h2>
             </ion-text>
         </ion-row>
         <ion-row>
@@ -14,27 +14,28 @@
 
             </ion-col>
         </ion-row>
-        <ion-radio-group (ionChange)="setAuctionItem($event)">
-
+        <ion-item-group>
             <ion-row *ngFor="let item of filteredItems">
 
                 <ion-item style="width: 100%">
                     <ion-label>
                         <h1>
+
                             <a class="epic"
-                               [attr.data-wowhead]="'item=' + item.ingameId">
+                               [attr.data-wowhead]="myChar.prefersEnglish ? 'item=' + item.ingameId + '&domain=us.classic' : 'item=' + item.ingameId + '&domain=de.classic'">
                                 [{{item.name}}]
                             </a>
                         </h1>
 
                     </ion-label>
-                    <ion-radio color="{{myChar.playerClass.toString().toLowerCase()}}"
-                               value="{{item.name}}"></ion-radio>
+                    <ion-checkbox (ionChange)="itemChecked($event)" color="{{myChar.playerClass.toString().toLowerCase()}}"
+                                  [value]="item"
+                                 [(ngModel)]="item.checked"></ion-checkbox>
                 </ion-item>
 
 
             </ion-row>
-        </ion-radio-group>
+        </ion-item-group>
     </ion-grid>
 </ion-content>
 <ion-footer>
@@ -53,7 +54,7 @@
         </ion-row>
         <ion-row>
             <ion-col class=" ion-text-center">
-                <ion-button (click)="createAuction()" disabled="{{minBid === 0 || !auctionItem}}" color="{{myChar.playerClass.toString().toLowerCase()}}">
+                <ion-button (click)="createAuctions()" disabled="{{minBid === 0 || auctionItems.length === 0}}" color="{{myChar.playerClass.toString().toLowerCase()}}">
                     Auktion erstellen
                 </ion-button>
 

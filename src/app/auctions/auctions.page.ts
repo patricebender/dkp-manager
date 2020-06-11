@@ -80,11 +80,12 @@ export class AuctionsPage {
         toast.present();
     }
 
-    private async postAuction(auction: Auction) {
+    private async postAuctions(auctions: Auction[]) {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        this.http.post(Backend.address + '/auction', auction, options)
+
+        this.http.post(Backend.address + '/auctions', auctions, options)
             .subscribe(() => {
                 this.updateAuctions();
                 console.log('auction creation successful!');
@@ -113,8 +114,8 @@ export class AuctionsPage {
         await modal.present();
         modal.onDidDismiss().then((callback) => {
             if (callback.data) {
-                const auction: Auction = callback.data.auction;
-                this.postAuction(auction);
+                const auctions: Auction[] = callback.data.auctions;
+                this.postAuctions(auctions);
             }
             this.isModalPresent = false;
         });

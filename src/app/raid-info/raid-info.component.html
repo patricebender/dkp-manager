@@ -12,13 +12,13 @@
             </ion-col>
 
             <ion-col *ngIf="!raid.isClosed && isUserAllowedToEdit" size="4">
-                <ion-button (click)="presentConfirmCloseRaid()" color="danger">
+                <ion-button style="width: 100%" (click)="presentConfirmCloseRaid()" color="danger">
                     <ion-icon name="close-circle-outline"></ion-icon>
                     Raidanmeldung Schließen
                 </ion-button>
             </ion-col>
             <ion-col *ngIf="raid.isClosed && isUserAllowedToEdit" size="4">
-                <ion-button (click)="closeOrOpenRaid(false)" color="success">
+                <ion-button style="width: 100%" (click)="closeOrOpenRaid(false)" color="success">
                     <ion-icon name="arrow-undo-outline"></ion-icon>
                     Raidanmeldung öffnen
                 </ion-button>
@@ -30,7 +30,50 @@
 </ion-header>
 
 <ion-content>
+
+
     <ion-header class="ion-margin"><h1>{{raid.description}}</h1></ion-header>
+
+
+    <ion-card *ngIf="myChar.isAdmin && (raid.dungeonName.includes('Blackwing Lair') || raid.dungeonName.includes('BWL'))">
+        <ion-row *ngIf="raid.hasStarted" class="verticalAndHorizontalCenter ion-no-padding">
+            <ion-col size="3" class="ion-margin-bottom">
+                <ion-text color="{{myChar.playerClass.toString().toLowerCase()}}">
+                    <h2> Bosskill: </h2>
+                </ion-text>
+
+            </ion-col>
+
+
+            <ion-col size="4.5">
+
+                <ion-select placeholder="Boss wählen" (ionChange)="setBossKill($event)">
+                    <ion-select-option *ngFor="let boss of bossList" value="{{boss}}">
+                        {{boss}}
+                    </ion-select-option>
+                </ion-select>
+            </ion-col>
+
+
+            <ion-col size="4.5" class="ion-text-center">
+
+                <ion-button style="width: 100%" disabled="{{!this.boss}}" (click)="showCreateAuctionModal()"
+                            color="{{myChar.playerClass.toString().toLowerCase()}}">
+                    Auktionen erstellen & DKP vergeben
+                </ion-button>
+            </ion-col>
+        </ion-row>
+
+
+        <ion-row *ngIf="!raid.hasStarted" class="verticalAndHorizontalCenter ion-no-padding">
+            <ion-button style="width: 100%" (click)="presentConfirmStartRaid()"
+                        color="{{myChar.playerClass.toString().toLowerCase()}}">
+                Antritts DKP verteilen und Raid Starten
+            </ion-button>
+        </ion-row>
+
+    </ion-card>
+
     <ion-card>
         <ion-grid>
             <ion-row class="ion-text-center">
@@ -40,7 +83,8 @@
                             <img src="../assets/role/heal.png">
                         </ion-avatar>
                         <ion-label class="ion-float-right">
-                            {{confirmedHeals.length}}</ion-label>
+                            {{confirmedHeals.length}}
+                        </ion-label>
                     </ion-chip>
                 </ion-col>
                 <ion-col size="4">
@@ -49,7 +93,8 @@
                             <img src="../assets/role/dd.png">
                         </ion-avatar>
                         <ion-label class="ion-float-right">
-                            {{confirmedDDs.length}}</ion-label>
+                            {{confirmedDDs.length}}
+                        </ion-label>
                     </ion-chip>
                 </ion-col>
                 <ion-col size="4">
@@ -58,14 +103,14 @@
                             <img src="../assets/role/tank.png">
                         </ion-avatar>
                         <ion-label class="ion-float-right">
-                            {{confirmedTanks.length}}</ion-label>
+                            {{confirmedTanks.length}}
+                        </ion-label>
                     </ion-chip>
                 </ion-col>
             </ion-row>
 
         </ion-grid>
     </ion-card>
-
 
     <ion-card>
         <ion-card-header>
@@ -139,7 +184,8 @@
                                     <img src="../assets/spec/{{confirmedPlayer.playerClass.toString().toLowerCase()}}/{{confirmedPlayer.talent.toLowerCase()}}.png">
                                 </ion-avatar>
                                 <ion-label class="ion-float-right">
-                                    {{confirmedPlayer.ingameName}}</ion-label>
+                                    {{confirmedPlayer.ingameName}}
+                                </ion-label>
                                 <ion-icon color="danger" *ngIf="isUserAllowedToEdit"
                                           (click)="presentMovePlayerAlert(confirmedPlayer)"
                                           name="open-outline"></ion-icon>
@@ -165,40 +211,6 @@
                     </ion-card-title>
                 </ion-col>
             </ion-row>
-            <ion-row *ngIf="myChar.isAdmin">
-                <ion-col>
-                    <ion-row>
-                        <ion-col size="3" class="ion-margin-bottom">
-                            <ion-text color="{{myChar.playerClass.toString().toLowerCase()}}">
-                                <h2> DKP vergeben: </h2>
-                            </ion-text>
-
-                        </ion-col>
-                        <ion-col size="3">
-                            <ion-item>
-                                <ion-label position="floating">DKP</ion-label>
-                                <ion-input (ionChange)="changeDkp($event)" type="number"></ion-input>
-                            </ion-item>
-
-                        </ion-col>
-                        <ion-col size="3">
-                            <ion-item>
-                                <ion-label position="floating">Grund</ion-label>
-                                <ion-input (ionChange)="changeReason($event)"></ion-input>
-                            </ion-item>
-
-                        </ion-col>
-                        <ion-col size="3" class="ion-text-center">
-
-                            <ion-button disabled="{{!this.dkp || !this.reason}}" (click)="postDkpEntriesForBench()"
-                                        color="{{myChar.playerClass.toString().toLowerCase()}}">
-                                DKP an alle vergeben
-                            </ion-button>
-                        </ion-col>
-                    </ion-row>
-                </ion-col>
-            </ion-row>
-
         </ion-card-header>
 
         <ion-card-content>
@@ -210,8 +222,10 @@
                                 <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
                             </ion-avatar>
                             <ion-label class="ion-float-right">
-                                {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
+                                {{reg.player.ingameName}}
+                            </ion-label>
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit"
+                                      (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
                     </ion-col>
@@ -233,8 +247,10 @@
                                 <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
                             </ion-avatar>
                             <ion-label class="ion-float-right">
-                                {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
+                                {{reg.player.ingameName}}
+                            </ion-label>
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit"
+                                      (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
 
@@ -257,8 +273,10 @@
                                 <img src="../assets/class/{{reg.player.playerClass.toString().toLowerCase()}}.png">
                             </ion-avatar>
                             <ion-label class="ion-float-right">
-                                {{reg.player.ingameName}}</ion-label>
-                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit" (click)="presentMovePlayerAlert(reg.player)"
+                                {{reg.player.ingameName}}
+                            </ion-label>
+                            <ion-icon color="danger" *ngIf="isUserAllowedToEdit"
+                                      (click)="presentMovePlayerAlert(reg.player)"
                                       name="open-outline"></ion-icon>
                         </ion-chip>
                     </ion-col>

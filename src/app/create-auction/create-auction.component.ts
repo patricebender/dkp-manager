@@ -1,10 +1,11 @@
-import {Component, OnInit} from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import {ItemRepo} from '../ItemRepo';
 import {Item} from '../models/Item';
 import {Settings} from '../Settings';
 import {Raid} from '../models/Raid';
 import {ModalController} from '@ionic/angular';
 import {Auction} from '../models/Auction';
+import {consoleTestResultHandler} from "tslint/lib/test";
 
 @Component({
     selector: 'app-create-auction',
@@ -12,19 +13,26 @@ import {Auction} from '../models/Auction';
     styleUrls: ['./create-auction.component.scss'],
 })
 export class CreateAuctionComponent implements OnInit {
-    get auctionItem(): Item {
-        return this._auctionItem;
+    get auctionItems(): Item[] {
+        return this._auctionItems;
     }
 
-    set auctionItem(value: Item) {
-        this._auctionItem = value;
+    set auctionItems(value: Item[]) {
+        this._auctionItems = value;
     }
 
-    filteredItems: Item[];
-    searchTerm: string;
+
+    filteredItems: Item[] = [];
+    // predefined ids from boss loot table as filter
+    @Input()
+    lootIds: number[];
+
+
+    searchTerm: string = '';
     minBid: number = 10;
 
-    private _auctionItem: Item;
+    private _auctionItems: Item[] = [];
+
 
     get items(): Item[] {
         return ItemRepo.Instance.items;
@@ -34,40 +42,66 @@ export class CreateAuctionComponent implements OnInit {
         return Settings.Instance.player;
     }
 
-    constructor(  private modalController: ModalController) {
+    constructor(private modalController: ModalController) {
     }
 
     ngOnInit() {
     }
 
-
+    ionViewDidEnter() {
+        console.log("entered auctions with: " + this.lootIds)
+        this.setFilteredItems();
+    }
 
 
     setFilteredItems() {
-        if (this.searchTerm.length === 0) {
-            this.filteredItems = [];
+
+        let filteredLoot: Item[];
+
+        if (this.lootIds && this.searchTerm.length >= 0) {
+            filteredLoot = this.items.filter((item) => {
+                const filter = this.searchTerm.toLowerCase();
+                return item.name.toLowerCase().startsWith(filter) && this.lootIds.includes(item.ingameId);
+            });
+        } else if (this.searchTerm.length === 0) {
+            filteredLoot = [];
         } else {
-            this.filteredItems = this.items.filter((item) => {
+            filteredLoot = this.items.filter((item) => {
                 const filter = this.searchTerm.toLowerCase();
                 return item.name.toLowerCase().startsWith(filter);
             });
         }
-    }
 
-    setAuctionItem(e: CustomEvent) {
-        const item = this.items.filter((item) => {
-            return item.name === e.detail.value;
-        })[0];
-        this._auctionItem = item;
+        this.filteredItems = [];
+        const map = new Map();
+        for (const item of filteredLoot) {
+            if (!map.has(item.ingameId)) {
+                map.set(item.ingameId, true);
+                this.filteredItems.push(item);
+            }
+        }
     }
 
     setMinBid(e: CustomEvent) {
         this.minBid = e.detail.value;
     }
 
-    createAuction() {
+    createAuctions() {
+        console.log(this.auctionItems);
         this.modalController.dismiss({
-            auction: new Auction(this.auctionItem, this.minBid, this.myChar)
+            auctions: this.auctionItems.map(auctionItem => new Auction(auctionItem, this.minBid, this.myChar))
         });
+
+
+    }
+
+    itemChecked(e: CustomEvent) {
+        const item = e.detail.value;
+        if (!item.checked) {
+            // remove unchecked item from auction list
+            this.auctionItems = this.auctionItems.filter(listItem => listItem.ingameId !== item.ingameId);
+        } else {
+            this.auctionItems.push(item);
+        }
     }
 }

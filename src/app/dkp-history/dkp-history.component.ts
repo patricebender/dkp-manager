@@ -53,7 +53,6 @@ export class DkpHistoryComponent implements OnInit {
     private async updateEntries() {
         const token = await this.oktaAuth.getAccessToken();
         const user = await this.oktaAuth.getUser();
-
         if (!token || !user) {
             this.oktaAuth.loginRedirect('/tabs/guild');
 

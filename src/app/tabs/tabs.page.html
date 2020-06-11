@@ -2,7 +2,7 @@
     <ion-toolbar>
         <ion-grid>
             <ion-row class="ion-justify-content-center ion-align-items-center">
-                <ion-col size="6">
+                <ion-col size="9">
 
                     <ion-title>
                         Why Not 😎 DKP Manager
@@ -12,11 +12,30 @@
 
                 </ion-col>
 
-
-                <ion-col
+                <ion-col size="1.5"
                         *ngIf="isAuthenticated"
                         class="ion-float-right">
-                    <ion-button [color]="!player ? '' : player.playerClass.toString().toLowerCase()" (click)="logout()" class="ion-float-right" color="blue">
+
+                    <ion-button
+                            target="_blank"
+                            href="https://docs.google.com/spreadsheets/d/1SC079pkiPKN0E14MIE6Y0sAJRe_zRLi6j9BCwIlXM4U"
+                            style="width: 100%;"
+                            [color]="!player ? '' : player.playerClass.toString().toLowerCase()"  class="ion-float-right"
+                            color="blue">
+                        <strong>
+                            DKP Regeln
+                        </strong>
+                        <ion-icon name="open-outline"></ion-icon>
+                    </ion-button>
+                </ion-col>
+                <ion-col size="1.5"
+                        *ngIf="isAuthenticated"
+                        class="ion-float-right">
+                    <ion-button
+                            style="width: 100%;"
+                            [color]="!player ? '' : player.playerClass.toString().toLowerCase()" (click)="logout()"
+                            class="ion-float-right"
+                            color="blue">
                         <strong>Logout</strong>
                     </ion-button>
                 </ion-col>

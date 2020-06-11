@@ -41675,10 +41675,6 @@
     "name": "Bloodfang Belt"
   },
   {
-    "ingameId": 16911,
-    "name": "Bloodfang Bracers"
-  },
-  {
     "ingameId": 16912,
     "name": "Netherwind Boots"
   },
@@ -61459,10 +61455,6 @@
     "name": "Red Dragonscale Breastplate"
   },
   {
-    "ingameId": 15048,
-    "name": "Blue Dragonscale Breastplate"
-  },
-  {
     "ingameId": 15049,
     "name": "Blue Dragonscale Shoulders"
   },
@@ -62155,14 +62147,6 @@
     "name": "Netherwind Belt"
   },
   {
-    "ingameId": 16818,
-    "name": "Netherwind Belt"
-  },
-  {
-    "ingameId": 16818,
-    "name": "Netherwind Belt"
-  },
-  {
     "ingameId": 16819,
     "name": "Vambraces of Prophecy"
   },
@@ -62734,25 +62718,10 @@
     "ingameId": 16902,
     "name": "Stormrage Pauldrons"
   },
-  {
-    "ingameId": 16902,
-    "name": "Stormrage Pauldrons"
-  },
+
   {
     "ingameId": 16903,
     "name": "Stormrage Belt"
-  },
-  {
-    "ingameId": 16903,
-    "name": "Stormrage Belt"
-  },
-  {
-    "ingameId": 16903,
-    "name": "Stormrage Belt"
-  },
-  {
-    "ingameId": 16904,
-    "name": "Stormrage Bracers"
   },
   {
     "ingameId": 16904,
@@ -62791,22 +62760,6 @@
     "name": "Netherwind Boots"
   },
   {
-    "ingameId": 16912,
-    "name": "Netherwind Boots"
-  },
-  {
-    "ingameId": 16912,
-    "name": "Netherwind Boots"
-  },
-  {
-    "ingameId": 16913,
-    "name": "Netherwind Gloves"
-  },
-  {
-    "ingameId": 16913,
-    "name": "Netherwind Gloves"
-  },
-  {
     "ingameId": 16913,
     "name": "Netherwind Gloves"
   },
@@ -62833,14 +62786,6 @@
   {
     "ingameId": 16915,
     "name": "Netherwind Pants"
-  },
-  {
-    "ingameId": 16916,
-    "name": "Netherwind Robes"
-  },
-  {
-    "ingameId": 16916,
-    "name": "Netherwind Robes"
   },
   {
     "ingameId": 16916,
@@ -62873,10 +62818,6 @@
   {
     "ingameId": 16919,
     "name": "Boots of Transcendence"
-  },
-  {
-    "ingameId": 16920,
-    "name": "Handguards of Transcendence"
   },
   {
     "ingameId": 16920,
@@ -62939,10 +62880,6 @@
     "name": "Nemesis Boots"
   },
   {
-    "ingameId": 16927,
-    "name": "Nemesis Boots"
-  },
-  {
     "ingameId": 16928,
     "name": "Nemesis Gloves"
   },
@@ -62994,14 +62931,7 @@
     "ingameId": 16932,
     "name": "Nemesis Spaulders"
   },
-  {
-    "ingameId": 16932,
-    "name": "Nemesis Spaulders"
-  },
-  {
-    "ingameId": 16933,
-    "name": "Nemesis Belt"
-  },
+
   {
     "ingameId": 16933,
     "name": "Nemesis Belt"
@@ -63025,10 +62955,6 @@
   {
     "ingameId": 16936,
     "name": "Dragonstalker's Belt"
-  },
-  {
-    "ingameId": 16937,
-    "name": "Dragonstalker's Spaulders"
   },
   {
     "ingameId": 16937,
@@ -63111,28 +63037,12 @@
     "name": "Gauntlets of Ten Storms"
   },
   {
-    "ingameId": 16948,
-    "name": "Gauntlets of Ten Storms"
-  },
-  {
-    "ingameId": 16948,
-    "name": "Gauntlets of Ten Storms"
-  },
-  {
     "ingameId": 16949,
     "name": "Greaves of Ten Storms"
   },
   {
     "ingameId": 16949,
     "name": "Greaves of Ten Storms"
-  },
-  {
-    "ingameId": 16950,
-    "name": "Breastplate of Ten Storms"
-  },
-  {
-    "ingameId": 16950,
-    "name": "Breastplate of Ten Storms"
   },
   {
     "ingameId": 16950,
@@ -63223,14 +63133,6 @@
     "name": "Waistband of Wrath"
   },
   {
-    "ingameId": 16960,
-    "name": "Waistband of Wrath"
-  },
-  {
-    "ingameId": 16961,
-    "name": "Pauldrons of Wrath"
-  },
-  {
     "ingameId": 16961,
     "name": "Pauldrons of Wrath"
   },
@@ -63257,10 +63159,6 @@
   {
     "ingameId": 16964,
     "name": "Gauntlets of Wrath"
-  },
-  {
-    "ingameId": 16965,
-    "name": "Sabatons of Wrath"
   },
   {
     "ingameId": 16965,
@@ -63965,10 +63863,6 @@
   {
     "ingameId": 16910,
     "name": "Bloodfang Belt"
-  },
-  {
-    "ingameId": 16911,
-    "name": "Bloodfang Bracers"
   },
   {
     "ingameId": 16919,

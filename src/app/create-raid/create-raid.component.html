@@ -39,7 +39,7 @@
         <ion-item>
             <ion-label>Pull Zeit:</ion-label>
             <ion-datetime
-                    (ionChange)="setHours($event)"
+                    (ionChange)="setDate($event)"
                     displayFormat="HH:mm" pickerFormat="HH:mm"
                     value="{{date}}"></ion-datetime>
         </ion-item>
@@ -64,7 +64,7 @@
 
 
         <ion-item>
-            <ion-label>Beschreibung:</ion-label>
+            <ion-label class="verticalAndHorizontalCenter">Beschreibung:</ion-label>
             <ion-textarea (ionChange)="setDescription($event)" value="{{description}}"></ion-textarea>
         </ion-item>
         <ion-row class="ion-justify-content-center">

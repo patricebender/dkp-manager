@@ -99,9 +99,6 @@ export class CreateRaidComponent  {
         this.dungeonName = e.detail.value;
     }
 
-    setPlayerLimit(e: CustomEvent) {
-        this.playerLimit = e.detail.value;
-    }
 
     setDate(e: CustomEvent) {
         this.date = e.detail.value;

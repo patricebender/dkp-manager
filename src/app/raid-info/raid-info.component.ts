@@ -11,6 +11,9 @@ import {HttpClient} from '@angular/common/http';
 import {Observable} from 'rxjs';
 import {DkpLogType} from '../models/DkpLogType';
 import {DkpEntry} from '../models/DkpEntry';
+import {Bosses} from "../helper/Bosses";
+import {CreateAuctionComponent} from "../create-auction/create-auction.component";
+import {Auction} from "../models/Auction";
 
 
 @Component({
@@ -18,7 +21,26 @@ import {DkpEntry} from '../models/DkpEntry';
     templateUrl: './raid-info.component.html',
     styleUrls: ['./raid-info.component.scss'],
 })
+
+
 export class RaidInfoComponent implements OnInit {
+    get boss(): string {
+        return this._boss;
+    }
+
+    set boss(value: string) {
+        this._boss = value;
+    }
+
+    private _boss: string;
+
+    get bossList() {
+        return Bosses.BossList(this.raid.dungeonName);
+    }
+
+    get lootList() {
+        return Bosses.LootList(this.boss) || [];
+    }
 
 
     get reason(): string {
@@ -28,6 +50,9 @@ export class RaidInfoComponent implements OnInit {
     get dkp(): number {
         return this._dkp;
     }
+
+    private isModalPresent: boolean;
+
 
     private _reason: string;
     private _dkp: number;
@@ -42,7 +67,9 @@ export class RaidInfoComponent implements OnInit {
     }
 
     ngOnInit() {
+
     }
+
 
     @Input() raid: Raid;
 
@@ -55,9 +82,9 @@ export class RaidInfoComponent implements OnInit {
         return Object.keys(PlayerClass);
     }
 
-    get isUserAllowedToEdit(){
+    get isUserAllowedToEdit() {
         return this.myChar.isAdmin || (this.raid.raidCreator && this.raid.raidCreator._id === this.myChar._id)
-        || (this.raid.raidLead && this.raid.raidLead._id === this.myChar._id);
+            || (this.raid.raidLead && this.raid.raidLead._id === this.myChar._id);
     }
 
     isAlreadyRegistered(): boolean {
@@ -116,6 +143,28 @@ export class RaidInfoComponent implements OnInit {
         return Settings.Instance.player;
     }
 
+
+    async showCreateAuctionModal() {
+        if (this.isModalPresent) {
+            return;
+        }
+        this.isModalPresent = true;
+        const modal = await this.modalController.create({
+            component: CreateAuctionComponent,
+            componentProps: {
+                lootIds: this.lootList
+            }
+        });
+        await modal.present();
+        modal.onDidDismiss().then((callback) => {
+            if (callback.data) {
+                const auctions: Auction[] = callback.data.auctions;
+                this.postAuctions(auctions);
+            }
+            this.isModalPresent = false;
+        });
+    }
+
     async presentToast(msg) {
         const toast = await this.toastController.create({
             message: msg,
@@ -123,6 +172,25 @@ export class RaidInfoComponent implements OnInit {
         });
         toast.present();
     }
+
+    private async postAuctions(auctions: Auction[]) {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+
+        console.log(auctions)
+
+        this.http.post(Backend.address + '/auctions', auctions, options)
+            .subscribe(() => {
+                console.log('auction creation successful!');
+                this.presentToast('Yeah die Auktionen wurden erstellt!');
+                this.giveBossKillDKP();
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+
+    }
+
 
     async presentMovePlayerAlert(player: Player) {
         const alert = await this.alertController.create({
@@ -255,6 +323,31 @@ export class RaidInfoComponent implements OnInit {
         await alert.present();
     }
 
+    async presentConfirmStartRaid() {
+        const alert = await this.alertController.create({
+            header: 'Raid Starten?',
+            message: 'Es werden die Antritts DKP Verteilt. Bist du dir Sicher, dass du den Raid Starten möchtest?',
+            buttons: [
+                {
+                    text: 'Raid Starten',
+                    handler: () => {
+                        this.startRaid();
+                    }
+                },
+                {
+                    text: 'Abbrechen',
+                    role: 'cancel',
+                    cssClass: this.myChar.playerClass.toString().toLowerCase(),
+                    handler: () => {
+
+                    }
+                }
+            ]
+        });
+
+        await alert.present();
+    }
+
 
     async closeOrOpenRaid(closeRaid: boolean) {
         const token = await this.oktaAuth.getAccessToken();
@@ -275,11 +368,9 @@ export class RaidInfoComponent implements OnInit {
             });
     }
 
-    createDKPEntriesForPlayer(players: Player[]) {
-        const dkpLogType = this._dkp > 0 ? DkpLogType.Bonus : DkpLogType.Penalty;
-
+    createDKPEntriesForPlayers(players: Player[], dkpLogType: DkpLogType, dkp: number, reason: string): DkpEntry[] {
         return players.map((p) => {
-            return new DkpEntry(dkpLogType, this._reason, this.myChar.ingameName, new Date(), this._dkp, p.mail);
+            return new DkpEntry(dkpLogType, reason, this.myChar.ingameName, new Date(), dkp, p.mail);
         });
     }
 
@@ -292,12 +383,22 @@ export class RaidInfoComponent implements OnInit {
         this._dkp = e.detail.value;
     }
 
-    async postDkpEntriesForConfirmed() {
-        const dkpEntries = this.createDKPEntriesForPlayer(this.raid.confirm.map(reg => reg.player));
+    async giveBossKillDKP() {
+
+
+        const dkpEntries =
+            this.createDKPEntriesForPlayers(this.raid.confirm.map(reg => reg.player), DkpLogType.Bosskill, 10, this._boss)
+                .concat(this.createDKPEntriesForPlayers(this.raid.bench.map(reg => reg.player), DkpLogType.Bosskill, 5, this._boss + " (Ersatzbank)"));
+
+
+        this.postDKPEntries(dkpEntries);
+
+    }
+
+    async postDKPEntries(dkpEntries: DkpEntry[]) {
+
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
-
-        console.log(dkpEntries);
 
         this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
             .subscribe((data) => {
@@ -309,12 +410,14 @@ export class RaidInfoComponent implements OnInit {
             });
     }
 
-    async postDkpEntriesForBench() {
-        const dkpEntries = this.createDKPEntriesForPlayer(this.raid.bench.map(reg => reg.player));
+    async giveRaidStartDKP() {
         const token = await this.oktaAuth.getAccessToken();
         const options = await Backend.getHttpOptions(token);
 
-        console.log(dkpEntries);
+        const dkpEntries =
+            this.createDKPEntriesForPlayers(this.raid.confirm.map(reg => reg.player), DkpLogType.Bonus, 10, "Raidantritt")
+                .concat(this.createDKPEntriesForPlayers(this.raid.bench.map(reg => reg.player), DkpLogType.Bonus, 10, "Raidantritt (Ersatzbank)"));
+
 
         this.http.post(Backend.address + '/dkp/many', dkpEntries, options)
             .subscribe((data) => {
@@ -324,8 +427,35 @@ export class RaidInfoComponent implements OnInit {
                 console.log(e);
                 this.presentToast('Da ist wohl was schiefgegangen 🤮');
             });
+
     }
 
 
+    setBossKill(e) {
+        this._boss = e.detail.value;
+    }
+
+
+    async startRaid() {
+        const token = await this.oktaAuth.getAccessToken();
+        const options = await Backend.getHttpOptions(token);
+        const raid = this.raid;
+        raid.hasStarted = true;
+
+        this.http.patch(Backend.address + '/raid/' + this.raid._id, this.raid, options)
+            .subscribe((data) => {
+                this.presentToast("Raid gestartet");
+                this.giveRaidStartDKP()
+
+            }, (e) => {
+                console.log(e);
+                this.presentToast('Da ist wohl was schiefgegangen 🤮');
+            });
+    }
+
+    postDkpEntriesForConfirmed() {
+        const dkpEntries = this.createDKPEntriesForPlayers(this.raid.confirm.map(reg => reg.player), DkpLogType.Bonus, this.dkp, this.reason);
+        this.postDKPEntries(dkpEntries);
+    }
 }
 

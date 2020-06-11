@@ -11,6 +11,8 @@ export class ItemRepo {
     }
 
 
+
+
     private static _instance: ItemRepo;
 
 
@@ -31,7 +33,12 @@ export class ItemRepo {
         return this._instance || (this._instance = new this());
     }
 
+    public resetItems() {
+        this.readAndSaveItemsFromCSV();
+    }
+
     private readAndSaveItemsFromCSV() {
+        this._items = [];
         for (let item of items) {
             if (!this._items.includes(item)) {
                 this._items.push(item);
